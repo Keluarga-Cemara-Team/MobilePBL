@@ -113,6 +113,7 @@ class _SurveyStepperState extends State<SurveyStepper> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          // Keep the title anchored to progress on every step.
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
@@ -160,48 +161,54 @@ class _SurveyStepperState extends State<SurveyStepper> {
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              top: context.ui(AppSpacing.md),
-                              bottom: context.ui(AppSpacing.xl + AppSpacing.md),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                Text(
-                                  title,
-                                  style: AppTextStyles.title(context)
-                                      .copyWith(fontSize: context.ui(23)),
-                                ),
-                                SizedBox(height: context.ui(12)),
-                                Text(
-                                  subtitle,
-                                  style: _subtitleStyle(context, 13),
-                                ),
-                                SizedBox(height: context.ui(AppSpacing.xl)),
-                                IgnorePointer(
-                                  ignoring: widget.state.isSubmitting,
-                                  child: _isReview
-                                      ? _review(context)
-                                      : _input(context, _question),
-                                ),
-                                if (widget.state.errorMessage != null) ...[
-                                  SizedBox(height: context.ui(AppSpacing.lg)),
-                                  Semantics(
-                                    liveRegion: true,
-                                    child: Text(
-                                      widget.state.errorMessage!,
-                                      style: _subtitleStyle(context, 13)
-                                          .copyWith(
-                                            color: AppColors.of(context).error,
-                                          ),
-                                    ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: context.ui(AppSpacing.md),
+                                  bottom: context.ui(
+                                    AppSpacing.xl + AppSpacing.md,
                                   ),
-                                ],
-                              ],
-                            ),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Text(
+                                      title,
+                                      style: AppTextStyles.title(context)
+                                          .copyWith(fontSize: context.ui(23)),
+                                    ),
+                                    SizedBox(height: context.ui(12)),
+                                    Text(
+                                      subtitle,
+                                      style: _subtitleStyle(context, 13),
+                                    ),
+                                    SizedBox(height: context.ui(AppSpacing.xl)),
+                                    IgnorePointer(
+                                      ignoring: widget.state.isSubmitting,
+                                      child: _isReview
+                                          ? _review(context)
+                                          : _input(context, _question),
+                                    ),
+                                    if (widget.state.errorMessage != null) ...[
+                                      SizedBox(
+                                        height: context.ui(AppSpacing.lg),
+                                      ),
+                                      Semantics(
+                                        liveRegion: true,
+                                        child: Text(
+                                          widget.state.errorMessage!,
+                                          style: _subtitleStyle(context, 13)
+                                              .copyWith(
+                                                color: AppColors.of(context)
+                                                    .error,
+                                              ),
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -461,7 +468,7 @@ class _SurveyStepperState extends State<SurveyStepper> {
 
   Widget _review(BuildContext context) => Container(
     decoration: BoxDecoration(
-      color: AppColors.of(context).background,
+      color: AppColors.of(context).surface,
       border: Border.all(color: AppColors.of(context).border),
       borderRadius: BorderRadius.circular(context.ui(AppSpacing.radius)),
     ),
