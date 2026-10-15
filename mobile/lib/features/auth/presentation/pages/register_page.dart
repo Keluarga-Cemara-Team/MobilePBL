@@ -44,25 +44,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
     FocusScope.of(context).unfocus();
 
-    final ok = await ref
+    // The router handles the authenticated registration destination.
+    await ref
         .read(authControllerProvider.notifier)
         .register(
           name: _name.text.trim(),
           email: _email.text.trim(),
           password: _password.text,
         );
-
-    if (!mounted) return;
-
-    if (ok) {
-      context.go(RoutePaths.login);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Registrasi berhasil. Silakan masuk dengan akunmu.'),
-        ),
-      );
-    }
   }
 
   @override
@@ -217,9 +206,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     ),
                                   ),
                                   TextButton(
-                                    onPressed: () {
-                                      context.go(RoutePaths.login);
-                                    },
+                                    onPressed: auth.isSubmitting
+                                        ? null
+                                        : () {
+                                            context.go(RoutePaths.login);
+                                          },
                                     style: TextButton.styleFrom(
                                       padding: EdgeInsets.symmetric(
                                         horizontal: context.ui(8),
