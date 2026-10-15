@@ -178,11 +178,19 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
               SizedBox(height: context.ui(18)),
               TextFormField(
                 initialValue: _email,
+                enabled: false,
                 readOnly: true,
-                decoration: const InputDecoration(
+                style: TextStyle(color: AppColors.of(context).hint),
+                decoration: InputDecoration(
                   labelText: 'Email',
-                  helperText: 'Email mengikuti akun yang sedang masuk.',
-                  prefixIcon: Icon(Icons.mail_outline_rounded),
+                  labelStyle: TextStyle(color: AppColors.of(context).hint),
+                  helperText: 'Email tidak dapat diubah.',
+                  filled: true,
+                  fillColor: AppColors.of(context).disabledSurface,
+                  prefixIcon: Icon(
+                    Icons.mail_outline_rounded,
+                    color: AppColors.of(context).hint,
+                  ),
                 ),
               ),
               SizedBox(height: context.ui(26)),
