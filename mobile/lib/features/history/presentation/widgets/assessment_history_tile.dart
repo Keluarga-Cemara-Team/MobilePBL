@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/responsive/app_scale.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/assessment_colors.dart';
 import 'assessment_history_item.dart';
 
 class AssessmentHistoryTile extends StatelessWidget {
@@ -16,27 +19,28 @@ class AssessmentHistoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = _RiskStyle.of(item.riskLevel);
+    final colors = AppColors.of(context);
+    final style = _RiskStyle.of(context, item.riskLevel);
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: const [
+        color: colors.surface,
+        borderRadius: BorderRadius.circular(context.ui(20)),
+        boxShadow: [
           BoxShadow(
-            color: Color(0x0A0F172A),
-            blurRadius: 20,
-            offset: Offset(0, 8),
+            color: colors.shadow,
+            blurRadius: context.ui(20),
+            offset: Offset(0, context.ui(8)),
           ),
         ],
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(context.ui(20)),
           onTap: onDetailTap,
           child: Padding(
-            padding: const EdgeInsets.all(14),
+            padding: EdgeInsets.all(context.ui(14)),
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -45,24 +49,27 @@ class AssessmentHistoryTile extends StatelessWidget {
                   Align(
                     alignment: Alignment.topCenter,
                     child: Container(
-                      width: 52,
-                      height: 52,
+                      width: context.ui(52),
+                      height: context.ui(52),
                       decoration: BoxDecoration(
                         color: style.tint,
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(context.ui(14)),
                       ),
                       child: Center(
                         child: Container(
-                          width: 24,
-                          height: 24,
+                          width: context.ui(24),
+                          height: context.ui(24),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            border: Border.all(color: style.main, width: 3),
+                            border: Border.all(
+                              color: style.main,
+                              width: context.ui(3),
+                            ),
                           ),
                           child: Center(
                             child: Container(
-                              width: 8,
-                              height: 8,
+                              width: context.ui(8),
+                              height: context.ui(8),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: style.main,
@@ -73,7 +80,7 @@ class AssessmentHistoryTile extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 14),
+                  SizedBox(width: context.ui(14)),
 
                   // Judul, tanggal, keterangan
                   Expanded(
@@ -81,36 +88,36 @@ class AssessmentHistoryTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
+                        Text(
                           'Risiko Burnout',
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: context.ui(15),
                             fontWeight: FontWeight.w800,
-                            color: Color(0xFF1E3A8A),
+                            color: colors.navy,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: context.ui(4)),
                         Text(
                           item.dateTimeLabel,
-                          style: const TextStyle(
-                            fontSize: 11,
-                            color: Color(0xFF94A3B8),
+                          style: TextStyle(
+                            fontSize: context.ui(11),
+                            color: colors.hint,
                           ),
                         ),
-                        const SizedBox(height: 6),
+                        SizedBox(height: context.ui(6)),
                         Text(
                           isLatest
                               ? 'Hasil asesmen terbaru'
                               : 'Hasil asesmen sebelumnya',
-                          style: const TextStyle(
-                            fontSize: 11,
-                            color: Color(0xFF64748B),
+                          style: TextStyle(
+                            fontSize: context.ui(11),
+                            color: colors.body,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: context.ui(8)),
 
                   // Badge dan "Detail"
                   Column(
@@ -118,38 +125,38 @@ class AssessmentHistoryTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 3,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: context.ui(10),
+                          vertical: context.ui(3),
                         ),
                         decoration: BoxDecoration(
                           color: style.badgeBg,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(context.ui(20)),
                         ),
                         child: Text(
                           item.riskLevel.label.toUpperCase(),
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: context.ui(10),
                             fontWeight: FontWeight.w800,
                             color: style.badgeText,
                           ),
                         ),
                       ),
-                      const Row(
+                      Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
                             'Detail',
                             style: TextStyle(
-                              fontSize: 11,
+                              fontSize: context.ui(11),
                               fontWeight: FontWeight.w700,
-                              color: Color(0xFF6366F1),
+                              color: colors.primary,
                             ),
                           ),
                           Icon(
                             Icons.chevron_right_rounded,
-                            size: 16,
-                            color: Color(0xFF6366F1),
+                            size: context.ui(16),
+                            color: colors.primary,
                           ),
                         ],
                       ),
@@ -178,24 +185,38 @@ class _RiskStyle {
     required this.badgeText,
   });
 
-  static _RiskStyle of(RiskLevel level) => switch (level) {
-        RiskLevel.rendah => const _RiskStyle(
-            tint: Color(0xFFE8F7EE),
-            main: Color(0xFF22A06B),
-            badgeBg: Color(0xFFD7F5E4),
-            badgeText: Color(0xFF1F9D5B),
-          ),
-        RiskLevel.sedang => const _RiskStyle(
-            tint: Color(0xFFFFF4DC),
-            main: Color(0xFFF5A60B),
-            badgeBg: Color(0xFFFFEFC7),
-            badgeText: Color(0xFFD97706),
-          ),
-        RiskLevel.tinggi => const _RiskStyle(
-            tint: Color(0xFFFDE8E8),
-            main: Color(0xFFE5636B),
-            badgeBg: Color(0xFFFDE0E0),
-            badgeText: Color(0xFFDC2626),
-          ),
-      };
+  static _RiskStyle of(BuildContext context, RiskLevel level) {
+    final style = switch (level) {
+      RiskLevel.rendah => const _RiskStyle(
+        tint: Color(0xFFE8F7EE),
+        main: Color(0xFF22A06B),
+        badgeBg: Color(0xFFD7F5E4),
+        badgeText: Color(0xFF1F9D5B),
+      ),
+      RiskLevel.sedang => const _RiskStyle(
+        tint: Color(0xFFFFF4DC),
+        main: Color(0xFFF5A60B),
+        badgeBg: Color(0xFFFFEFC7),
+        badgeText: Color(0xFFD97706),
+      ),
+      RiskLevel.tinggi => const _RiskStyle(
+        tint: Color(0xFFFDE8E8),
+        main: Color(0xFFE5636B),
+        badgeBg: Color(0xFFFDE0E0),
+        badgeText: Color(0xFFDC2626),
+      ),
+    };
+    if (Theme.of(context).brightness == Brightness.light) return style;
+    final riskColor = switch (level) {
+      RiskLevel.rendah => AssessmentColors.riskLow,
+      RiskLevel.sedang => AssessmentColors.riskMedium,
+      RiskLevel.tinggi => AssessmentColors.riskHigh,
+    };
+    return _RiskStyle(
+      tint: AssessmentColors.tint(context, style.tint),
+      main: riskColor,
+      badgeBg: AssessmentColors.tint(context, style.badgeBg),
+      badgeText: riskColor,
+    );
+  }
 }

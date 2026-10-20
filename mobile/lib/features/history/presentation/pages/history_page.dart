@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
-import '../../../../core/theme/app_text_styles.dart';
+import '../../../../shared/widgets/app_blob_background.dart';
+import '../../../../shared/widgets/app_page_header.dart';
 import '../widgets/assessment_history_item.dart';
 import '../controllers/history_controller.dart';
 import '../widgets/assessment_history_tile.dart';
@@ -25,44 +26,54 @@ class HistoryPage extends ConsumerWidget {
     final controller = ref.read(historyControllerProvider.notifier);
 
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            context.ui(AppSpacing.lg),
-            context.ui(AppSpacing.md),
-            context.ui(AppSpacing.lg),
-            0,
-          ),
+      backgroundColor: AppColors.of(context).background,
+      body: AppBlobBackground(
+        subtle: true,
+        refreshKey: state.items,
+        child: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Header
-              Text(
-                'Riwayat Pemeriksaan',
-                style: AppTextStyles.title.copyWith(
-                  fontSize: context.ui(20),
-                  fontWeight: FontWeight.w700,
+              const AppPageHeader(
+                title: 'Riwayat Survei',
+                showBackButton: false,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    context.ui(AppSpacing.lg),
+                    context.ui(18),
+                    context.ui(AppSpacing.lg),
+                    0,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HistorySearchField(onChanged: controller.setQuery),
+                      SizedBox(height: context.ui(14)),
+
+                      HistoryFilterBar(
+                        selected: state.filter,
+                        onSelected: controller.setFilter,
+                      ),
+                      SizedBox(height: context.ui(14)),
+
+                      Text(
+                        'Hasil asesmen burnout sebelumnya.',
+                        style: TextStyle(
+                          fontSize: context.ui(12),
+                          color: AppColors.of(context).hint,
+                        ),
+                      ),
+                      SizedBox(height: context.ui(14)),
+
+                      Expanded(
+                        child: _buildContent(context, state, controller),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 18),
-
-              HistorySearchField(onChanged: controller.setQuery),
-              const SizedBox(height: 14),
-
-              HistoryFilterBar(
-                selected: state.filter,
-                onSelected: controller.setFilter,
-              ),
-              const SizedBox(height: 14),
-
-              const Text(
-                'Hasil asesmen burnout sebelumnya.',
-                style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
-              ),
-              const SizedBox(height: 14),
-
-              Expanded(child: _buildContent(state, controller)),
             ],
           ),
         ),
@@ -70,7 +81,11 @@ class HistoryPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildContent(HistoryState state, HistoryController controller) {
+  Widget _buildContent(
+    BuildContext context,
+    HistoryState state,
+    HistoryController controller,
+  ) {
     if (state.isLoading && state.items.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -95,9 +110,9 @@ class HistoryPage extends ConsumerWidget {
       onRefresh: controller.load,
       child: ListView.separated(
         key: const PageStorageKey('history-scroll'),
-        padding: const EdgeInsets.only(bottom: 16),
+        padding: EdgeInsets.only(bottom: context.ui(16)),
         itemCount: visible.length,
-        separatorBuilder: (_, _) => const SizedBox(height: 14),
+        separatorBuilder: (_, _) => SizedBox(height: context.ui(14)),
         itemBuilder: (context, index) {
           final item = visible[index];
           return AssessmentHistoryTile(

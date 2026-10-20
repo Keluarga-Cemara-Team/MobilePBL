@@ -6,6 +6,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/theme/assessment_colors.dart';
+import '../../../../shared/widgets/app_blob_background.dart';
 import '../../../assessment/di/assessment_providers.dart';
 import '../widgets/encouragement_card.dart';
 import '../widgets/recommendation_card.dart';
@@ -25,51 +26,70 @@ class RecommendationPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final assessment = ref.watch(assessmentByIdProvider(assessmentId));
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          key: PageStorageKey('recommendation-scroll-$assessmentId'),
-          padding: EdgeInsets.fromLTRB(
-            context.ui(AppSpacing.lg),
-            context.ui(AppSpacing.md),
-            context.ui(AppSpacing.lg),
-            context.ui(AppSpacing.lg),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RecommendationHeader(
-                onBack: onBack ?? () => Navigator.of(context).maybePop(),
-              ),
-              SizedBox(height: context.ui(AppSpacing.md)),
-              assessment.when(
-                loading: () => Padding(
-                  padding: EdgeInsets.all(context.ui(AppSpacing.xl)),
-                  child: const Center(child: CircularProgressIndicator()),
+      backgroundColor: AppColors.of(context).background,
+      body: AppBlobBackground(
+        refreshKey: assessmentId,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            key: PageStorageKey('recommendation-scroll-$assessmentId'),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                RecommendationHeader(
+                  onBack: onBack ?? () => Navigator.of(context).maybePop(),
                 ),
-                error: (error, stackTrace) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Asesmen belum dapat dimuat.',
-                      style: AppTextStyles.subtitle,
-                    ),
-                    TextButton(
-                      onPressed: () =>
-                          ref.invalidate(assessmentByIdProvider(assessmentId)),
-                      child: const Text('Coba lagi'),
-                    ),
-                  ],
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    context.ui(AppSpacing.lg),
+                    0,
+                    context.ui(AppSpacing.lg),
+                    context.ui(AppSpacing.lg),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: context.ui(AppSpacing.md)),
+                      assessment.when(
+                        loading: () => Padding(
+                          padding: EdgeInsets.all(context.ui(AppSpacing.xl)),
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                        error: (error, stackTrace) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Asesmen belum dapat dimuat.',
+                              style: AppTextStyles.subtitle(context)
+                                  .copyWith(fontSize: context.ui(14)),
+                            ),
+                            TextButton(
+                              onPressed: () => ref.invalidate(
+                                assessmentByIdProvider(assessmentId),
+                              ),
+                              style: TextButton.styleFrom(
+                                textStyle: TextStyle(fontSize: context.ui(14)),
+                                padding: EdgeInsets.all(context.ui(12)),
+                              ),
+                              child: const Text('Coba lagi'),
+                            ),
+                          ],
+                        ),
+                        data: (item) => item == null
+                            ? Text(
+                                'Hasil asesmen tidak ditemukan. Buka rekomendasi dari '
+                                'hasil asesmen yang tersedia.',
+                                style: AppTextStyles.subtitle(context)
+                                    .copyWith(fontSize: context.ui(14)),
+                              )
+                            : const _GeneralRecommendations(),
+                      ),
+                    ],
+                  ),
                 ),
-                data: (item) => item == null
-                    ? const Text(
-                        'Hasil asesmen tidak ditemukan. Buka rekomendasi dari '
-                        'hasil asesmen yang tersedia.',
-                        style: AppTextStyles.subtitle,
-                      )
-                    : const _GeneralRecommendations(),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -119,12 +139,14 @@ class _GeneralRecommendations extends StatelessWidget {
         Text(
           'Berikut beberapa langkah yang bisa kamu lakukan untuk '
           'membantu menjaga kesehatan mental.',
-          style: AppTextStyles.subtitle.copyWith(fontSize: context.ui(14)),
+          style: AppTextStyles.subtitle(context)
+              .copyWith(fontSize: context.ui(14)),
         ),
         SizedBox(height: context.ui(AppSpacing.sm)),
         Text(
           'Panduan umum, belum dipersonalisasi berdasarkan hasil asesmen.',
-          style: AppTextStyles.subtitle.copyWith(fontSize: context.ui(12)),
+          style: AppTextStyles.subtitle(context)
+              .copyWith(fontSize: context.ui(12)),
         ),
         SizedBox(height: context.ui(AppSpacing.md)),
         for (final item in _items) ...[

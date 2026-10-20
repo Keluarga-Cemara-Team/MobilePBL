@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../shared/widgets/app_back_button.dart';
+import '../../../../shared/widgets/app_page_header.dart';
+import '../../../../shared/widgets/app_blob_background.dart';
 
 class ProfileSubpageScaffold extends StatelessWidget {
   const ProfileSubpageScaffold({
@@ -20,52 +21,27 @@ class ProfileSubpageScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 640),
-            child: Column(
-              children: [
-                Padding(
+      backgroundColor: AppColors.of(context).background,
+      body: AppBlobBackground(
+        child: SafeArea(
+          child: Column(
+            children: [
+              AppPageHeader(title: title, onBack: onBack, fontSize: 22),
+              Expanded(
+                child: SingleChildScrollView(
                   padding: EdgeInsets.fromLTRB(
-                    context.ui(8),
-                    context.ui(12),
                     context.ui(24),
-                    context.ui(8),
+                    context.ui(24),
+                    context.ui(24),
+                    context.ui(32),
                   ),
-                  child: Row(
-                    children: [
-                      AppBackButton(onPressed: onBack),
-                      SizedBox(width: context.ui(4)),
-                      Expanded(
-                        child: Text(
-                          title,
-                          style: AppTextStyles.title.copyWith(
-                            fontSize: context.ui(22),
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: children,
                   ),
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.fromLTRB(
-                      context.ui(24),
-                      context.ui(16),
-                      context.ui(24),
-                      context.ui(32),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: children,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -88,18 +64,26 @@ class ProfileInfoCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(context.ui(16)),
       decoration: BoxDecoration(
-        color: AppColors.blob.withValues(alpha: 0.6),
+        color: Color.alphaBlend(
+          AppColors.of(context).blob.withValues(alpha: 0.6),
+          AppColors.of(context).background,
+        ),
         borderRadius: BorderRadius.circular(context.ui(16)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: AppColors.primary, size: context.ui(22)),
+          Icon(
+            icon,
+            color: AppColors.of(context).primary,
+            size: context.ui(22),
+          ),
           SizedBox(width: context.ui(12)),
           Expanded(
             child: Text(
               text,
-              style: AppTextStyles.subtitle.copyWith(fontSize: context.ui(13)),
+              style: AppTextStyles.subtitle(context)
+                  .copyWith(fontSize: context.ui(13)),
             ),
           ),
         ],

@@ -17,6 +17,7 @@ import 'package:mobile/features/history/presentation/controllers/history_reposit
 import 'package:mobile/features/history/presentation/controllers/history_state.dart';
 import 'package:mobile/features/history/presentation/widgets/assessment_history_item.dart';
 import 'package:mobile/features/history/presentation/widgets/assessment_history_tile.dart';
+import 'package:mobile/features/recommendations/presentation/pages/recommendation_page.dart';
 import 'package:mobile/features/results/presentation/pages/result_page.dart';
 import 'package:mobile/features/survey/di/survey_providers.dart';
 import 'package:mobile/features/survey/data/repositories/in_memory_survey_repository.dart';
@@ -175,10 +176,7 @@ void main() {
         await tester.tap(find.byIcon(Icons.add_rounded));
         await tester.pumpAndSettle();
         await _tab(tester, 'Profil');
-        await _tab(
-          tester,
-          origin == SurveyOrigin.dashboard ? 'Beranda' : 'Survei',
-        );
+        await _tab(tester, 'Survei');
         expect(find.text('Langkah 2 dari 8'), findsOneWidget);
         expect(find.text('6.5'), findsOneWidget);
         await tester.binding.handlePopRoute();
@@ -307,7 +305,6 @@ void main() {
         'Riwayat',
         'Profil',
       ]);
-      expect(find.text('Lihat Detail'), findsNothing);
       await tester.tap(find.byTooltip('Buka profil'));
       await tester.pumpAndSettle();
       expect(
@@ -317,6 +314,185 @@ void main() {
         3,
       );
       expect(find.text('Personalisasi Profil'), findsOneWidget);
+    },
+  );
+
+  for (final android in [false, true]) {
+    testWidgets(
+      'dashboard latest detail opens exact assessment in History and backs to list (${android ? 'Android' : 'UI'})',
+      (tester) async {
+        final repository = _Assessments();
+        final container = await _start(
+          tester,
+          repository: repository,
+          history: [
+            for (final item in repository.items.values)
+              AssessmentHistoryItem(
+                id: item.id,
+                riskLevel: item.riskLevel,
+                takenAt: item.takenAt,
+              ),
+          ],
+        );
+        // A is first in the fixture; B is the latest by its assessment date.
+        await _tap(tester, 'Lihat Detail ›');
+        expect(
+          tester.widget<ResultPage>(find.byType(ResultPage)).assessmentId,
+          'B',
+        );
+        expect(
+          tester
+              .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+              .currentIndex,
+          2,
+        );
+        await _tap(tester, 'Lihat Rekomendasi');
+        expect(
+          tester
+              .widget<RecommendationPage>(find.byType(RecommendationPage))
+              .assessmentId,
+          'B',
+        );
+        await _back(tester, android);
+        expect(
+          tester.widget<ResultPage>(find.byType(ResultPage)).assessmentId,
+          'B',
+        );
+        await _back(tester, android);
+        expect(find.text('Riwayat Survei'), findsOneWidget);
+        expect(find.byType(ResultPage), findsNothing);
+        expect(
+          container
+              .read(appRouterProvider)
+              .routeInformationProvider
+              .value
+              .uri
+              .path,
+          RoutePaths.history,
+        );
+        expect(
+          tester
+              .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+              .currentIndex,
+          2,
+        );
+        expect(repository.submissions, 0);
+        expect(tester.takeException(), isNull);
+      },
+    );
+  }
+
+  testWidgets(
+    'dashboard latest detail replaces an older retained History detail',
+    (tester) async {
+      final repository = _Assessments();
+      await _start(
+        tester,
+        repository: repository,
+        history: [
+          for (final item in repository.items.values)
+            AssessmentHistoryItem(
+              id: item.id,
+              riskLevel: item.riskLevel,
+              takenAt: item.takenAt,
+            ),
+        ],
+      );
+      await _tab(tester, 'Riwayat');
+      await tester.tap(
+        find.byWidgetPredicate(
+          (widget) => widget is AssessmentHistoryTile && widget.item.id == 'A',
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        tester.widget<ResultPage>(find.byType(ResultPage)).assessmentId,
+        'A',
+      );
+      await _tab(tester, 'Beranda');
+      await _tap(tester, 'Lihat Detail ›');
+      expect(
+        tester.widget<ResultPage>(find.byType(ResultPage)).assessmentId,
+        'B',
+      );
+      await _tab(tester, 'Beranda');
+      await _tab(tester, 'Riwayat');
+      expect(
+        tester.widget<ResultPage>(find.byType(ResultPage)).assessmentId,
+        'B',
+      );
+      await _back(tester, false);
+      expect(find.text('Riwayat Survei'), findsOneWidget);
+      expect(find.byType(ResultPage), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'dashboard latest detail follows a newer session assessment absent from repository',
+    (tester) async {
+      final repository = _Assessments();
+      final container = await _start(
+        tester,
+        repository: repository,
+        history: [
+          for (final item in repository.items.values)
+            AssessmentHistoryItem(
+              id: item.id,
+              riskLevel: item.riskLevel,
+              takenAt: item.takenAt,
+            ),
+        ],
+      );
+      container.read(assessmentSessionCacheProvider.notifier).state = {
+        'session-latest': Assessment(
+          id: 'session-latest',
+          riskLevel: RiskLevel.sedang,
+          takenAt: DateTime(2026, 10, 16),
+          modelFactors: const [AssessmentFactor(label: 'Faktor dari sesi')],
+        ),
+      };
+      await tester.pumpAndSettle();
+      await _tap(tester, 'Lihat Detail ›');
+      expect(
+        tester.widget<ResultPage>(find.byType(ResultPage)).assessmentId,
+        'session-latest',
+      );
+      expect(find.text('Faktor dari sesi'), findsOneWidget);
+      expect(repository.items.containsKey('session-latest'), isFalse);
+      await _tap(tester, 'Lihat Rekomendasi');
+      expect(
+        tester
+            .widget<RecommendationPage>(find.byType(RecommendationPage))
+            .assessmentId,
+        'session-latest',
+      );
+      await _back(tester, true);
+      await _back(tester, false);
+      expect(find.text('Riwayat Survei'), findsOneWidget);
+      expect(
+        find.byWidgetPredicate(
+          (widget) =>
+              widget is AssessmentHistoryTile &&
+              widget.item.id == 'session-latest',
+        ),
+        findsOneWidget,
+      );
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'dashboard without assessments does not expose a result shortcut',
+    (tester) async {
+      await _start(tester, history: []);
+      expect(find.text('Belum ada asesmen'), findsOneWidget);
+      expect(find.text('Lihat Detail ›'), findsNothing);
+      expect(find.text('Riwayat Saya'), findsOneWidget);
+      await _tap(tester, 'Riwayat Saya');
+      expect(find.text('Riwayat Survei'), findsOneWidget);
+      expect(find.byType(ResultPage), findsNothing);
+      expect(tester.takeException(), isNull);
     },
   );
 
@@ -387,7 +563,7 @@ void main() {
         await _back(tester, android);
         expect(find.byType(ResultPage), findsOneWidget);
         await _back(tester, android);
-        expect(find.text('Riwayat Pemeriksaan'), findsOneWidget);
+        expect(find.text('Riwayat Survei'), findsOneWidget);
         expect(container.read(historyControllerProvider).query, 'rendah');
         expect(
           container.read(historyControllerProvider).filter,
@@ -425,10 +601,7 @@ void main() {
           );
           // Switching tabs must preserve both the form and its original entry.
           await _tab(tester, 'Profil');
-          await _tab(
-            tester,
-            origin == SurveyOrigin.dashboard ? 'Beranda' : 'Survei',
-          );
+          await _tab(tester, 'Survei');
           await _tap(tester, 'Kirim Jawaban');
           expect(
             tester.widget<ResultPage>(find.byType(ResultPage)).assessmentId,
@@ -439,16 +612,22 @@ void main() {
                 .read(appRouterProvider)
                 .routeInformationProvider
                 .value
-                .uri
-                .path,
-            RoutePaths.submittedResultFor(origin, 'submitted-1'),
+                .uri,
+            Uri.parse(RoutePaths.submittedResultFor(origin, 'submitted-1')),
           );
           expect(find.byType(SurveyQuestionPage), findsNothing);
-          await _tab(tester, 'Profil');
-          await _tab(
-            tester,
-            origin == SurveyOrigin.dashboard ? 'Beranda' : 'Survei',
+          expect(
+            tester
+                .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+                .currentIndex,
+            1,
           );
+          await _tap(tester, 'Lihat Rekomendasi');
+          await _tab(tester, 'Profil');
+          await _tab(tester, 'Survei');
+          expect(find.text('Rekomendasi untuk Kamu'), findsOneWidget);
+          await _back(tester, android);
+          expect(find.byType(ResultPage), findsOneWidget);
           await _back(tester, android);
           expect(
             container
@@ -463,6 +642,10 @@ void main() {
           );
           expect(find.byType(SurveyQuestionPage), findsNothing);
           expect(repository.submissions, 1);
+          await _tab(tester, 'Survei');
+          expect(find.text('Survei Harian'), findsOneWidget);
+          expect(find.byType(SurveyQuestionPage), findsNothing);
+          expect(find.byType(ResultPage), findsNothing);
           await _tab(tester, 'Riwayat');
           expect(
             container
@@ -493,20 +676,166 @@ void main() {
     },
   );
 
-  testWidgets('survey branches retain independent answers', (tester) async {
+  testWidgets('dashboard survey shortcut selects Survey and shares its draft', (
+    tester,
+  ) async {
     await _start(tester, repository: _Assessments());
     await _tap(tester, 'Mulai Survei');
+    expect(
+      tester
+          .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+          .currentIndex,
+      1,
+    );
+    expect(find.text('Survei Harian'), findsOneWidget);
+    await _tab(tester, 'Beranda');
+    expect(find.text('Pengguna Uji!'), findsOneWidget);
+    expect(find.text('Riwayat Saya'), findsOneWidget);
+    await _tap(tester, 'Mulai Survei');
+    expect(
+      tester
+          .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+          .currentIndex,
+      1,
+    );
     await _tap(tester, 'Mulai Survei');
     final input = find.byKey(const ValueKey('survey-answer-test-question'));
-    await tester.enterText(input, 'Dari dashboard');
-    await _tab(tester, 'Survei');
-    await _tap(tester, 'Mulai Survei');
-    expect(find.text('Dari dashboard'), findsNothing);
-    await tester.enterText(input, 'Dari tab survei');
+    await tester.enterText(input, 'Draft dari dashboard');
     await _tab(tester, 'Beranda');
-    expect(find.text('Dari dashboard'), findsOneWidget);
-    expect(find.text('Dari tab survei'), findsNothing);
+    expect(find.byType(SurveyQuestionPage), findsNothing);
+    await _tab(tester, 'Survei');
+    expect(find.text('Draft dari dashboard'), findsOneWidget);
+    await _tab(tester, 'Beranda');
+    await _tap(tester, 'Mulai Survei');
+    expect(find.byType(SurveyQuestionPage), findsOneWidget);
+    expect(find.text('Draft dari dashboard'), findsOneWidget);
   });
+
+  testWidgets(
+    'dashboard shortcut resumes a survey-tab draft without changing its origin',
+    (tester) async {
+      final repository = _Assessments();
+      final container = await _start(tester, repository: repository);
+      await _tab(tester, 'Survei');
+      await _tap(tester, 'Mulai Survei');
+      await tester.enterText(
+        find.byKey(const ValueKey('survey-answer-test-question')),
+        'Draft dari tab',
+      );
+      await _tab(tester, 'Beranda');
+      await _tap(tester, 'Mulai Survei');
+      expect(
+        tester
+            .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+            .currentIndex,
+        1,
+      );
+      expect(find.text('Draft dari tab'), findsOneWidget);
+      await _tap(tester, 'Kirim Jawaban');
+      await _back(tester, true);
+      expect(
+        container
+            .read(appRouterProvider)
+            .routeInformationProvider
+            .value
+            .uri
+            .path,
+        RoutePaths.survey,
+      );
+      expect(find.text('Survei Harian'), findsOneWidget);
+      expect(repository.submissions, 1);
+    },
+  );
+
+  testWidgets(
+    'dashboard shortcut preserves the origin of an existing survey intro',
+    (tester) async {
+      final repository = _Assessments();
+      final container = await _start(tester, repository: repository);
+      await _tab(tester, 'Survei');
+      await _tab(tester, 'Beranda');
+      await _tap(tester, 'Mulai Survei');
+      await _tap(tester, 'Mulai Survei');
+      await tester.enterText(
+        find.byKey(const ValueKey('survey-answer-test-question')),
+        'Jawaban',
+      );
+      await _tap(tester, 'Kirim Jawaban');
+      await _back(tester, false);
+      expect(
+        container
+            .read(appRouterProvider)
+            .routeInformationProvider
+            .value
+            .uri
+            .path,
+        RoutePaths.survey,
+      );
+      expect(find.text('Survei Harian'), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'completed flow clears its origin before a new dashboard survey',
+    (tester) async {
+      final repository = _Assessments();
+      final container = await _start(tester, repository: repository);
+      // Finish a tab-origin survey, then begin a fresh survey from Dashboard.
+      await _tab(tester, 'Survei');
+      await _tap(tester, 'Mulai Survei');
+      await tester.enterText(
+        find.byKey(const ValueKey('survey-answer-test-question')),
+        'Survei pertama',
+      );
+      await _tap(tester, 'Kirim Jawaban');
+      await _back(tester, true);
+      await _tab(tester, 'Beranda');
+      await _tap(tester, 'Mulai Survei');
+      await _tap(tester, 'Mulai Survei');
+      await tester.enterText(
+        find.byKey(const ValueKey('survey-answer-test-question')),
+        'Survei kedua',
+      );
+      await _tap(tester, 'Kirim Jawaban');
+      expect(
+        tester.widget<ResultPage>(find.byType(ResultPage)).assessmentId,
+        'submitted-2',
+      );
+      await _back(tester, true);
+      expect(
+        container
+            .read(appRouterProvider)
+            .routeInformationProvider
+            .value
+            .uri
+            .path,
+        RoutePaths.home,
+      );
+      expect(repository.submissions, 2);
+      // Visiting the cached intro is a new tab-origin entry.
+      await _tab(tester, 'Survei');
+      await _tab(tester, 'Beranda');
+      await _tap(tester, 'Mulai Survei');
+      await _tap(tester, 'Mulai Survei');
+      await tester.enterText(
+        find.byKey(const ValueKey('survey-answer-test-question')),
+        'Survei ketiga',
+      );
+      await _tap(tester, 'Kirim Jawaban');
+      await _back(tester, true);
+      expect(
+        container
+            .read(appRouterProvider)
+            .routeInformationProvider
+            .value
+            .uri
+            .path,
+        RoutePaths.survey,
+      );
+      expect(repository.submissions, 3);
+      expect(tester.takeException(), isNull);
+    },
+  );
 
   testWidgets('failed submit stays on form and does not open a result', (
     tester,
@@ -582,13 +911,10 @@ void main() {
       pending.complete();
       await tester.pumpAndSettle();
       expect(
-        container
-            .read(appRouterProvider)
-            .routeInformationProvider
-            .value
-            .uri
-            .path,
-        RoutePaths.submittedResultFor(SurveyOrigin.dashboard, 'submitted-1'),
+        container.read(appRouterProvider).routeInformationProvider.value.uri,
+        Uri.parse(
+          RoutePaths.submittedResultFor(SurveyOrigin.dashboard, 'submitted-1'),
+        ),
       );
       await _back(tester, true);
       expect(

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/responsive/app_scale.dart';
-import '../../core/theme/app_colors.dart';
+import 'app_bottom_navigation_bar.dart';
 
 /// Each branch owns its Navigator and keeps its pages mounted for the session.
 class MainShell extends StatelessWidget {
-  const MainShell({super.key, required this.navigationShell});
+  const MainShell({
+    super.key,
+    required this.navigationShell,
+    this.onBranchSelected,
+  });
 
   final StatefulNavigationShell navigationShell;
+  final ValueChanged<int>? onBranchSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -19,41 +23,13 @@ class MainShell extends StatelessWidget {
       },
       child: Scaffold(
         body: navigationShell,
-        bottomNavigationBar: DecoratedBox(
-          decoration: const BoxDecoration(
-            color: AppColors.background,
-            border: Border(top: BorderSide(color: AppColors.border)),
-          ),
-          child: BottomNavigationBar(
-            currentIndex: navigationShell.currentIndex,
-            // Re-selecting a tab also preserves its current navigation stack.
-            onTap: (index) => navigationShell.goBranch(index),
-            backgroundColor: AppColors.background,
-            elevation: 0,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: AppColors.primary,
-            unselectedItemColor: AppColors.body,
-            selectedFontSize: context.ui(12),
-            unselectedFontSize: context.ui(12),
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
-                label: 'Beranda',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.assignment_outlined),
-                label: 'Survei',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.pending_actions_outlined),
-                label: 'Riwayat',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline_rounded),
-                label: 'Profil',
-              ),
-            ],
-          ),
+        bottomNavigationBar: AppBottomNavigationBar(
+          currentIndex: navigationShell.currentIndex,
+          // Re-selecting a tab also preserves its current navigation stack.
+          onTap: (index) {
+            onBranchSelected?.call(index);
+            navigationShell.goBranch(index);
+          },
         ),
       ),
     );

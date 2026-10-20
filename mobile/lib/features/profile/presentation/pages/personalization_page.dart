@@ -4,38 +4,36 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../shared/widgets/app_button.dart';
+import '../../../../shared/widgets/app_blob_background.dart';
+import '../../../../shared/widgets/app_page_header.dart';
 import '../controllers/personalization_controller.dart';
 import '../widgets/activity_section.dart';
 import '../widgets/additional_information_section.dart';
 import '../widgets/personal_data_section.dart';
 import '../widgets/personalization_fields.dart';
-import '../../../../core/theme/app_text_styles.dart';
 
 class PersonalizationPage extends ConsumerStatefulWidget {
   const PersonalizationPage({
     super.key,
     required this.onBack,
+    this.backTooltip = 'Kembali ke profil',
   });
 
   final VoidCallback onBack;
+  final String backTooltip;
 
   @override
   ConsumerState<PersonalizationPage> createState() =>
       _PersonalizationPageState();
 }
 
-class _PersonalizationPageState
-    extends ConsumerState<PersonalizationPage> {
+class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
   final _formKey = GlobalKey<FormState>();
   final _scrollController = ScrollController();
 
   int _step = 0;
 
-  static const _tabs = [
-    'Data Diri',
-    'Aktivitas',
-    'Tambahan',
-  ];
+  static const _tabs = ['Data Diri', 'Aktivitas', 'Tambahan'];
 
   static const _titles = [
     'Informasi dasar',
@@ -101,7 +99,7 @@ class _PersonalizationPageState
     return Container(
       padding: EdgeInsets.all(context.ui(14)),
       decoration: BoxDecoration(
-        color: PersonalizationFieldStyle.softColor,
+        color: PersonalizationFieldStyle.softColor(context),
         borderRadius: BorderRadius.circular(context.ui(16)),
       ),
       child: Column(
@@ -110,7 +108,7 @@ class _PersonalizationPageState
           Text(
             'Kenali dirimu lebih dekat',
             style: TextStyle(
-              color: AppColors.navy,
+              color: AppColors.of(context).navy,
               fontSize: context.ui(14),
               fontWeight: FontWeight.w700,
             ),
@@ -120,7 +118,7 @@ class _PersonalizationPageState
             'Isi sekali untuk melengkapi surveimu.\n'
             'Perbarui kapan pun kondisimu berubah.',
             style: TextStyle(
-              color: AppColors.hint,
+              color: AppColors.of(context).hint,
               fontSize: context.ui(12),
               height: 1.6,
             ),
@@ -142,20 +140,18 @@ class _PersonalizationPageState
                 onPressed: () => _changeStep(index),
                 style: TextButton.styleFrom(
                   foregroundColor: index == _step
-                      ? Colors.white
-                      : AppColors.hint,
+                      ? AppColors.of(context).onPrimary
+                      : AppColors.of(context).hint,
                   backgroundColor: index == _step
-                      ? AppColors.primary
-                      : PersonalizationFieldStyle.softColor,
+                      ? AppColors.of(context).primary
+                      : PersonalizationFieldStyle.softColor(context),
                   minimumSize: const Size(0, 48),
                   padding: EdgeInsets.symmetric(
                     horizontal: context.ui(4),
                     vertical: context.ui(10),
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      context.ui(12),
-                    ),
+                    borderRadius: BorderRadius.circular(context.ui(12)),
                   ),
                 ),
                 child: Text(
@@ -179,17 +175,13 @@ class _PersonalizationPageState
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(personalizationControllerProvider);
-    final controller = ref.read(
-      personalizationControllerProvider.notifier,
-    );
+    final controller = ref.read(personalizationControllerProvider.notifier);
 
     Widget body;
 
     if (state.isLoading) {
-      body = const Center(
-        child: CircularProgressIndicator(
-          color: AppColors.primary,
-        ),
+      body = Center(
+        child: CircularProgressIndicator(color: AppColors.of(context).primary),
       );
     } else if (!state.isLoaded) {
       body = Center(
@@ -202,7 +194,7 @@ class _PersonalizationPageState
                 state.errorMessage ?? 'Personalisasi belum tersedia.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: AppColors.hint,
+                  color: AppColors.of(context).hint,
                   fontSize: context.ui(14),
                 ),
               ),
@@ -243,7 +235,7 @@ class _PersonalizationPageState
                   Text(
                     _titles[_step],
                     style: TextStyle(
-                      color: AppColors.navy,
+                      color: AppColors.of(context).navy,
                       fontSize: context.ui(18),
                       fontWeight: FontWeight.w700,
                     ),
@@ -255,17 +247,17 @@ class _PersonalizationPageState
                       key: ValueKey('${state.userId}-$_step'),
                       child: switch (_step) {
                         0 => PersonalDataSection(
-                            data: state.data,
-                            onChanged: controller.update,
-                          ),
+                          data: state.data,
+                          onChanged: controller.update,
+                        ),
                         1 => ActivitySection(
-                            data: state.data,
-                            onChanged: controller.update,
-                          ),
+                          data: state.data,
+                          onChanged: controller.update,
+                        ),
                         _ => AdditionalInformationSection(
-                            data: state.data,
-                            onChanged: controller.update,
-                          ),
+                          data: state.data,
+                          onChanged: controller.update,
+                        ),
                       },
                     ),
                   ),
@@ -277,16 +269,14 @@ class _PersonalizationPageState
               Text(
                 state.errorMessage!,
                 style: TextStyle(
-                  color: AppColors.error,
+                  color: AppColors.of(context).error,
                   fontSize: context.ui(13),
                 ),
               ),
             ],
             SizedBox(height: context.ui(12)),
             AppButton(
-              label: _step == 2
-                  ? 'Simpan Personalisasi'
-                  : 'Selanjutnya',
+              label: _step == 2 ? 'Simpan Personalisasi' : 'Selanjutnya',
               isLoading: state.isSaving,
               onPressed: state.isSaving
                   ? null
@@ -299,26 +289,38 @@ class _PersonalizationPageState
                     },
             ),
             SizedBox(height: context.ui(8)),
-            Row(
+            Wrap(
+              alignment: _step > 0
+                  ? WrapAlignment.spaceBetween
+                  : WrapAlignment.end,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: context.ui(16),
+              runSpacing: context.ui(8),
               children: [
                 if (_step > 0)
                   TextButton(
                     onPressed: state.isSaving
                         ? null
                         : () => _changeStep(_step - 1),
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.ui(16),
+                        vertical: context.ui(10),
+                      ),
+                    ),
                     child: Text(
                       'Sebelumnya',
                       style: TextStyle(
-                        color: AppColors.primary,
+                        color: AppColors.of(context).primary,
                         fontSize: context.ui(14),
                       ),
                     ),
                   ),
-                const Spacer(),
                 Text(
                   'Langkah ${_step + 1} dari 3',
+                  textAlign: TextAlign.end,
                   style: TextStyle(
-                    color: AppColors.hint,
+                    color: AppColors.of(context).hint,
                     fontSize: context.ui(12),
                   ),
                 ),
@@ -337,56 +339,22 @@ class _PersonalizationPageState
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.background,
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                  context.ui(24),
-                  context.ui(28),
-                  context.ui(24),
-                  0,
+        backgroundColor: AppColors.of(context).background,
+        body: AppBlobBackground(
+          refreshKey: _step,
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                AppPageHeader(
+                  title: 'Personalisasi Profil',
+                  onBack: state.isSaving ? null : widget.onBack,
+                  tooltip: widget.backTooltip,
                 ),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: context.ui(30)),
-                      child: Text(
-                        'Personalisasi Profil',
-                        style: AppTextStyles.title.copyWith(
-                          color: AppColors.navy,
-                          fontSize: context.ui(24),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      bottom: 0,
-                      left: -context.ui(12),
-                      width: context.ui(40),
-                      child: IconButton(
-                        onPressed: state.isSaving ? null : widget.onBack,
-                        tooltip: 'Kembali ke profil',
-                        padding: EdgeInsets.zero,
-                        icon: Icon(
-                          Icons.chevron_left_rounded,
-                          color: AppColors.navy,
-                          size: context.ui(28),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: context.ui(26)),
-              Expanded(
-                child: body,
-              ),
-            ],
+                SizedBox(height: context.ui(16)),
+                Expanded(child: body),
+              ],
+            ),
           ),
         ),
       ),

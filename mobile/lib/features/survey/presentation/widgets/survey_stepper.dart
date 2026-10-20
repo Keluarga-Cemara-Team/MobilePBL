@@ -4,7 +4,8 @@ import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../shared/widgets/app_back_button.dart';
+import '../../../../shared/widgets/app_page_header.dart';
+import '../../../../shared/widgets/app_blob_background.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../domain/entities/survey_question.dart';
 import '../controllers/survey_state.dart';
@@ -72,153 +73,149 @@ class _SurveyStepperState extends State<SurveyStepper> {
         if (!didPop) _back();
       },
       child: Scaffold(
-        backgroundColor: AppColors.background,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Positioned(
-                top: -context.ui(72),
-                left: -context.ui(64),
-                child: IgnorePointer(
-                  child: Container(
-                    width: context.ui(150),
-                    height: context.ui(150),
-                    decoration: const BoxDecoration(
-                      color: AppColors.blob,
-                      shape: BoxShape.circle,
-                    ),
+        backgroundColor: AppColors.of(context).background,
+        body: AppBlobBackground(
+          subtle: true,
+          refreshKey: _step,
+          child: SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) => SingleChildScrollView(
+                key: PageStorageKey('survey-step-$_step'),
+                padding: EdgeInsets.only(bottom: context.ui(AppSpacing.lg)),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight:
+                        (constraints.maxHeight - context.ui(AppSpacing.lg))
+                            .clamp(0.0, double.infinity)
+                            .toDouble(),
                   ),
-                ),
-              ),
-              LayoutBuilder(
-                builder: (context, constraints) => SingleChildScrollView(
-                  key: PageStorageKey('survey-step-$_step'),
-                  padding: EdgeInsets.fromLTRB(
-                    context.ui(AppSpacing.lg),
-                    context.ui(AppSpacing.md),
-                    context.ui(AppSpacing.lg),
-                    context.ui(AppSpacing.lg),
-                  ),
-                  child: Center(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: 560,
-                        minHeight:
-                            (constraints.maxHeight -
-                                    context.ui(AppSpacing.md + AppSpacing.lg))
-                                .clamp(0.0, double.infinity)
-                                .toDouble(),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Keep the title anchored to progress on every step.
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: AppBackButton(
-                                  tooltip: _step == 0
-                                      ? 'Kembali ke pengantar survei'
-                                      : 'Kembali',
-                                  onPressed: widget.state.isSubmitting
-                                      ? null
-                                      : _back,
-                                ),
-                              ),
-                              SizedBox(height: context.ui(AppSpacing.lg)),
-                              Text(
-                                'Langkah ${_step + 1} dari $_total',
-                                style: _subtitleStyle(context, 13).copyWith(
-                                  color: AppColors.navy,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              SizedBox(height: context.ui(12)),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(
-                                  context.ui(AppSpacing.radius),
-                                ),
-                                child: LinearProgressIndicator(
-                                  value: progress,
-                                  minHeight: context.ui(9),
-                                  color: AppColors.primary,
-                                  backgroundColor: AppColors.blob,
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    top: context.ui(AppSpacing.sm),
-                                  ),
-                                  child: Text(
-                                    '${(progress * 100).round()}%',
-                                    style: AppTextStyles.link.copyWith(
-                                      fontSize: context.ui(12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                          AppPageHeader(
+                            tooltip: _step == 0
+                                ? 'Kembali ke pengantar survei'
+                                : 'Kembali',
+                            onBack: widget.state.isSubmitting ? null : _back,
                           ),
+                          SizedBox(height: context.ui(AppSpacing.lg)),
                           Padding(
                             padding: EdgeInsets.symmetric(
-                              vertical: context.ui(AppSpacing.xl),
+                              horizontal: context.ui(AppSpacing.lg),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Text(
-                                  title,
-                                  style: AppTextStyles.title.copyWith(
-                                    fontSize: context.ui(23),
+                                  'Langkah ${_step + 1} dari $_total',
+                                  style: _subtitleStyle(context, 13).copyWith(
+                                    color: AppColors.of(context).navy,
+                                    fontWeight: FontWeight.w700,
                                   ),
                                 ),
                                 SizedBox(height: context.ui(12)),
-                                Text(
-                                  subtitle,
-                                  style: _subtitleStyle(context, 13),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                    context.ui(AppSpacing.radius),
+                                  ),
+                                  child: LinearProgressIndicator(
+                                    value: progress,
+                                    minHeight: context.ui(9),
+                                    color: AppColors.of(context).primary,
+                                    backgroundColor: AppColors.of(context).blob,
+                                  ),
                                 ),
-                                SizedBox(height: context.ui(AppSpacing.xl)),
-                                IgnorePointer(
-                                  ignoring: widget.state.isSubmitting,
-                                  child: _isReview
-                                      ? _review(context)
-                                      : _input(context, _question),
-                                ),
-                                if (widget.state.errorMessage != null) ...[
-                                  SizedBox(height: context.ui(AppSpacing.lg)),
-                                  Semantics(
-                                    liveRegion: true,
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      top: context.ui(AppSpacing.sm),
+                                    ),
                                     child: Text(
-                                      widget.state.errorMessage!,
-                                      style: _subtitleStyle(
-                                        context,
-                                        13,
-                                      ).copyWith(color: AppColors.error),
+                                      '${(progress * 100).round()}%',
+                                      style: AppTextStyles.link(context)
+                                          .copyWith(fontSize: context.ui(12)),
                                     ),
                                   ),
-                                ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: context.ui(AppSpacing.md),
+                                    bottom: context.ui(
+                                      AppSpacing.xl + AppSpacing.md,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Text(
+                                        title,
+                                        style: AppTextStyles.title(context)
+                                            .copyWith(fontSize: context.ui(23)),
+                                      ),
+                                      SizedBox(height: context.ui(12)),
+                                      Text(
+                                        subtitle,
+                                        style: _subtitleStyle(context, 13),
+                                      ),
+                                      SizedBox(
+                                        height: context.ui(AppSpacing.xl),
+                                      ),
+                                      IgnorePointer(
+                                        ignoring: widget.state.isSubmitting,
+                                        child: _isReview
+                                            ? _review(context)
+                                            : _input(context, _question),
+                                      ),
+                                      if (widget.state.errorMessage !=
+                                          null) ...[
+                                        SizedBox(
+                                          height: context.ui(AppSpacing.lg),
+                                        ),
+                                        Semantics(
+                                          liveRegion: true,
+                                          child: Text(
+                                            widget.state.errorMessage!,
+                                            style: _subtitleStyle(context, 13)
+                                                .copyWith(
+                                                  color: AppColors.of(context)
+                                                      .error,
+                                                ),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              _actions(context),
-                              SizedBox(height: context.ui(AppSpacing.lg)),
-                              _TipCard(text: tip),
-                            ],
-                          ),
                         ],
                       ),
-                    ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: context.ui(AppSpacing.lg),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            _actions(context),
+                            SizedBox(height: context.ui(AppSpacing.lg)),
+                            _TipCard(text: tip),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -228,7 +225,7 @@ class _SurveyStepperState extends State<SurveyStepper> {
   Widget _actions(BuildContext context) {
     final back = OutlinedButton.icon(
       onPressed: widget.state.isSubmitting ? null : _back,
-      icon: const Icon(Icons.chevron_left_rounded),
+      icon: Icon(Icons.chevron_left_rounded, size: context.ui(24)),
       label: const Text('Kembali'),
       style: _backStyle(context),
     );
@@ -376,29 +373,58 @@ class _SurveyStepperState extends State<SurveyStepper> {
             Text(value.round().toString(), style: _numberStyle(context, 46)),
             Text(question.unit, style: _subtitleStyle(context, 13)),
             SizedBox(height: context.ui(18)),
-            Wrap(
-              spacing: context.ui(8),
-              runSpacing: context.ui(8),
-              children: [
-                for (final minutes in [0, 5, 10, 15])
-                  FilledButton(
-                    onPressed: () => _number(question, minutes.toDouble()),
-                    style: FilledButton.styleFrom(
-                      backgroundColor: value == minutes
-                          ? AppColors.primary
-                          : AppColors.blob.withValues(alpha: .7),
-                      foregroundColor: value == minutes
-                          ? AppColors.background
-                          : AppColors.primary,
-                      minimumSize: const Size(64, 48),
-                      padding: EdgeInsets.all(context.ui(12)),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(context.ui(10)),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final gap = context.ui(8);
+                final columns =
+                    constraints.maxWidth < context.ui(280) ||
+                        MediaQuery.textScalerOf(context).scale(14) > 20
+                    ? 2
+                    : 4;
+                final width =
+                    (constraints.maxWidth - gap * (columns - 1)) / columns;
+                return Wrap(
+                  spacing: gap,
+                  runSpacing: gap,
+                  children: [
+                    for (final minutes in [0, 5, 10, 15])
+                      SizedBox(
+                        width: width,
+                        child: FilledButton(
+                          onPressed: () =>
+                              _number(question, minutes.toDouble()),
+                          style: FilledButton.styleFrom(
+                            backgroundColor: value == minutes
+                                ? AppColors.of(context).primary
+                                : Color.alphaBlend(
+                                    AppColors.of(context).blob
+                                        .withValues(alpha: .7),
+                                    AppColors.of(context).background,
+                                  ),
+                            foregroundColor: value == minutes
+                                ? AppColors.of(context).onPrimary
+                                : AppColors.of(context).primary,
+                            minimumSize: Size(
+                              context.ui(64),
+                              context.ui(48).clamp(48.0, double.infinity),
+                            ),
+                            textStyle: _subtitleStyle(
+                              context,
+                              14,
+                            ).copyWith(fontWeight: FontWeight.w700),
+                            padding: EdgeInsets.all(context.ui(12)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                context.ui(10),
+                              ),
+                            ),
+                          ),
+                          child: Text(minutes.toString()),
+                        ),
                       ),
-                    ),
-                    child: Text(minutes.toString()),
-                  ),
-              ],
+                  ],
+                );
+              },
             ),
             SizedBox(height: context.ui(16)),
             _SurveyAnswerField(
@@ -462,8 +488,8 @@ class _SurveyStepperState extends State<SurveyStepper> {
 
   Widget _review(BuildContext context) => Container(
     decoration: BoxDecoration(
-      color: AppColors.background,
-      border: Border.all(color: AppColors.border),
+      color: AppColors.of(context).surface,
+      border: Border.all(color: AppColors.of(context).border),
       borderRadius: BorderRadius.circular(context.ui(AppSpacing.radius)),
     ),
     child: Column(
@@ -479,14 +505,16 @@ class _SurveyStepperState extends State<SurveyStepper> {
               decoration: BoxDecoration(
                 border: index == widget.state.questions.length - 1
                     ? null
-                    : const Border(bottom: BorderSide(color: AppColors.border)),
+                    : Border(
+                        bottom: BorderSide(color: AppColors.of(context).border),
+                      ),
               ),
               child: Row(
                 children: [
                   Icon(
                     _reviewIcon(question.id),
                     size: context.ui(19),
-                    color: AppColors.navy,
+                    color: AppColors.of(context).navy,
                   ),
                   SizedBox(width: context.ui(12)),
                   Expanded(
@@ -501,7 +529,7 @@ class _SurveyStepperState extends State<SurveyStepper> {
                           '${widget.state.answers[question.id] ?? '—'} ${question.unit}'
                               .trim(),
                           style: _subtitleStyle(context, 12).copyWith(
-                            color: AppColors.navy,
+                            color: AppColors.of(context).navy,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -510,11 +538,18 @@ class _SurveyStepperState extends State<SurveyStepper> {
                   ),
                   TextButton(
                     onPressed: () => setState(() => _step = index),
+                    style: TextButton.styleFrom(
+                      textStyle: _subtitleStyle(context, 14),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: context.ui(12),
+                        vertical: context.ui(8),
+                      ),
+                    ),
                     child: const Text('Ubah'),
                   ),
                   Icon(
                     Icons.chevron_right_rounded,
-                    color: AppColors.primary,
+                    color: AppColors.of(context).primary,
                     size: context.ui(18),
                   ),
                 ],
@@ -577,9 +612,17 @@ class _SurveyAnswerFieldState extends State<_SurveyAnswerField> {
       keyboardType: minutes ? TextInputType.number : TextInputType.multiline,
       minLines: 1,
       maxLines: minutes ? 1 : 5,
+      style: _subtitleStyle(context, 14),
       decoration: InputDecoration(
         hintText: minutes ? 'Atau isi durasi sendiri' : 'Tulis jawabanmu',
         suffixText: minutes ? 'menit' : null,
+        hintStyle: _subtitleStyle(
+          context,
+          14,
+        ).copyWith(color: AppColors.of(context).hint),
+        suffixStyle: _subtitleStyle(context, 14),
+        errorStyle: _subtitleStyle(context, 12),
+        contentPadding: EdgeInsets.all(context.ui(16)),
       ),
       onChanged: widget.onChanged,
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -593,17 +636,25 @@ class _SurveyAnswerFieldState extends State<_SurveyAnswerField> {
 }
 
 ButtonStyle _backStyle(BuildContext context) => OutlinedButton.styleFrom(
-  foregroundColor: AppColors.navy,
-  side: const BorderSide(color: AppColors.border),
+  foregroundColor: AppColors.of(context).navy,
+  side: BorderSide(color: AppColors.of(context).border),
   minimumSize: Size(0, context.ui(52)),
+  textStyle: _subtitleStyle(context, 16).copyWith(fontWeight: FontWeight.w700),
+  padding: EdgeInsets.symmetric(
+    horizontal: context.ui(16),
+    vertical: context.ui(14),
+  ),
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(context.ui(AppSpacing.fieldRadius)),
   ),
 );
 TextStyle _subtitleStyle(BuildContext context, double size) =>
-    AppTextStyles.subtitle.copyWith(fontSize: context.ui(size));
-TextStyle _numberStyle(BuildContext context, double size) => AppTextStyles.title
-    .copyWith(color: AppColors.primary, fontSize: context.ui(size));
+    AppTextStyles.subtitle(context).copyWith(fontSize: context.ui(size));
+TextStyle _numberStyle(BuildContext context, double size) =>
+    AppTextStyles.title(context).copyWith(
+      color: AppColors.of(context).primary,
+      fontSize: context.ui(size),
+    );
 
 class _CleanSlider extends StatelessWidget {
   const _CleanSlider({
@@ -624,8 +675,8 @@ class _CleanSlider extends StatelessWidget {
       value: value,
       min: 0,
       max: maximum,
-      activeColor: AppColors.primary,
-      inactiveColor: AppColors.blob,
+      activeColor: AppColors.of(context).primary,
+      inactiveColor: AppColors.of(context).blob,
       onChanged: (v) => onChanged((v * 2).round() / 2),
     ),
   );
@@ -636,26 +687,28 @@ class _ValueBox extends StatelessWidget {
   final double value;
   @override
   Widget build(BuildContext context) => Container(
-    constraints: const BoxConstraints(minHeight: 48),
+    constraints: BoxConstraints(
+      minHeight: context.ui(48).clamp(48.0, double.infinity),
+    ),
     padding: EdgeInsets.all(context.ui(8)),
     alignment: Alignment.center,
     decoration: BoxDecoration(
-      border: Border.all(color: AppColors.border),
+      border: Border.all(color: AppColors.of(context).border),
       borderRadius: BorderRadius.circular(context.ui(12)),
     ),
     child: RichText(
       textScaler: MediaQuery.textScalerOf(context),
       text: TextSpan(
-        style: _subtitleStyle(
-          context,
-          14,
-        ).copyWith(color: AppColors.navy, fontWeight: FontWeight.w700),
+        style: _subtitleStyle(context, 14).copyWith(
+          color: AppColors.of(context).navy,
+          fontWeight: FontWeight.w700,
+        ),
         children: [
           TextSpan(text: value.toStringAsFixed(1)),
-          const TextSpan(
+          TextSpan(
             text: ' jam',
             style: TextStyle(
-              color: AppColors.body,
+              color: AppColors.of(context).body,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -678,7 +731,12 @@ class _ChoiceTile extends StatelessWidget {
   final VoidCallback onTap;
   @override
   Widget build(BuildContext context) => Material(
-    color: selected ? AppColors.blob.withValues(alpha: .55) : Colors.white,
+    color: selected
+        ? Color.alphaBlend(
+            AppColors.of(context).blob.withValues(alpha: .55),
+            AppColors.of(context).background,
+          )
+        : AppColors.of(context).surface,
     borderRadius: BorderRadius.circular(context.ui(AppSpacing.fieldRadius)),
     child: InkWell(
       onTap: onTap,
@@ -696,7 +754,9 @@ class _ChoiceTile extends StatelessWidget {
             context.ui(AppSpacing.fieldRadius),
           ),
           border: Border.all(
-            color: selected ? AppColors.primary : AppColors.border,
+            color: selected
+                ? AppColors.of(context).primary
+                : AppColors.of(context).border,
             width: selected ? 1.4 : 1,
           ),
         ),
@@ -706,7 +766,9 @@ class _ChoiceTile extends StatelessWidget {
               selected
                   ? Icons.radio_button_checked_rounded
                   : Icons.radio_button_unchecked_rounded,
-              color: selected ? AppColors.primary : AppColors.hint,
+              color: selected
+                  ? AppColors.of(context).primary
+                  : AppColors.of(context).hint,
               size: context.ui(21),
             ),
             SizedBox(width: context.ui(12)),
@@ -718,7 +780,7 @@ class _ChoiceTile extends StatelessWidget {
                   Text(
                     label,
                     style: _subtitleStyle(context, 13).copyWith(
-                      color: AppColors.navy,
+                      color: AppColors.of(context).navy,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -747,9 +809,12 @@ class _SquareButton extends StatelessWidget {
     child: IconButton(
       onPressed: onPressed,
       style: IconButton.styleFrom(
-        backgroundColor: AppColors.blob.withValues(alpha: .6),
-        foregroundColor: AppColors.primary,
-        disabledForegroundColor: AppColors.hint,
+        backgroundColor: Color.alphaBlend(
+          AppColors.of(context).blob.withValues(alpha: .6),
+          AppColors.of(context).background,
+        ),
+        foregroundColor: AppColors.of(context).primary,
+        disabledForegroundColor: AppColors.of(context).hint,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(context.ui(12)),
         ),
@@ -766,14 +831,17 @@ class _TipCard extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     padding: EdgeInsets.all(context.ui(14)),
     decoration: BoxDecoration(
-      color: AppColors.blob.withValues(alpha: .65),
+      color: Color.alphaBlend(
+        AppColors.of(context).blob.withValues(alpha: .65),
+        AppColors.of(context).background,
+      ),
       borderRadius: BorderRadius.circular(context.ui(AppSpacing.fieldRadius)),
     ),
     child: Row(
       children: [
         Icon(
           Icons.lightbulb_outline_rounded,
-          color: AppColors.primary,
+          color: AppColors.of(context).primary,
           size: context.ui(22),
         ),
         SizedBox(width: context.ui(10)),

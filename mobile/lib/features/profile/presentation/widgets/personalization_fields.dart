@@ -5,8 +5,9 @@ import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class PersonalizationFieldStyle {
-  static const softColor = Color(0xFFEEF0FF);
-  static const borderColor = Color(0xFFD8DFFF);
+  static Color softColor(BuildContext context) => AppColors.of(context).blob;
+  static Color borderColor(BuildContext context) =>
+      AppColors.of(context).border;
 
   static InputDecoration decoration(
     BuildContext context, {
@@ -23,26 +24,30 @@ class PersonalizationFieldStyle {
     return InputDecoration(
       hintText: hint,
       hintStyle: TextStyle(
-        color: AppColors.hint,
+        color: AppColors.of(context).hint,
         fontSize: context.ui(14),
       ),
       suffixText: suffix,
       suffixStyle: TextStyle(
-        color: AppColors.hint,
+        color: AppColors.of(context).hint,
         fontSize: context.ui(12),
       ),
       filled: true,
-      fillColor: Colors.white,
+      fillColor: AppColors.of(context).surface,
       contentPadding: EdgeInsets.symmetric(
         horizontal: context.ui(16),
         vertical: context.ui(16),
       ),
-      border: border(borderColor),
-      enabledBorder: border(borderColor),
-      focusedBorder: border(AppColors.primary),
-      errorBorder: border(AppColors.error),
-      focusedErrorBorder: border(AppColors.error),
+      border: border(borderColor(context)),
+      enabledBorder: border(borderColor(context)),
+      focusedBorder: border(AppColors.of(context).primary),
+      errorBorder: border(AppColors.of(context).error),
+      focusedErrorBorder: border(AppColors.of(context).error),
       errorMaxLines: 2,
+      errorStyle: TextStyle(
+        color: AppColors.of(context).error,
+        fontSize: context.ui(12),
+      ),
     );
   }
 }
@@ -59,7 +64,7 @@ class PersonalizationLabel extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color: AppColors.navy,
+          color: AppColors.of(context).navy,
           fontSize: context.ui(14),
           fontWeight: FontWeight.w600,
         ),
@@ -80,7 +85,7 @@ class PersonalizationDescription extends StatelessWidget {
       child: Text(
         text,
         style: TextStyle(
-          color: AppColors.hint,
+          color: AppColors.of(context).hint,
           fontSize: context.ui(13),
           height: 1.4,
         ),
@@ -119,11 +124,9 @@ class PersonalizationNumberField extends StatelessWidget {
             initialValue: value,
             keyboardType: TextInputType.number,
             textInputAction: TextInputAction.done,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-            ],
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             style: TextStyle(
-              color: AppColors.navy,
+              color: AppColors.of(context).navy,
               fontSize: context.ui(14),
             ),
             decoration: PersonalizationFieldStyle.decoration(
@@ -133,6 +136,100 @@ class PersonalizationNumberField extends StatelessWidget {
             ),
             validator: validator,
             onChanged: onChanged,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PersonalizationDateField extends StatelessWidget {
+  const PersonalizationDateField({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.firstDate,
+    required this.lastDate,
+    required this.onChanged,
+  });
+
+  final String label;
+  final DateTime? value;
+  final DateTime firstDate;
+  final DateTime lastDate;
+  final ValueChanged<DateTime?> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final date = value;
+    final text = date == null
+        ? ''
+        : '${date.day.toString().padLeft(2, '0')}/'
+              '${date.month.toString().padLeft(2, '0')}/${date.year}';
+    return Padding(
+      padding: EdgeInsets.only(bottom: context.ui(14)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          PersonalizationLabel(label),
+          TextFormField(
+            key: ValueKey(value),
+            initialValue: text,
+            readOnly: true,
+            showCursor: false,
+            style: TextStyle(
+              color: AppColors.of(context).navy,
+              fontSize: context.ui(14),
+            ),
+            decoration:
+                PersonalizationFieldStyle.decoration(
+                  context,
+                  hint: 'Pilih tanggal lahir (DD/MM/YYYY)',
+                ).copyWith(
+                  suffixIcon: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (date != null)
+                        IconButton(
+                          tooltip: 'Hapus tanggal lahir',
+                          onPressed: () => onChanged(null),
+                          icon: Icon(Icons.close_rounded, size: context.ui(24)),
+                        ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: context.ui(12),
+                        ),
+                        child: Icon(
+                          Icons.calendar_today_outlined,
+                          color: AppColors.of(context).primary,
+                          size: context.ui(24),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            onTap: () async {
+              FocusScope.of(context).unfocus();
+              final initialDate = date == null || date.isAfter(lastDate)
+                  ? lastDate
+                  : date.isBefore(firstDate)
+                  ? firstDate
+                  : date;
+              final selected = await showDatePicker(
+                context: context,
+                initialDate: initialDate,
+                firstDate: firstDate,
+                lastDate: lastDate,
+                initialEntryMode: DatePickerEntryMode.calendarOnly,
+                initialDatePickerMode: date == null
+                    ? DatePickerMode.year
+                    : DatePickerMode.day,
+                helpText: 'Pilih tanggal lahir',
+                cancelText: 'Batal',
+                confirmText: 'Pilih',
+              );
+              if (context.mounted && selected != null) onChanged(selected);
+            },
           ),
         ],
       ),
@@ -170,27 +267,25 @@ class PersonalizationDropdown extends StatelessWidget {
             key: ValueKey(selectedValue),
             initialValue: selectedValue,
             isExpanded: true,
+            itemHeight: context.ui(48).clamp(48.0, double.infinity).toDouble(),
             decoration: PersonalizationFieldStyle.decoration(
               context,
               hint: hint,
             ),
             icon: Icon(
               Icons.keyboard_arrow_down_rounded,
-              color: AppColors.hint,
+              color: AppColors.of(context).hint,
               size: context.ui(24),
             ),
             style: TextStyle(
-              color: AppColors.navy,
+              color: AppColors.of(context).navy,
               fontSize: context.ui(14),
             ),
-            dropdownColor: Colors.white,
+            dropdownColor: AppColors.of(context).surface,
             items: options.map((option) {
               return DropdownMenuItem<String>(
                 value: option,
-                child: Text(
-                  option,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                child: Text(option, overflow: TextOverflow.ellipsis),
               );
             }).toList(),
             onChanged: (value) {
@@ -229,8 +324,7 @@ class PersonalizationChoices extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PersonalizationLabel(label),
-          if (description != null)
-            PersonalizationDescription(description!),
+          if (description != null) PersonalizationDescription(description!),
           Row(
             children: [
               for (var index = 0; index < options.length; index++) ...[
@@ -246,11 +340,11 @@ class PersonalizationChoices extends StatelessWidget {
                       },
                       style: OutlinedButton.styleFrom(
                         foregroundColor: value == options[index]
-                            ? AppColors.primary
-                            : AppColors.hint,
+                            ? AppColors.of(context).primary
+                            : AppColors.of(context).hint,
                         backgroundColor: value == options[index]
-                            ? PersonalizationFieldStyle.softColor
-                            : Colors.white,
+                            ? PersonalizationFieldStyle.softColor(context)
+                            : AppColors.of(context).surface,
                         minimumSize: const Size(0, 48),
                         padding: EdgeInsets.symmetric(
                           horizontal: context.ui(4),
@@ -258,21 +352,17 @@ class PersonalizationChoices extends StatelessWidget {
                         ),
                         side: BorderSide(
                           color: value == options[index]
-                              ? AppColors.primary
-                              : PersonalizationFieldStyle.borderColor,
+                              ? AppColors.of(context).primary
+                              : PersonalizationFieldStyle.borderColor(context),
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            context.ui(14),
-                          ),
+                          borderRadius: BorderRadius.circular(context.ui(14)),
                         ),
                       ),
                       child: Text(
                         options[index],
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: context.ui(12),
-                        ),
+                        style: TextStyle(fontSize: context.ui(12)),
                       ),
                     ),
                   ),

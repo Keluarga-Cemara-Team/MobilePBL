@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/responsive/app_scale.dart';
+import '../../../../core/theme/app_colors.dart';
+
 class HistoryEmptyView extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;
@@ -19,11 +22,20 @@ class HistoryEmptyView extends StatelessWidget {
           Text(
             message,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+            style: TextStyle(
+              fontSize: context.ui(12),
+              color: AppColors.of(context).hint,
+            ),
           ),
           if (onRetry != null) ...[
-            const SizedBox(height: 8),
-            TextButton(onPressed: onRetry, child: const Text('Coba lagi')),
+            SizedBox(height: context.ui(8)),
+            TextButton(
+              onPressed: onRetry,
+              child: Text(
+                'Coba lagi',
+                style: TextStyle(fontSize: context.ui(14)),
+              ),
+            ),
           ],
         ],
       ),

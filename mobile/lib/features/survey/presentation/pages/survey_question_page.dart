@@ -5,7 +5,8 @@ import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../shared/widgets/app_back_button.dart';
+import '../../../../shared/widgets/app_page_header.dart';
+import '../../../../shared/widgets/app_blob_background.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../assessment/domain/entities/assessment.dart';
 import '../../domain/entities/survey_question.dart';
@@ -49,49 +50,33 @@ class SurveyQuestionPage extends ConsumerWidget {
     return PopScope(
       canPop: !state.isSubmitting,
       child: Scaffold(
-        backgroundColor: AppColors.background,
-        body: SafeArea(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 600),
-              child: CustomScrollView(
-                key: const PageStorageKey('survey-questions-scroll'),
-                slivers: [
-                  SliverPadding(
+        backgroundColor: AppColors.of(context).background,
+        body: AppBlobBackground(
+          subtle: true,
+          child: SafeArea(
+            child: CustomScrollView(
+              key: const PageStorageKey('survey-questions-scroll'),
+              slivers: [
+                SliverToBoxAdapter(
+                  child: AppPageHeader(
+                    title: 'Survei Harian',
+                    fontSize: 22,
+                    tooltip: 'Kembali ke pengantar survei',
+                    onBack: state.isSubmitting ? null : onBack,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Padding(
                     padding: EdgeInsets.fromLTRB(
+                      context.ui(AppSpacing.lg),
                       context.ui(AppSpacing.page),
-                      context.ui(AppSpacing.md),
+                      context.ui(AppSpacing.lg),
                       context.ui(AppSpacing.page),
-                      0,
                     ),
-                    sliver: SliverToBoxAdapter(
-                      child: Row(
-                        children: [
-                          AppBackButton(
-                            tooltip: 'Kembali ke pengantar survei',
-                            onPressed: state.isSubmitting ? null : onBack,
-                          ),
-                          SizedBox(width: context.ui(AppSpacing.sm)),
-                          Expanded(
-                            child: Text(
-                              'Survei Harian',
-                              style: AppTextStyles.title.copyWith(
-                                fontSize: context.ui(22),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: _buildContent(context, ref, state),
                   ),
-                  SliverPadding(
-                    padding: EdgeInsets.all(context.ui(AppSpacing.page)),
-                    sliver: SliverToBoxAdapter(
-                      child: _buildContent(context, ref, state),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -115,7 +100,7 @@ class SurveyQuestionPage extends ConsumerWidget {
           Icon(
             Icons.assignment_outlined,
             size: context.ui(56),
-            color: AppColors.primary,
+            color: AppColors.of(context).primary,
           ),
           SizedBox(height: context.ui(AppSpacing.md)),
           Text(
@@ -123,7 +108,8 @@ class SurveyQuestionPage extends ConsumerWidget {
                 ? 'Survei belum tersedia'
                 : 'Survei gagal dimuat',
             textAlign: TextAlign.center,
-            style: AppTextStyles.title.copyWith(fontSize: context.ui(20)),
+            style: AppTextStyles.title(context)
+                .copyWith(fontSize: context.ui(20)),
           ),
           SizedBox(height: context.ui(AppSpacing.sm)),
           Text(
@@ -131,7 +117,8 @@ class SurveyQuestionPage extends ConsumerWidget {
                 'Pertanyaan dan layanan asesmen belum tersedia. '
                     'Silakan kembali lagi nanti.',
             textAlign: TextAlign.center,
-            style: AppTextStyles.subtitle.copyWith(fontSize: context.ui(14)),
+            style: AppTextStyles.subtitle(context)
+                .copyWith(fontSize: context.ui(14)),
           ),
           SizedBox(height: context.ui(AppSpacing.lg)),
           if (state.errorMessage != null) ...[
@@ -148,7 +135,8 @@ class SurveyQuestionPage extends ConsumerWidget {
       children: [
         Text(
           'Jawab sesuai kondisi yang kamu rasakan.',
-          style: AppTextStyles.subtitle.copyWith(fontSize: context.ui(14)),
+          style: AppTextStyles.subtitle(context)
+              .copyWith(fontSize: context.ui(14)),
         ),
         SizedBox(height: context.ui(AppSpacing.lg)),
         for (final question in state.questions) ...[
@@ -165,8 +153,8 @@ class SurveyQuestionPage extends ConsumerWidget {
             liveRegion: true,
             child: Text(
               state.errorMessage!,
-              style: AppTextStyles.subtitle.copyWith(
-                color: AppColors.error,
+              style: AppTextStyles.subtitle(context).copyWith(
+                color: AppColors.of(context).error,
                 fontSize: context.ui(14),
               ),
             ),
@@ -209,8 +197,8 @@ class _QuestionInput extends StatelessWidget {
       children: [
         Text(
           question.label,
-          style: AppTextStyles.subtitle.copyWith(
-            color: AppColors.navy,
+          style: AppTextStyles.subtitle(context).copyWith(
+            color: AppColors.of(context).navy,
             fontWeight: FontWeight.w700,
             fontSize: context.ui(16),
           ),
@@ -224,9 +212,16 @@ class _QuestionInput extends StatelessWidget {
             onChanged: onChanged,
             minLines: 1,
             maxLines: 5,
-            decoration: const InputDecoration(
+            style: AppTextStyles.subtitle(context)
+                .copyWith(fontSize: context.ui(14)),
+            decoration: InputDecoration(
               hintText: 'Tulis jawabanmu',
-              border: OutlineInputBorder(),
+              hintStyle: AppTextStyles.subtitle(context).copyWith(
+                color: AppColors.of(context).hint,
+                fontSize: context.ui(14),
+              ),
+              contentPadding: EdgeInsets.all(context.ui(16)),
+              border: const OutlineInputBorder(),
             ),
           )
         else
@@ -237,6 +232,16 @@ class _QuestionInput extends StatelessWidget {
               for (final option in question.options)
                 ChoiceChip(
                   label: Text(option),
+                  labelStyle: AppTextStyles.subtitle(context).copyWith(
+                    fontSize: context.ui(14),
+                    color: value == option
+                        ? AppColors.of(context).primary
+                        : AppColors.of(context).body,
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: context.ui(8),
+                    vertical: context.ui(8),
+                  ),
                   selected: value == option,
                   onSelected: enabled ? (_) => onChanged(option) : null,
                 ),
