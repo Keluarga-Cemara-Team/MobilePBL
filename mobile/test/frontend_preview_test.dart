@@ -332,7 +332,7 @@ void main() {
   );
 
   testWidgets(
-    'preferences preview retains choices without changing the app theme',
+    'preferences apply and retain theme while reminder choices stay available',
     (tester) async {
       final container = await _start(tester);
       await _tab(tester, 'Profil');
@@ -347,16 +347,12 @@ void main() {
         container.read(preferencesControllerProvider).dailyReminder,
         isTrue,
       );
-      final darkChip = find.ancestor(
-        of: find.text('Gelap'),
-        matching: find.byType(ChoiceChip),
-      );
-      expect(tester.widget<ChoiceChip>(darkChip).selected, isTrue);
-      expect(Theme.of(tester.element(darkChip)).brightness, Brightness.light);
+      final darkOption = find.byKey(const ValueKey('theme-option-dark'));
+      expect(Theme.of(tester.element(darkOption)).brightness, Brightness.dark);
       await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
       await _tap(tester, 'Preferensi');
-      expect(tester.widget<ChoiceChip>(darkChip).selected, isTrue);
+      expect(Theme.of(tester.element(darkOption)).brightness, Brightness.dark);
       expect(
         container.read(preferencesControllerProvider).dailyReminder,
         isTrue,
