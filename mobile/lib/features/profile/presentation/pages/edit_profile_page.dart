@@ -154,9 +154,8 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                   child: Text(
                     _photoError!,
                     textAlign: TextAlign.center,
-                    style: AppTextStyles.subtitle.copyWith(
-                      color: AppColors.error,
-                    ),
+                    style: AppTextStyles.subtitle(context)
+                        .copyWith(color: AppColors.of(context).error),
                   ),
                 ),
               SizedBox(height: context.ui(28)),
