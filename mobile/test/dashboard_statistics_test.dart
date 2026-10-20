@@ -83,6 +83,16 @@ Finder _day(int day) => find.byKey(
 
 Finder _survey(String id) => find.byKey(ValueKey('risk-survey-$id'));
 
+Finder get _weeklySurveys => find.descendant(
+  of: find.byType(WeeklyRiskChart),
+  matching: find.byWidgetPredicate(
+    (widget) =>
+        widget is Tooltip &&
+        widget.key is ValueKey<String> &&
+        (widget.key! as ValueKey<String>).value.startsWith('risk-survey-'),
+  ),
+);
+
 Finder get _horizontalChart =>
     find.byKey(const PageStorageKey('weekly-risk-chart-scroll'));
 
@@ -160,7 +170,7 @@ void main() {
           );
           expect(tester.takeException(), isNull);
           expect(find.text('4 asesmen secara keseluruhan'), findsOneWidget);
-          expect(find.text('4 asesmen dalam 7 hari terakhir'), findsOneWidget);
+          expect(_weeklySurveys, findsNWidgets(4));
           expect(find.text('Pratinjau dengan data contoh'), findsOneWidget);
           expect(find.text('Ringkasan seluruh riwayat survei'), findsOneWidget);
           expect(find.text('Grafik 7 hari terakhir'), findsOneWidget);
@@ -194,7 +204,7 @@ void main() {
       ],
     );
     expect(find.text('6 asesmen secara keseluruhan'), findsOneWidget);
-    expect(find.text('4 asesmen dalam 7 hari terakhir'), findsOneWidget);
+    expect(_weeklySurveys, findsNWidgets(4));
     _expectTotalCounts(tester, rendah: 1, sedang: 2, tinggi: 3);
     expect(find.text('Termasuk data contoh'), findsOneWidget);
     expect(_survey('old'), findsNothing);
@@ -280,7 +290,7 @@ void main() {
       ];
       await _pumpCard(tester, assessments: assessments);
       expect(find.text('9 asesmen secara keseluruhan'), findsOneWidget);
-      expect(find.text('9 asesmen dalam 7 hari terakhir'), findsOneWidget);
+      expect(_weeklySurveys, findsNWidgets(9));
       final day = _day(15);
       expect(
         find.descendant(of: day, matching: find.text('9 survei')),
@@ -346,7 +356,7 @@ void main() {
       ],
     );
     expect(find.text('1 asesmen secara keseluruhan'), findsOneWidget);
-    expect(find.text('0 asesmen dalam 7 hari terakhir'), findsOneWidget);
+    expect(_weeklySurveys, findsNothing);
     _expectTotalCounts(tester, rendah: 0, sedang: 0, tinggi: 1);
     expect(
       find.text('Belum ada survei dalam 7 hari terakhir.'),
@@ -384,7 +394,7 @@ void main() {
     );
 
     expect(find.text('2 asesmen secara keseluruhan'), findsOneWidget);
-    expect(find.text('1 asesmen dalam 7 hari terakhir'), findsOneWidget);
+    expect(_weeklySurveys, findsOneWidget);
     _expectTotalCounts(tester, rendah: 1, sedang: 0, tinggi: 1);
     expect(find.text('Termasuk data contoh'), findsOneWidget);
     expect(find.text('Pratinjau dengan data contoh'), findsNothing);
@@ -405,7 +415,7 @@ void main() {
     await _pumpCard(tester, assessments: []);
 
     expect(find.text('0 asesmen secara keseluruhan'), findsOneWidget);
-    expect(find.text('0 asesmen dalam 7 hari terakhir'), findsOneWidget);
+    expect(_weeklySurveys, findsNothing);
     _expectTotalCounts(tester, rendah: 0, sedang: 0, tinggi: 0);
     expect(find.text('Pratinjau dengan data contoh'), findsNothing);
     expect(find.text('Termasuk data contoh'), findsNothing);
