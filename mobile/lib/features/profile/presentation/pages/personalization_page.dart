@@ -12,9 +12,14 @@ import '../widgets/personalization_fields.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class PersonalizationPage extends ConsumerStatefulWidget {
-  const PersonalizationPage({super.key, required this.onBack});
+  const PersonalizationPage({
+    super.key,
+    required this.onBack,
+    this.backTooltip = 'Kembali ke profil',
+  });
 
   final VoidCallback onBack;
+  final String backTooltip;
 
   @override
   ConsumerState<PersonalizationPage> createState() =>
@@ -358,7 +363,7 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
                       width: context.ui(40),
                       child: IconButton(
                         onPressed: state.isSaving ? null : widget.onBack,
-                        tooltip: 'Kembali ke profil',
+                        tooltip: widget.backTooltip,
                         padding: EdgeInsets.zero,
                         icon: Icon(
                           Icons.chevron_left_rounded,
