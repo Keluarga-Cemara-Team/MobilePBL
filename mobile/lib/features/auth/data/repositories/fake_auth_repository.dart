@@ -26,9 +26,10 @@ class FakeAuthRepository implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    await Future<void>.delayed(const Duration(milliseconds: 500));
+    await Future<void>.delayed(const Duration(milliseconds: 300));
 
-    final account = _accounts[email.trim().toLowerCase()];
+    final cleanEmail = email.trim().toLowerCase();
+    final account = _accounts[cleanEmail];
 
     if (account == null || account.password != password) {
       throw Exception('Email atau kata sandi tidak sesuai.');
