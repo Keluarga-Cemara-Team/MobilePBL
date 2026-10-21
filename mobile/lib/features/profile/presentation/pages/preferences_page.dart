@@ -23,8 +23,8 @@ class PreferencesPage extends ConsumerWidget {
       children: [
         const ProfileInfoCard(
           text:
-              'Tema langsung diterapkan dan pilihan diingat selama sesi ini. '
-              'Pengingat masih berupa pratinjau.',
+              'Tema dan bahasa langsung diterapkan selama sesi ini. '
+              'Pengingat masih berupa pratinjau antarmuka.',
           icon: Icons.tune_rounded,
         ),
         SizedBox(height: context.ui(28)),
@@ -80,6 +80,44 @@ class PreferencesPage extends ConsumerWidget {
               ],
             );
           },
+        ),
+        SizedBox(height: context.ui(30)),
+        Text(
+          'Bahasa / Language',
+          style: AppTextStyles.title(context)
+              .copyWith(fontSize: context.ui(18)),
+        ),
+        SizedBox(height: context.ui(8)),
+        Text(
+          'Pilih bahasa yang digunakan pada aplikasi.',
+          style: AppTextStyles.subtitle(context)
+              .copyWith(fontSize: context.ui(14)),
+        ),
+        SizedBox(height: context.ui(16)),
+        Row(
+          children: [
+            Expanded(
+              child: _LanguageOptionCard(
+                key: const ValueKey('language-option-id'),
+                icon: Icons.language_rounded,
+                label: 'Indonesia',
+                sublabel: 'Bahasa Indonesia',
+                selected: preferences.language == AppLanguage.indonesian,
+                onTap: () => controller.setLanguage(AppLanguage.indonesian),
+              ),
+            ),
+            SizedBox(width: context.ui(12)),
+            Expanded(
+              child: _LanguageOptionCard(
+                key: const ValueKey('language-option-en'),
+                icon: Icons.translate_rounded,
+                label: 'English',
+                sublabel: 'United States',
+                selected: preferences.language == AppLanguage.english,
+                onTap: () => controller.setLanguage(AppLanguage.english),
+              ),
+            ),
+          ],
         ),
         SizedBox(height: context.ui(30)),
         Text(
@@ -144,6 +182,80 @@ class PreferencesPage extends ConsumerWidget {
               .copyWith(fontSize: context.ui(12)),
         ),
       ],
+    );
+  }
+}
+
+class _LanguageOptionCard extends StatelessWidget {
+  const _LanguageOptionCard({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.sublabel,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final String sublabel;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+    final shape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(context.ui(14)),
+      side: BorderSide(color: selected ? colors.primary : colors.border),
+    );
+
+    return Semantics(
+      selected: selected,
+      button: true,
+      child: Material(
+        color: selected ? colors.blob : colors.surface,
+        shape: shape,
+        child: InkWell(
+          onTap: onTap,
+          customBorder: shape,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: context.ui(12),
+              vertical: context.ui(16),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  icon,
+                  size: context.ui(24),
+                  color: selected ? colors.primary : colors.body,
+                ),
+                SizedBox(height: context.ui(8)),
+                Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.subtitle(context).copyWith(
+                    fontSize: context.ui(14),
+                    color: selected ? colors.primary : colors.body,
+                    fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                  ),
+                ),
+                SizedBox(height: context.ui(2)),
+                Text(
+                  sublabel,
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.subtitle(context).copyWith(
+                    fontSize: context.ui(11),
+                    color: colors.body.withValues(alpha: 0.7),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
