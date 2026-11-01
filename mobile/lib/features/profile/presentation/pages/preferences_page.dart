@@ -23,8 +23,7 @@ class PreferencesPage extends ConsumerWidget {
       children: [
         const ProfileInfoCard(
           text:
-              'Tema dan bahasa langsung diterapkan selama sesi ini. '
-              'Pengingat masih berupa pratinjau antarmuka.',
+              'Sesuaikan tampilan tema, bahasa, serta jadwal pengingat check-in harian dan motivasi untuk mendukung kesehatan mentalmu.',
           icon: Icons.tune_rounded,
         ),
         SizedBox(height: context.ui(28)),
@@ -121,9 +120,15 @@ class PreferencesPage extends ConsumerWidget {
         ),
         SizedBox(height: context.ui(30)),
         Text(
-          'Pengingat & informasi',
+          'Pengingat & Notifikasi',
           style: AppTextStyles.title(context)
               .copyWith(fontSize: context.ui(18)),
+        ),
+        SizedBox(height: context.ui(8)),
+        Text(
+          'Pilih mode notifikasi yang ingin kamu aktifkan untuk mendukung rutinitas harianmu.',
+          style: AppTextStyles.subtitle(context)
+              .copyWith(fontSize: context.ui(14)),
         ),
         SizedBox(height: context.ui(16)),
         Material(
@@ -137,47 +142,111 @@ class PreferencesPage extends ConsumerWidget {
             children: [
               SwitchListTile(
                 title: Text(
-                  'Pengingat harian',
+                  'Reminder Harian (Check-in)',
                   style: AppTextStyles.subtitle(context).copyWith(
                     color: AppColors.of(context).navy,
                     fontSize: context.ui(16),
                   ),
                 ),
                 subtitle: Text(
-                  'Luangkan waktu untuk memeriksa kondisi diri.',
+                  'Pengingat otomatis setiap pagi (09:00) untuk evaluasi tingkat burnout.',
                   style: AppTextStyles.subtitle(context)
                       .copyWith(fontSize: context.ui(14)),
                 ),
                 value: preferences.dailyReminder,
-                onChanged: controller.setDailyReminder,
+                onChanged: (val) async {
+                  await controller.setDailyReminder(val);
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(val
+                            ? 'Pengingat harian dijadwalkan setiap 09:00 WIB'
+                            : 'Pengingat harian dinonaktifkan'),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                },
                 activeThumbColor: AppColors.of(context).primary,
                 contentPadding: EdgeInsets.all(context.ui(16)),
               ),
               Divider(height: 1, color: AppColors.of(context).border),
               SwitchListTile(
                 title: Text(
-                  'Tips kesehatan mental',
+                  'Motivasi Sederhana',
                   style: AppTextStyles.subtitle(context).copyWith(
                     color: AppColors.of(context).navy,
                     fontSize: context.ui(16),
                   ),
                 ),
                 subtitle: Text(
-                  'Inspirasi singkat untuk merawat keseharian.',
+                  'Kutipan penyemangat & afirmasi rileksasi setiap siang (14:00).',
                   style: AppTextStyles.subtitle(context)
                       .copyWith(fontSize: context.ui(14)),
                 ),
                 value: preferences.wellbeingTips,
-                onChanged: controller.setWellbeingTips,
+                onChanged: (val) async {
+                  await controller.setWellbeingTips(val);
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(val
+                            ? 'Motivasi harian dijadwalkan setiap 14:00 WIB'
+                            : 'Motivasi harian dinonaktifkan'),
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                },
                 activeThumbColor: AppColors.of(context).primary,
                 contentPadding: EdgeInsets.all(context.ui(16)),
               ),
             ],
           ),
         ),
-        SizedBox(height: context.ui(16)),
+        SizedBox(height: context.ui(14)),
+        Row(
+          children: [
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: () async {
+                  await controller.testSendDailyReminder();
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Notifikasi Reminder Harian berhasil dikirim!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                },
+                icon: const Icon(Icons.notifications_active_outlined, size: 16),
+                label: const Text('Tes Reminder', style: TextStyle(fontSize: 12)),
+              ),
+            ),
+            SizedBox(width: context.ui(10)),
+            Expanded(
+              child: OutlinedButton.icon(
+                onPressed: () async {
+                  await controller.testSendMotivation();
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Notifikasi Motivasi berhasil dikirim!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
+                },
+                icon: const Icon(Icons.lightbulb_outline, size: 16),
+                label: const Text('Tes Motivasi', style: TextStyle(fontSize: 12)),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: context.ui(12)),
         Text(
-          'Pengingat dan tips masih berupa contoh antarmuka; belum ada notifikasi yang dikirim.',
+          'Gunakan tombol tes di atas untuk mencoba preview notifikasi secara instan pada perangkat.',
           style: AppTextStyles.subtitle(context)
               .copyWith(fontSize: context.ui(12)),
         ),
