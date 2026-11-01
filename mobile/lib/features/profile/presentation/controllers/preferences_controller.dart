@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/services/notification_service.dart';
+
 enum AppLanguage { indonesian, english }
 
 class PreferencesDetails {
@@ -40,22 +42,48 @@ class PreferencesController extends Notifier<PreferencesDetails> {
     );
   }
 
-  void setDailyReminder(bool enabled) {
+  Future<void> setDailyReminder(bool enabled) async {
     state = PreferencesDetails(
       themeMode: state.themeMode,
       language: state.language,
       dailyReminder: enabled,
       wellbeingTips: state.wellbeingTips,
     );
+
+    final notificationService = ref.read(notificationServiceProvider);
+    if (enabled) {
+      await notificationService.scheduleDailyReminder(hour: 9, minute: 0);
+    } else {
+      await notificationService.cancelDailyReminder();
+    }
   }
 
-  void setWellbeingTips(bool enabled) {
+  Future<void> setWellbeingTips(bool enabled) async {
     state = PreferencesDetails(
       themeMode: state.themeMode,
       language: state.language,
       dailyReminder: state.dailyReminder,
       wellbeingTips: enabled,
     );
+
+    final notificationService = ref.read(notificationServiceProvider);
+    if (enabled) {
+      await notificationService.scheduleDailyMotivation(hour: 14, minute: 0);
+    } else {
+      await notificationService.cancelDailyMotivation();
+    }
+  }
+
+  /// Trigger langsung untuk pengujian notifikasi Pengingat Harian
+  Future<void> testSendDailyReminder() async {
+    final notificationService = ref.read(notificationServiceProvider);
+    await notificationService.showImmediateReminder();
+  }
+
+  /// Trigger langsung untuk pengujian notifikasi Motivasi Sederhana
+  Future<void> testSendMotivation() async {
+    final notificationService = ref.read(notificationServiceProvider);
+    await notificationService.showImmediateMotivation();
   }
 }
 
