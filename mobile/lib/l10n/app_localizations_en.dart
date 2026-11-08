@@ -198,4 +198,265 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sundayShort => 'Sun';
+
+  @override
+  String get surveyTitle => 'Daily Survey';
+
+  @override
+  String get surveyIntroTime => 'Time for yourself · 3–5 minutes';
+
+  @override
+  String get surveyIntroQuestion => 'How was your day?';
+
+  @override
+  String get surveyIntroBody =>
+      'Take a moment to reflect on your activities, habits, and feelings today.';
+
+  @override
+  String get surveyIntroBenefitTitle => 'Small steps, meaningful benefits';
+
+  @override
+  String get surveyIntroSimpleTitle => 'Simple questions';
+
+  @override
+  String get surveyIntroSimpleBody =>
+      'Tell us about your daily activities and habits.';
+
+  @override
+  String get surveyIntroPatternTitle => 'Understand your daily patterns';
+
+  @override
+  String get surveyIntroPatternBody =>
+      'Reflect and keep track of your wellbeing.';
+
+  @override
+  String get surveyIntroDisclaimer =>
+      'There are no right or wrong answers. Answer based on how you feel.';
+
+  @override
+  String get surveyStart => 'Start Survey';
+
+  @override
+  String get surveyBackToIntro => 'Back to survey introduction';
+
+  @override
+  String get surveyUnavailable => 'Survey is unavailable';
+
+  @override
+  String get surveyLoadFailed => 'Could not load survey';
+
+  @override
+  String get surveyUnavailableBody =>
+      'Questions and assessment services are unavailable. Please try again later.';
+
+  @override
+  String get surveyRetry => 'Try Again';
+
+  @override
+  String get surveyBackToIntroButton => 'Back to Introduction';
+
+  @override
+  String get surveyAnswerPrompt => 'Answer based on how you feel.';
+
+  @override
+  String get surveySubmitAnswers => 'Submit Answers';
+
+  @override
+  String get surveyWriteAnswer => 'Write your answer';
+
+  @override
+  String get surveyReviewTitle => 'Review your answers';
+
+  @override
+  String get surveyReviewSubtitle =>
+      'Make sure your answers are correct before submitting.';
+
+  @override
+  String get surveyReviewTip => 'Results are a risk estimate, not a diagnosis.';
+
+  @override
+  String surveyStepLabel(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get surveyBack => 'Back';
+
+  @override
+  String get surveyContinue => 'Continue';
+
+  @override
+  String get surveySubmitViewResults => 'Submit & View Results';
+
+  @override
+  String get surveyEditAnswer => 'Edit';
+
+  @override
+  String get surveyActivityEasy => 'Activities feel manageable';
+
+  @override
+  String get surveyActivityOverwhelming =>
+      'They feel demanding, but still manageable';
+
+  @override
+  String get surveyActivityDifficult =>
+      'The workload feels difficult to manage';
+
+  @override
+  String get surveyZeroHours => '0 hours';
+
+  @override
+  String surveyMaximumHours(int hours) {
+    return '$hours hours';
+  }
+
+  @override
+  String get surveyOutOf100 => 'out of 100';
+
+  @override
+  String get surveyVeryUncomfortable => 'Very uncomfortable';
+
+  @override
+  String get surveyVeryComfortable => 'Very comfortable';
+
+  @override
+  String get surveyOwnDuration => 'Or enter a duration';
+
+  @override
+  String get surveyUnitHours => 'hours';
+
+  @override
+  String get surveyUnitCups => 'cups';
+
+  @override
+  String get surveyUnitMinutes => 'minutes';
+
+  @override
+  String get surveyMinutesValidation =>
+      'Enter a whole number of minutes greater than or equal to 0.';
+
+  @override
+  String get surveyErrorLoadQuestions =>
+      'Could not load survey questions. Try again.';
+
+  @override
+  String get surveyErrorServiceUnavailable =>
+      'Assessment service is unavailable. Your answers were not submitted.';
+
+  @override
+  String get surveyErrorSubmit => 'Could not submit answers. Try again.';
+
+  @override
+  String get sleepQualityLabel => 'How was your sleep\nlast night?';
+
+  @override
+  String get sleepQualitySubtitle => 'Choose the sleep quality that best fits.';
+
+  @override
+  String get sleepQualityTip =>
+      'Sleep duration and sleep quality are two different things.';
+
+  @override
+  String get sleepQualityReview => 'Sleep quality';
+
+  @override
+  String get sleepPoor => 'Poor';
+
+  @override
+  String get sleepFair => 'Fair';
+
+  @override
+  String get sleepGood => 'Good';
+
+  @override
+  String get sleepVeryGood => 'Very good';
+
+  @override
+  String get screenTimeLabel => 'How long have you used\na screen today?';
+
+  @override
+  String get screenTimeSubtitle => 'Include phone, laptop, and TV use.';
+
+  @override
+  String get screenTimeTip => 'Take screen breaks to rest your eyes and mind.';
+
+  @override
+  String get screenTimeReview => 'Screen time';
+
+  @override
+  String get sleepDurationLabel => 'How long did you sleep\nlast night?';
+
+  @override
+  String get sleepDurationSubtitle =>
+      'Use the slider or buttons to set your sleep duration.';
+
+  @override
+  String get sleepDurationTip =>
+      'Enough sleep supports your mental health and productivity.';
+
+  @override
+  String get sleepDurationReview => 'Sleep duration';
+
+  @override
+  String get coffeeLabel => 'How many cups of coffee have you\nhad today?';
+
+  @override
+  String get coffeeSubtitle =>
+      'Use the buttons to increase or decrease the amount.';
+
+  @override
+  String get coffeeTip =>
+      'Moderate caffeine can boost energy, but too much may trigger anxiety.';
+
+  @override
+  String get coffeeReview => 'Coffee';
+
+  @override
+  String get workloadLabel =>
+      'How overwhelmed do you feel by\ntoday’s activities?';
+
+  @override
+  String get workloadSubtitle => 'Choose the option closest to how you feel.';
+
+  @override
+  String get workloadTip =>
+      'Balancing daily activities is important for your physical and mental health.';
+
+  @override
+  String get workloadReview => 'Stress';
+
+  @override
+  String get workloadLight => 'Light';
+
+  @override
+  String get workloadModerate => 'Moderate';
+
+  @override
+  String get workloadHeavy => 'Heavy';
+
+  @override
+  String get meditationLabel => 'How many minutes did you\nmeditate today?';
+
+  @override
+  String get meditationSubtitle => 'Choose a duration or enter a number.';
+
+  @override
+  String get meditationTip =>
+      'Just 15 minutes of meditation can recharge you and clear your mind.';
+
+  @override
+  String get meditationReview => 'Meditation';
+
+  @override
+  String get moodLabel => 'How would you rate your day\noverall?';
+
+  @override
+  String get moodSubtitle => 'Use the slider to choose a score.';
+
+  @override
+  String get moodTip =>
+      'A short end-of-day reflection can help you recognize what makes you stressed or happy.';
+
+  @override
+  String get moodReview => 'Mood';
 }

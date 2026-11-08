@@ -397,6 +397,480 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Min'**
   String get sundayShort;
+
+  /// No description provided for @surveyTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Survei Harian'**
+  String get surveyTitle;
+
+  /// No description provided for @surveyIntroTime.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktu untuk dirimu · 3–5 menit'**
+  String get surveyIntroTime;
+
+  /// No description provided for @surveyIntroQuestion.
+  ///
+  /// In id, this message translates to:
+  /// **'Bagaimana harimu?'**
+  String get surveyIntroQuestion;
+
+  /// No description provided for @surveyIntroBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Luangkan waktu sejenak untuk mengenali aktivitas, kebiasaan, dan perasaanmu hari ini.'**
+  String get surveyIntroBody;
+
+  /// No description provided for @surveyIntroBenefitTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Langkah kecil, manfaat berarti'**
+  String get surveyIntroBenefitTitle;
+
+  /// No description provided for @surveyIntroSimpleTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pertanyaan sederhana'**
+  String get surveyIntroSimpleTitle;
+
+  /// No description provided for @surveyIntroSimpleBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Ceritakan aktivitas dan kebiasaan harianmu.'**
+  String get surveyIntroSimpleBody;
+
+  /// No description provided for @surveyIntroPatternTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Kenali pola keseharianmu'**
+  String get surveyIntroPatternTitle;
+
+  /// No description provided for @surveyIntroPatternBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Bantu refleksi dan pantau kesejahteraanmu.'**
+  String get surveyIntroPatternBody;
+
+  /// No description provided for @surveyIntroDisclaimer.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak ada jawaban benar atau salah. Jawab sesuai kondisi yang kamu rasakan.'**
+  String get surveyIntroDisclaimer;
+
+  /// No description provided for @surveyStart.
+  ///
+  /// In id, this message translates to:
+  /// **'Mulai Survei'**
+  String get surveyStart;
+
+  /// No description provided for @surveyBackToIntro.
+  ///
+  /// In id, this message translates to:
+  /// **'Kembali ke pengantar survei'**
+  String get surveyBackToIntro;
+
+  /// No description provided for @surveyUnavailable.
+  ///
+  /// In id, this message translates to:
+  /// **'Survei belum tersedia'**
+  String get surveyUnavailable;
+
+  /// No description provided for @surveyLoadFailed.
+  ///
+  /// In id, this message translates to:
+  /// **'Survei gagal dimuat'**
+  String get surveyLoadFailed;
+
+  /// No description provided for @surveyUnavailableBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Pertanyaan dan layanan asesmen belum tersedia. Silakan kembali lagi nanti.'**
+  String get surveyUnavailableBody;
+
+  /// No description provided for @surveyRetry.
+  ///
+  /// In id, this message translates to:
+  /// **'Coba Lagi'**
+  String get surveyRetry;
+
+  /// No description provided for @surveyBackToIntroButton.
+  ///
+  /// In id, this message translates to:
+  /// **'Kembali ke Pengantar'**
+  String get surveyBackToIntroButton;
+
+  /// No description provided for @surveyAnswerPrompt.
+  ///
+  /// In id, this message translates to:
+  /// **'Jawab sesuai kondisi yang kamu rasakan.'**
+  String get surveyAnswerPrompt;
+
+  /// No description provided for @surveySubmitAnswers.
+  ///
+  /// In id, this message translates to:
+  /// **'Kirim Jawaban'**
+  String get surveySubmitAnswers;
+
+  /// No description provided for @surveyWriteAnswer.
+  ///
+  /// In id, this message translates to:
+  /// **'Tulis jawabanmu'**
+  String get surveyWriteAnswer;
+
+  /// No description provided for @surveyReviewTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Periksa jawabanmu'**
+  String get surveyReviewTitle;
+
+  /// No description provided for @surveyReviewSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pastikan jawaban sesuai sebelum dikirim.'**
+  String get surveyReviewSubtitle;
+
+  /// No description provided for @surveyReviewTip.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil merupakan estimasi risiko, bukan diagnosis.'**
+  String get surveyReviewTip;
+
+  /// Step number and total number of survey steps
+  ///
+  /// In id, this message translates to:
+  /// **'Langkah {current} dari {total}'**
+  String surveyStepLabel(int current, int total);
+
+  /// No description provided for @surveyBack.
+  ///
+  /// In id, this message translates to:
+  /// **'Kembali'**
+  String get surveyBack;
+
+  /// No description provided for @surveyContinue.
+  ///
+  /// In id, this message translates to:
+  /// **'Lanjut'**
+  String get surveyContinue;
+
+  /// No description provided for @surveySubmitViewResults.
+  ///
+  /// In id, this message translates to:
+  /// **'Kirim & lihat hasil'**
+  String get surveySubmitViewResults;
+
+  /// No description provided for @surveyEditAnswer.
+  ///
+  /// In id, this message translates to:
+  /// **'Ubah'**
+  String get surveyEditAnswer;
+
+  /// No description provided for @surveyActivityEasy.
+  ///
+  /// In id, this message translates to:
+  /// **'Aktivitas terasa mudah dihadapi'**
+  String get surveyActivityEasy;
+
+  /// No description provided for @surveyActivityOverwhelming.
+  ///
+  /// In id, this message translates to:
+  /// **'Terasa terbebani, tetapi masih teratasi'**
+  String get surveyActivityOverwhelming;
+
+  /// No description provided for @surveyActivityDifficult.
+  ///
+  /// In id, this message translates to:
+  /// **'Beban terasa sulit dihadapi'**
+  String get surveyActivityDifficult;
+
+  /// No description provided for @surveyZeroHours.
+  ///
+  /// In id, this message translates to:
+  /// **'0 jam'**
+  String get surveyZeroHours;
+
+  /// Maximum duration for the current question in hours
+  ///
+  /// In id, this message translates to:
+  /// **'{hours} jam'**
+  String surveyMaximumHours(int hours);
+
+  /// No description provided for @surveyOutOf100.
+  ///
+  /// In id, this message translates to:
+  /// **'dari 100'**
+  String get surveyOutOf100;
+
+  /// No description provided for @surveyVeryUncomfortable.
+  ///
+  /// In id, this message translates to:
+  /// **'Sangat tidak nyaman'**
+  String get surveyVeryUncomfortable;
+
+  /// No description provided for @surveyVeryComfortable.
+  ///
+  /// In id, this message translates to:
+  /// **'Sangat nyaman'**
+  String get surveyVeryComfortable;
+
+  /// No description provided for @surveyOwnDuration.
+  ///
+  /// In id, this message translates to:
+  /// **'Atau isi durasi sendiri'**
+  String get surveyOwnDuration;
+
+  /// No description provided for @surveyUnitHours.
+  ///
+  /// In id, this message translates to:
+  /// **'jam'**
+  String get surveyUnitHours;
+
+  /// No description provided for @surveyUnitCups.
+  ///
+  /// In id, this message translates to:
+  /// **'cangkir'**
+  String get surveyUnitCups;
+
+  /// No description provided for @surveyUnitMinutes.
+  ///
+  /// In id, this message translates to:
+  /// **'menit'**
+  String get surveyUnitMinutes;
+
+  /// No description provided for @surveyMinutesValidation.
+  ///
+  /// In id, this message translates to:
+  /// **'Masukkan jumlah menit berupa bilangan bulat 0 atau lebih.'**
+  String get surveyMinutesValidation;
+
+  /// No description provided for @surveyErrorLoadQuestions.
+  ///
+  /// In id, this message translates to:
+  /// **'Pertanyaan survei gagal dimuat. Coba lagi.'**
+  String get surveyErrorLoadQuestions;
+
+  /// No description provided for @surveyErrorServiceUnavailable.
+  ///
+  /// In id, this message translates to:
+  /// **'Layanan asesmen belum tersedia. Jawaban belum dikirim.'**
+  String get surveyErrorServiceUnavailable;
+
+  /// No description provided for @surveyErrorSubmit.
+  ///
+  /// In id, this message translates to:
+  /// **'Jawaban gagal dikirim. Coba lagi.'**
+  String get surveyErrorSubmit;
+
+  /// No description provided for @sleepQualityLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Bagaimana kualitas tidurmu\ntadi malam?'**
+  String get sleepQualityLabel;
+
+  /// No description provided for @sleepQualitySubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pilih kualitas tidur yang paling sesuai.'**
+  String get sleepQualitySubtitle;
+
+  /// No description provided for @sleepQualityTip.
+  ///
+  /// In id, this message translates to:
+  /// **'Durasi dan kualitas tidur adalah dua hal berbeda.'**
+  String get sleepQualityTip;
+
+  /// No description provided for @sleepQualityReview.
+  ///
+  /// In id, this message translates to:
+  /// **'Kualitas tidur'**
+  String get sleepQualityReview;
+
+  /// No description provided for @sleepPoor.
+  ///
+  /// In id, this message translates to:
+  /// **'Buruk'**
+  String get sleepPoor;
+
+  /// No description provided for @sleepFair.
+  ///
+  /// In id, this message translates to:
+  /// **'Cukup'**
+  String get sleepFair;
+
+  /// No description provided for @sleepGood.
+  ///
+  /// In id, this message translates to:
+  /// **'Baik'**
+  String get sleepGood;
+
+  /// No description provided for @sleepVeryGood.
+  ///
+  /// In id, this message translates to:
+  /// **'Sangat baik'**
+  String get sleepVeryGood;
+
+  /// No description provided for @screenTimeLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Berapa lama kamu menggunakan\nlayar hari ini?'**
+  String get screenTimeLabel;
+
+  /// No description provided for @screenTimeSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Hitung penggunaan HP, laptop, dan TV.'**
+  String get screenTimeSubtitle;
+
+  /// No description provided for @screenTimeTip.
+  ///
+  /// In id, this message translates to:
+  /// **'Beri jeda dari layar untuk mengistirahatkan mata dan pikiran.'**
+  String get screenTimeTip;
+
+  /// No description provided for @screenTimeReview.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktu layar'**
+  String get screenTimeReview;
+
+  /// No description provided for @sleepDurationLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Berapa lama durasi tidur Anda\nhari ini?'**
+  String get sleepDurationLabel;
+
+  /// No description provided for @sleepDurationSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Geser slider atau gunakan tombol untuk menentukan durasi tidur.'**
+  String get sleepDurationSubtitle;
+
+  /// No description provided for @sleepDurationTip.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidur yang cukup membantu menjaga kesehatan mental dan produktivitasmu.'**
+  String get sleepDurationTip;
+
+  /// No description provided for @sleepDurationReview.
+  ///
+  /// In id, this message translates to:
+  /// **'Durasi tidur'**
+  String get sleepDurationReview;
+
+  /// No description provided for @coffeeLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Berapa cangkir kopi yang kamu\nminum hari ini?'**
+  String get coffeeLabel;
+
+  /// No description provided for @coffeeSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Gunakan tombol untuk menambah atau mengurangi jumlah.'**
+  String get coffeeSubtitle;
+
+  /// No description provided for @coffeeTip.
+  ///
+  /// In id, this message translates to:
+  /// **'Kafein secukupnya memberi energi, namun berlebihan bisa memicu kecemasan.'**
+  String get coffeeTip;
+
+  /// No description provided for @coffeeReview.
+  ///
+  /// In id, this message translates to:
+  /// **'Kopi'**
+  String get coffeeReview;
+
+  /// No description provided for @workloadLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Seberapa terbebani kamu oleh\naktivitas hari ini?'**
+  String get workloadLabel;
+
+  /// No description provided for @workloadSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pilih kondisi yang paling mendekati perasaanmu.'**
+  String get workloadSubtitle;
+
+  /// No description provided for @workloadTip.
+  ///
+  /// In id, this message translates to:
+  /// **'Menyeimbangkan aktivitas harian sangat penting untuk kesehatan fisik dan mentalmu.'**
+  String get workloadTip;
+
+  /// No description provided for @workloadReview.
+  ///
+  /// In id, this message translates to:
+  /// **'Stres'**
+  String get workloadReview;
+
+  /// No description provided for @workloadLight.
+  ///
+  /// In id, this message translates to:
+  /// **'Ringan'**
+  String get workloadLight;
+
+  /// No description provided for @workloadModerate.
+  ///
+  /// In id, this message translates to:
+  /// **'Sedang'**
+  String get workloadModerate;
+
+  /// No description provided for @workloadHeavy.
+  ///
+  /// In id, this message translates to:
+  /// **'Berat'**
+  String get workloadHeavy;
+
+  /// No description provided for @meditationLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Berapa menit kamu melakukan\nmeditasi hari ini?'**
+  String get meditationLabel;
+
+  /// No description provided for @meditationSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pilih durasi atau isi dengan angka sendiri.'**
+  String get meditationSubtitle;
+
+  /// No description provided for @meditationTip.
+  ///
+  /// In id, this message translates to:
+  /// **'Cuma butuh 15 menit meditasi buat recharge energi dan jernihin pikiran.'**
+  String get meditationTip;
+
+  /// No description provided for @meditationReview.
+  ///
+  /// In id, this message translates to:
+  /// **'Meditasi'**
+  String get meditationReview;
+
+  /// No description provided for @moodLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Berapa rating secara keseluruhan\nhari ini?'**
+  String get moodLabel;
+
+  /// No description provided for @moodSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Geser slider untuk menentukan nilai.'**
+  String get moodSubtitle;
+
+  /// No description provided for @moodTip.
+  ///
+  /// In id, this message translates to:
+  /// **'Refleksi singkat di akhir hari membantu mengenali apa yang membuatmu stres atau bahagia.'**
+  String get moodTip;
+
+  /// No description provided for @moodReview.
+  ///
+  /// In id, this message translates to:
+  /// **'Suasana hati'**
+  String get moodReview;
 }
 
 class _AppLocalizationsDelegate

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -8,6 +9,7 @@ import '../../../../shared/widgets/app_page_header.dart';
 import '../../../../shared/widgets/app_blob_background.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../domain/entities/survey_question.dart';
+import '../survey_copy.dart';
 import '../controllers/survey_state.dart';
 
 /// The survey UI from main, backed by the existing per-origin session state.
@@ -59,14 +61,15 @@ class _SurveyStepperState extends State<SurveyStepper> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final progress = (_step + 1) / _total;
-    final title = _isReview ? 'Periksa jawabanmu' : _question.label;
+    final title = _isReview
+        ? l10n.surveyReviewTitle
+        : _question.localizedLabel(l10n);
     final subtitle = _isReview
-        ? 'Pastikan jawaban sesuai sebelum dikirim.'
-        : _question.subtitle;
-    final tip = _isReview
-        ? 'Hasil merupakan estimasi risiko, bukan diagnosis.'
-        : _question.tip;
+        ? l10n.surveyReviewSubtitle
+        : _question.localizedSubtitle(l10n);
+    final tip = _isReview ? l10n.surveyReviewTip : _question.localizedTip(l10n);
     return PopScope<Object?>(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
@@ -99,8 +102,8 @@ class _SurveyStepperState extends State<SurveyStepper> {
                         children: [
                           AppPageHeader(
                             tooltip: _step == 0
-                                ? 'Kembali ke pengantar survei'
-                                : 'Kembali',
+                                ? l10n.surveyBackToIntro
+                                : l10n.surveyBack,
                             onBack: widget.state.isSubmitting ? null : _back,
                           ),
                           SizedBox(height: context.ui(AppSpacing.lg)),
@@ -112,7 +115,7 @@ class _SurveyStepperState extends State<SurveyStepper> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 Text(
-                                  'Langkah ${_step + 1} dari $_total',
+                                  l10n.surveyStepLabel(_step + 1, _total),
                                   style: _subtitleStyle(context, 13).copyWith(
                                     color: AppColors.of(context).navy,
                                     fontWeight: FontWeight.w700,
@@ -223,14 +226,15 @@ class _SurveyStepperState extends State<SurveyStepper> {
   }
 
   Widget _actions(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final back = OutlinedButton.icon(
       onPressed: widget.state.isSubmitting ? null : _back,
       icon: Icon(Icons.chevron_left_rounded, size: context.ui(24)),
-      label: const Text('Kembali'),
+      label: Text(l10n.surveyBack),
       style: _backStyle(context),
     );
     final next = AppButton(
-      label: _isReview ? 'Kirim & lihat hasil' : 'Lanjut',
+      label: _isReview ? l10n.surveySubmitViewResults : l10n.surveyContinue,
       isLoading: widget.state.isSubmitting,
       onPressed: _canContinue ? _next : null,
     );
@@ -275,13 +279,14 @@ class _SurveyStepperState extends State<SurveyStepper> {
   }
 
   Widget _input(BuildContext context, SurveyQuestion question) {
+    final l10n = AppLocalizations.of(context)!;
     final value = _value(question);
     switch (question.inputKind) {
       case SurveyInputKind.choice:
-        const activityDetails = [
-          'Aktivitas terasa mudah dihadapi',
-          'Terasa terbebani, tetapi masih teratasi',
-          'Beban terasa sulit dihadapi',
+        final activityDetails = [
+          l10n.surveyActivityEasy,
+          l10n.surveyActivityOverwhelming,
+          l10n.surveyActivityDifficult,
         ];
         return Column(
           children: [
@@ -289,7 +294,10 @@ class _SurveyStepperState extends State<SurveyStepper> {
               Padding(
                 padding: EdgeInsets.only(bottom: context.ui(10)),
                 child: _ChoiceTile(
-                  label: option,
+                  label: question.localizedOption(
+                    l10n,
+                    question.options.indexOf(option),
+                  ),
                   detail:
                       question.id == 'activity_load' &&
                           index < activityDetails.length
@@ -305,7 +313,10 @@ class _SurveyStepperState extends State<SurveyStepper> {
         return Column(
           children: [
             Text(value.toStringAsFixed(1), style: _numberStyle(context, 36)),
-            Text(question.unit, style: _subtitleStyle(context, 13)),
+            Text(
+              question.localizedUnit(l10n),
+              style: _subtitleStyle(context, 13),
+            ),
             _CleanSlider(
               value: value,
               maximum: question.maximum,
@@ -314,9 +325,9 @@ class _SurveyStepperState extends State<SurveyStepper> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('0 jam', style: _subtitleStyle(context, 12)),
+                Text(l10n.surveyZeroHours, style: _subtitleStyle(context, 12)),
                 Text(
-                  '${question.maximum.round()} jam',
+                  l10n.surveyMaximumHours(question.maximum.round()),
                   style: _subtitleStyle(context, 12),
                 ),
               ],
@@ -348,7 +359,10 @@ class _SurveyStepperState extends State<SurveyStepper> {
           children: [
             SizedBox(height: context.ui(12)),
             Text(value.round().toString(), style: _numberStyle(context, 52)),
-            Text(question.unit, style: _subtitleStyle(context, 13)),
+            Text(
+              question.localizedUnit(l10n),
+              style: _subtitleStyle(context, 13),
+            ),
             SizedBox(height: context.ui(16)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -371,7 +385,10 @@ class _SurveyStepperState extends State<SurveyStepper> {
         return Column(
           children: [
             Text(value.round().toString(), style: _numberStyle(context, 46)),
-            Text(question.unit, style: _subtitleStyle(context, 13)),
+            Text(
+              question.localizedUnit(l10n),
+              style: _subtitleStyle(context, 13),
+            ),
             SizedBox(height: context.ui(18)),
             LayoutBuilder(
               builder: (context, constraints) {
@@ -439,7 +456,7 @@ class _SurveyStepperState extends State<SurveyStepper> {
         return Column(
           children: [
             Text(value.round().toString(), style: _numberStyle(context, 46)),
-            Text('dari 100', style: _subtitleStyle(context, 13)),
+            Text(l10n.surveyOutOf100, style: _subtitleStyle(context, 13)),
             SizedBox(height: context.ui(18)),
             _CleanSlider(
               value: value,
@@ -450,13 +467,13 @@ class _SurveyStepperState extends State<SurveyStepper> {
               children: [
                 Expanded(
                   child: Text(
-                    'Sangat tidak nyaman',
+                    l10n.surveyVeryUncomfortable,
                     style: _subtitleStyle(context, 10),
                   ),
                 ),
                 Expanded(
                   child: Text(
-                    'Sangat nyaman',
+                    l10n.surveyVeryComfortable,
                     textAlign: TextAlign.end,
                     style: _subtitleStyle(context, 10),
                   ),
@@ -486,79 +503,84 @@ class _SurveyStepperState extends State<SurveyStepper> {
     _ => Icons.assignment_outlined,
   };
 
-  Widget _review(BuildContext context) => Container(
-    decoration: BoxDecoration(
-      color: AppColors.of(context).surface,
-      border: Border.all(color: AppColors.of(context).border),
-      borderRadius: BorderRadius.circular(context.ui(AppSpacing.radius)),
-    ),
-    child: Column(
-      children: [
-        for (final (index, question) in widget.state.questions.indexed)
-          InkWell(
-            onTap: () => setState(() => _step = index),
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: context.ui(12),
-                vertical: context.ui(11),
-              ),
-              decoration: BoxDecoration(
-                border: index == widget.state.questions.length - 1
-                    ? null
-                    : Border(
-                        bottom: BorderSide(color: AppColors.of(context).border),
-                      ),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    _reviewIcon(question.id),
-                    size: context.ui(19),
-                    color: AppColors.of(context).navy,
-                  ),
-                  SizedBox(width: context.ui(12)),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${question.reviewLabel.isEmpty ? question.label : question.reviewLabel}:',
-                          style: _subtitleStyle(context, 12),
-                        ),
-                        Text(
-                          '${widget.state.answers[question.id] ?? '—'} ${question.unit}'
-                              .trim(),
-                          style: _subtitleStyle(context, 12).copyWith(
-                            color: AppColors.of(context).navy,
-                            fontWeight: FontWeight.w700,
+  Widget _review(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.of(context).surface,
+        border: Border.all(color: AppColors.of(context).border),
+        borderRadius: BorderRadius.circular(context.ui(AppSpacing.radius)),
+      ),
+      child: Column(
+        children: [
+          for (final (index, question) in widget.state.questions.indexed)
+            InkWell(
+              onTap: () => setState(() => _step = index),
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: context.ui(12),
+                  vertical: context.ui(11),
+                ),
+                decoration: BoxDecoration(
+                  border: index == widget.state.questions.length - 1
+                      ? null
+                      : Border(
+                          bottom: BorderSide(
+                            color: AppColors.of(context).border,
                           ),
                         ),
-                      ],
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      _reviewIcon(question.id),
+                      size: context.ui(19),
+                      color: AppColors.of(context).navy,
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () => setState(() => _step = index),
-                    style: TextButton.styleFrom(
-                      textStyle: _subtitleStyle(context, 14),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: context.ui(12),
-                        vertical: context.ui(8),
+                    SizedBox(width: context.ui(12)),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${question.reviewLabel.isEmpty ? question.localizedLabel(l10n) : question.localizedReviewLabel(l10n)}:',
+                            style: _subtitleStyle(context, 12),
+                          ),
+                          Text(
+                            '${question.localizedAnswer(l10n, widget.state.answers[question.id])} ${question.localizedUnit(l10n)}'
+                                .trim(),
+                            style: _subtitleStyle(context, 12).copyWith(
+                              color: AppColors.of(context).navy,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    child: const Text('Ubah'),
-                  ),
-                  Icon(
-                    Icons.chevron_right_rounded,
-                    color: AppColors.of(context).primary,
-                    size: context.ui(18),
-                  ),
-                ],
+                    TextButton(
+                      onPressed: () => setState(() => _step = index),
+                      style: TextButton.styleFrom(
+                        textStyle: _subtitleStyle(context, 14),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: context.ui(12),
+                          vertical: context.ui(8),
+                        ),
+                      ),
+                      child: Text(l10n.surveyEditAnswer),
+                    ),
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      color: AppColors.of(context).primary,
+                      size: context.ui(18),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }
 
 class _SurveyAnswerField extends StatefulWidget {
@@ -605,6 +627,7 @@ class _SurveyAnswerFieldState extends State<_SurveyAnswerField> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final minutes = widget.question.inputKind == SurveyInputKind.minutes;
     return TextFormField(
       key: ValueKey('survey-answer-${widget.question.id}'),
@@ -614,8 +637,8 @@ class _SurveyAnswerFieldState extends State<_SurveyAnswerField> {
       maxLines: minutes ? 1 : 5,
       style: _subtitleStyle(context, 14),
       decoration: InputDecoration(
-        hintText: minutes ? 'Atau isi durasi sendiri' : 'Tulis jawabanmu',
-        suffixText: minutes ? 'menit' : null,
+        hintText: minutes ? l10n.surveyOwnDuration : l10n.surveyWriteAnswer,
+        suffixText: minutes ? l10n.surveyUnitMinutes : null,
         hintStyle: _subtitleStyle(
           context,
           14,
@@ -629,7 +652,7 @@ class _SurveyAnswerFieldState extends State<_SurveyAnswerField> {
       validator: minutes
           ? (answer) => widget.question.isValidAnswer(answer)
                 ? null
-                : 'Masukkan jumlah menit berupa bilangan bulat 0 atau lebih.'
+                : l10n.surveyMinutesValidation
           : null,
     );
   }
@@ -706,7 +729,7 @@ class _ValueBox extends StatelessWidget {
         children: [
           TextSpan(text: value.toStringAsFixed(1)),
           TextSpan(
-            text: ' jam',
+            text: ' ${AppLocalizations.of(context)!.surveyUnitHours}',
             style: TextStyle(
               color: AppColors.of(context).body,
               fontWeight: FontWeight.w400,

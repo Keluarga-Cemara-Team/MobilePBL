@@ -200,4 +200,268 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get sundayShort => 'Min';
+
+  @override
+  String get surveyTitle => 'Survei Harian';
+
+  @override
+  String get surveyIntroTime => 'Waktu untuk dirimu · 3–5 menit';
+
+  @override
+  String get surveyIntroQuestion => 'Bagaimana harimu?';
+
+  @override
+  String get surveyIntroBody =>
+      'Luangkan waktu sejenak untuk mengenali aktivitas, kebiasaan, dan perasaanmu hari ini.';
+
+  @override
+  String get surveyIntroBenefitTitle => 'Langkah kecil, manfaat berarti';
+
+  @override
+  String get surveyIntroSimpleTitle => 'Pertanyaan sederhana';
+
+  @override
+  String get surveyIntroSimpleBody =>
+      'Ceritakan aktivitas dan kebiasaan harianmu.';
+
+  @override
+  String get surveyIntroPatternTitle => 'Kenali pola keseharianmu';
+
+  @override
+  String get surveyIntroPatternBody =>
+      'Bantu refleksi dan pantau kesejahteraanmu.';
+
+  @override
+  String get surveyIntroDisclaimer =>
+      'Tidak ada jawaban benar atau salah. Jawab sesuai kondisi yang kamu rasakan.';
+
+  @override
+  String get surveyStart => 'Mulai Survei';
+
+  @override
+  String get surveyBackToIntro => 'Kembali ke pengantar survei';
+
+  @override
+  String get surveyUnavailable => 'Survei belum tersedia';
+
+  @override
+  String get surveyLoadFailed => 'Survei gagal dimuat';
+
+  @override
+  String get surveyUnavailableBody =>
+      'Pertanyaan dan layanan asesmen belum tersedia. Silakan kembali lagi nanti.';
+
+  @override
+  String get surveyRetry => 'Coba Lagi';
+
+  @override
+  String get surveyBackToIntroButton => 'Kembali ke Pengantar';
+
+  @override
+  String get surveyAnswerPrompt => 'Jawab sesuai kondisi yang kamu rasakan.';
+
+  @override
+  String get surveySubmitAnswers => 'Kirim Jawaban';
+
+  @override
+  String get surveyWriteAnswer => 'Tulis jawabanmu';
+
+  @override
+  String get surveyReviewTitle => 'Periksa jawabanmu';
+
+  @override
+  String get surveyReviewSubtitle => 'Pastikan jawaban sesuai sebelum dikirim.';
+
+  @override
+  String get surveyReviewTip =>
+      'Hasil merupakan estimasi risiko, bukan diagnosis.';
+
+  @override
+  String surveyStepLabel(int current, int total) {
+    return 'Langkah $current dari $total';
+  }
+
+  @override
+  String get surveyBack => 'Kembali';
+
+  @override
+  String get surveyContinue => 'Lanjut';
+
+  @override
+  String get surveySubmitViewResults => 'Kirim & lihat hasil';
+
+  @override
+  String get surveyEditAnswer => 'Ubah';
+
+  @override
+  String get surveyActivityEasy => 'Aktivitas terasa mudah dihadapi';
+
+  @override
+  String get surveyActivityOverwhelming =>
+      'Terasa terbebani, tetapi masih teratasi';
+
+  @override
+  String get surveyActivityDifficult => 'Beban terasa sulit dihadapi';
+
+  @override
+  String get surveyZeroHours => '0 jam';
+
+  @override
+  String surveyMaximumHours(int hours) {
+    return '$hours jam';
+  }
+
+  @override
+  String get surveyOutOf100 => 'dari 100';
+
+  @override
+  String get surveyVeryUncomfortable => 'Sangat tidak nyaman';
+
+  @override
+  String get surveyVeryComfortable => 'Sangat nyaman';
+
+  @override
+  String get surveyOwnDuration => 'Atau isi durasi sendiri';
+
+  @override
+  String get surveyUnitHours => 'jam';
+
+  @override
+  String get surveyUnitCups => 'cangkir';
+
+  @override
+  String get surveyUnitMinutes => 'menit';
+
+  @override
+  String get surveyMinutesValidation =>
+      'Masukkan jumlah menit berupa bilangan bulat 0 atau lebih.';
+
+  @override
+  String get surveyErrorLoadQuestions =>
+      'Pertanyaan survei gagal dimuat. Coba lagi.';
+
+  @override
+  String get surveyErrorServiceUnavailable =>
+      'Layanan asesmen belum tersedia. Jawaban belum dikirim.';
+
+  @override
+  String get surveyErrorSubmit => 'Jawaban gagal dikirim. Coba lagi.';
+
+  @override
+  String get sleepQualityLabel => 'Bagaimana kualitas tidurmu\ntadi malam?';
+
+  @override
+  String get sleepQualitySubtitle => 'Pilih kualitas tidur yang paling sesuai.';
+
+  @override
+  String get sleepQualityTip =>
+      'Durasi dan kualitas tidur adalah dua hal berbeda.';
+
+  @override
+  String get sleepQualityReview => 'Kualitas tidur';
+
+  @override
+  String get sleepPoor => 'Buruk';
+
+  @override
+  String get sleepFair => 'Cukup';
+
+  @override
+  String get sleepGood => 'Baik';
+
+  @override
+  String get sleepVeryGood => 'Sangat baik';
+
+  @override
+  String get screenTimeLabel => 'Berapa lama kamu menggunakan\nlayar hari ini?';
+
+  @override
+  String get screenTimeSubtitle => 'Hitung penggunaan HP, laptop, dan TV.';
+
+  @override
+  String get screenTimeTip =>
+      'Beri jeda dari layar untuk mengistirahatkan mata dan pikiran.';
+
+  @override
+  String get screenTimeReview => 'Waktu layar';
+
+  @override
+  String get sleepDurationLabel => 'Berapa lama durasi tidur Anda\nhari ini?';
+
+  @override
+  String get sleepDurationSubtitle =>
+      'Geser slider atau gunakan tombol untuk menentukan durasi tidur.';
+
+  @override
+  String get sleepDurationTip =>
+      'Tidur yang cukup membantu menjaga kesehatan mental dan produktivitasmu.';
+
+  @override
+  String get sleepDurationReview => 'Durasi tidur';
+
+  @override
+  String get coffeeLabel => 'Berapa cangkir kopi yang kamu\nminum hari ini?';
+
+  @override
+  String get coffeeSubtitle =>
+      'Gunakan tombol untuk menambah atau mengurangi jumlah.';
+
+  @override
+  String get coffeeTip =>
+      'Kafein secukupnya memberi energi, namun berlebihan bisa memicu kecemasan.';
+
+  @override
+  String get coffeeReview => 'Kopi';
+
+  @override
+  String get workloadLabel =>
+      'Seberapa terbebani kamu oleh\naktivitas hari ini?';
+
+  @override
+  String get workloadSubtitle =>
+      'Pilih kondisi yang paling mendekati perasaanmu.';
+
+  @override
+  String get workloadTip =>
+      'Menyeimbangkan aktivitas harian sangat penting untuk kesehatan fisik dan mentalmu.';
+
+  @override
+  String get workloadReview => 'Stres';
+
+  @override
+  String get workloadLight => 'Ringan';
+
+  @override
+  String get workloadModerate => 'Sedang';
+
+  @override
+  String get workloadHeavy => 'Berat';
+
+  @override
+  String get meditationLabel =>
+      'Berapa menit kamu melakukan\nmeditasi hari ini?';
+
+  @override
+  String get meditationSubtitle =>
+      'Pilih durasi atau isi dengan angka sendiri.';
+
+  @override
+  String get meditationTip =>
+      'Cuma butuh 15 menit meditasi buat recharge energi dan jernihin pikiran.';
+
+  @override
+  String get meditationReview => 'Meditasi';
+
+  @override
+  String get moodLabel => 'Berapa rating secara keseluruhan\nhari ini?';
+
+  @override
+  String get moodSubtitle => 'Geser slider untuk menentukan nilai.';
+
+  @override
+  String get moodTip =>
+      'Refleksi singkat di akhir hari membantu mengenali apa yang membuatmu stres atau bahagia.';
+
+  @override
+  String get moodReview => 'Suasana hati';
 }
