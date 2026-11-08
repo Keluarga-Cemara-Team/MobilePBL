@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -30,6 +31,7 @@ class _WeeklyRiskChartState extends State<WeeklyRiskChart> {
   @override
   Widget build(BuildContext context) {
     if (widget.days.isEmpty) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context)!;
     final days = widget.days.reversed.toList(growable: false);
     final colors = AppColors.of(context);
     final textScale = math.max(
@@ -57,7 +59,7 @@ class _WeeklyRiskChartState extends State<WeeklyRiskChart> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (totalWidth > constraints.maxWidth) ...[
-              Text('Geser untuk melihat tanggal lainnya.', style: body),
+              Text(l10n.swipeForDates, style: body),
               SizedBox(height: context.ui(12)),
             ],
             Scrollbar(
@@ -105,12 +107,22 @@ class _DayGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
     final body = TextStyle(fontSize: context.ui(11), color: colors.body);
-    const weekdays = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+    final l10n = AppLocalizations.of(context)!;
+    final english = Localizations.localeOf(context).languageCode == 'en';
+    final weekdays = [
+      l10n.mondayShort,
+      l10n.tuesdayShort,
+      l10n.wednesdayShort,
+      l10n.thursdayShort,
+      l10n.fridayShort,
+      l10n.saturdayShort,
+      l10n.sundayShort,
+    ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          '${day.assessments.length} survei',
+          l10n.dayAssessmentCount(day.assessments.length),
           textAlign: TextAlign.center,
           style: body.copyWith(color: colors.navy, fontWeight: FontWeight.w600),
         ),
@@ -130,8 +142,9 @@ class _DayGroup extends StatelessWidget {
                 child: day.assessments.isEmpty
                     ? Center(
                         child: Semantics(
-                          label:
-                              '${formatAssessmentDate(day.date)}, belum ada survei',
+                          label: l10n.emptyDateSemantics(
+                            formatAssessmentDate(day.date, english: english),
+                          ),
                           excludeSemantics: true,
                           child: Text(
                             '—',
@@ -179,6 +192,8 @@ class _AssessmentBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final english = Localizations.localeOf(context).languageCode == 'en';
     final colors = AppColors.of(context);
     final localTime = assessment.takenAt.toLocal();
     final time =
@@ -191,12 +206,13 @@ class _AssessmentBar extends StatelessWidget {
     };
     return Tooltip(
       key: ValueKey('risk-survey-${assessment.id}'),
-      message: '${assessment.riskLevel.label} · $time',
+      message: l10n.riskTooltip(_riskLabel(l10n, assessment.riskLevel), time),
       triggerMode: TooltipTriggerMode.tap,
       child: Semantics(
-        label:
-            '${formatAssessmentDate(localTime, includeTime: true)}, '
-            'risiko ${assessment.riskLevel.label}',
+        label: l10n.riskSemantics(
+          formatAssessmentDate(localTime, includeTime: true, english: english),
+          _riskLabel(l10n, assessment.riskLevel),
+        ),
         excludeSemantics: true,
         child: SizedBox(
           width: width,
@@ -231,4 +247,10 @@ class _AssessmentBar extends StatelessWidget {
       ),
     );
   }
+
+  String _riskLabel(AppLocalizations l10n, RiskLevel level) => switch (level) {
+    RiskLevel.rendah => l10n.riskLow,
+    RiskLevel.sedang => l10n.riskMedium,
+    RiskLevel.tinggi => l10n.riskHigh,
+  };
 }

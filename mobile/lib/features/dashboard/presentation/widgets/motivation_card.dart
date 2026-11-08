@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -81,11 +82,29 @@ class _MotivationCardState extends State<MotivationCard>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final quote = widget.quote ?? motivationForDate(_now());
+    final quoteIndex = dashboardMotivations.indexOf(quote);
+    final localizedQuote = switch (quoteIndex) {
+      0 => l10n.motivation01,
+      1 => l10n.motivation02,
+      2 => l10n.motivation03,
+      3 => l10n.motivation04,
+      4 => l10n.motivation05,
+      5 => l10n.motivation06,
+      6 => l10n.motivation07,
+      7 => l10n.motivation08,
+      8 => l10n.motivation09,
+      9 => l10n.motivation10,
+      10 => l10n.motivation11,
+      11 => l10n.motivation12,
+      _ => quote,
+    };
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Motivasi Hari Ini',
+          l10n.motivationTitle,
           style: AppTextStyles.title(context)
               .copyWith(fontSize: context.ui(17), fontWeight: FontWeight.w700),
         ),
@@ -118,7 +137,7 @@ class _MotivationCardState extends State<MotivationCard>
               SizedBox(width: context.ui(AppSpacing.md)),
               Expanded(
                 child: Text(
-                  widget.quote ?? motivationForDate(_now()),
+                  localizedQuote,
                   key: const ValueKey('dashboard-motivation-quote'),
                   style: AppTextStyles.subtitle(context)
                       .copyWith(fontSize: context.ui(12)),

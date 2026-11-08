@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -31,6 +32,7 @@ class DashboardPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(profileControllerProvider);
+    final l10n = AppLocalizations.of(context)!;
     final latest = ref.watch(latestAssessmentProvider);
     final viewLatestAssessment = onViewLatestAssessment;
 
@@ -62,8 +64,13 @@ class DashboardPage extends ConsumerWidget {
                 LatestAssessmentCard(
                   riskLevel: latest?.riskLevel,
                   date: latest == null
-                      ? 'Belum ada asesmen'
-                      : formatAssessmentDate(latest.takenAt),
+                      ? l10n.latestAssessmentEmpty
+                      : formatAssessmentDate(
+                          latest.takenAt,
+                          english:
+                              Localizations.localeOf(context).languageCode ==
+                              'en',
+                        ),
                   onViewResult: latest == null || viewLatestAssessment == null
                       ? null
                       : () => viewLatestAssessment(latest.id),

@@ -1,0 +1,90 @@
+{
+  "@@locale": "id",
+  "dashboardHello": "Halo,",
+  "dashboardSubtitle": "Jaga kesehatan mentalmu, mulai dari sekarang.",
+  "openProfile": "Buka profil",
+  "latestAssessmentHeading": "HASIL ASESMEN TERAKHIR",
+  "startSurvey": "Mulai Survei",
+  "startSurveySubtitle": "Lakukan asesmen burnout baru",
+  "myHistory": "Riwayat Saya",
+  "myHistorySubtitle": "Lihat hasil asesmen sebelumnya",
+  "latestAssessmentEmpty": "Belum ada asesmen",
+  "startSurveyPrompt": "Mulai survei untuk mengenali kondisi keseharianmu.",
+  "viewDetails": "Lihat Detail ›",
+  "burnoutRisk": "Risiko Burnout",
+  "riskLow": "Rendah",
+  "riskMedium": "Sedang",
+  "riskHigh": "Tinggi",
+  "motivationTitle": "Motivasi Hari Ini",
+  "riskStatisticsTitle": "Statistik Risiko",
+  "assessmentHistorySummary": "Ringkasan seluruh riwayat survei",
+  "samplePreview": "Pratinjau dengan data contoh",
+  "includesSampleData": "Termasuk data contoh",
+  "assessmentsTotal": "{count, plural, =0{Belum ada asesmen} =1{1 asesmen secara keseluruhan} other{{count} asesmen secara keseluruhan}}",
+  "@@assessmentsTotal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "lastSevenDaysChart": "Grafik 7 hari terakhir",
+  "weeklyEmpty": "Belum ada survei dalam 7 hari terakhir.",
+  "weeklyBarDescription": "Setiap batang mewakili satu survei. Ketuk untuk melihat risikonya.",
+  "weeklyChartOrderNote": "Urutan dari baru ke lama. Tinggi batang menunjukkan kategori risiko, bukan skor medis.",
+  "swipeForDates": "Geser untuk melihat tanggal lainnya.",
+  "dayAssessmentCount": "{count, plural, =0{Tidak ada survei} =1{1 survei} other{{count} survei}}",
+  "@@dayAssessmentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyDateSemantics": "{date}, belum ada survei",
+  "@@emptyDateSemantics": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "riskTooltip": "{risk} · {time}",
+  "@@riskTooltip": {
+    "placeholders": {
+      "risk": {},
+      "time": {}
+    }
+  },
+  "riskSemantics": "{date}, risiko {risk}",
+  "@@riskSemantics": {
+    "placeholders": {
+      "date": {},
+      "risk": {}
+    }
+  },
+  "weekRange": "{start} – {end}",
+  "@@weekRange": {
+    "placeholders": {
+      "start": {},
+      "end": {}
+    }
+  },
+  "motivation01": "Tidur yang cukup membantu menjaga kesehatan mental dan produktivitasmu.",
+  "motivation02": "Langkah kecil hari ini tetap berarti. Kamu boleh bergerak sesuai kemampuanmu.",
+  "motivation03": "Beristirahat sejenak memberi ruang untuk memulai kembali.",
+  "motivation04": "Tidak semuanya perlu selesai sekaligus. Mulailah dari satu hal yang paling penting.",
+  "motivation05": "Beri apresiasi pada dirimu atas usaha yang sudah kamu lakukan hari ini.",
+  "motivation06": "Di sela kesibukan, sisihkan sedikit waktu untuk hal yang kamu nikmati.",
+  "motivation07": "Saat merasa kewalahan, kamu boleh meminta bantuan orang yang kamu percaya.",
+  "motivation08": "Berikan dirimu izin untuk berhenti sejenak dan mengatur ulang prioritas.",
+  "motivation09": "Hari yang berat tidak menghapus kemajuan yang sudah kamu buat.",
+  "motivation10": "Kamu boleh menetapkan batas ketika tenaga dan waktumu sedang terbatas.",
+  "motivation11": "Luangkan waktu untuk terhubung dengan orang yang membuatmu merasa didengar.",
+  "motivation12": "Mulai lagi dengan satu langkah kecil. Tidak semuanya harus sempurna.",
+  "mondayShort": "Sen",
+  "tuesdayShort": "Sel",
+  "wednesdayShort": "Rab",
+  "thursdayShort": "Kam",
+  "fridayShort": "Jum",
+  "saturdayShort": "Sab",
+  "sundayShort": "Min"
+}

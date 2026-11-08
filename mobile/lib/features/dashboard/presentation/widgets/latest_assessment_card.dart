@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -29,6 +30,7 @@ class LatestAssessmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(context.ui(22)),
@@ -47,7 +49,7 @@ class LatestAssessmentCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'HASIL ASESMEN TERAKHIR',
+            l10n.latestAssessmentHeading,
             style: AppTextStyles.subtitle(context).copyWith(
               fontSize: context.ui(12),
               fontWeight: FontWeight.w700,
@@ -59,7 +61,7 @@ class LatestAssessmentCard extends StatelessWidget {
           SizedBox(height: context.ui(AppSpacing.lg)),
           if (riskLevel == null)
             Text(
-              'Mulai survei untuk mengenali kondisi keseharianmu.',
+              l10n.startSurveyPrompt,
               style: AppTextStyles.subtitle(context)
                   .copyWith(fontSize: context.ui(14)),
             )
@@ -71,7 +73,7 @@ class LatestAssessmentCard extends StatelessWidget {
                 final isSelected = level == riskLevel;
                 return Expanded(
                   child: Text(
-                    level.label,
+                    _riskLabel(l10n, level),
                     textAlign: switch (level) {
                       RiskLevel.rendah => TextAlign.start,
                       RiskLevel.sedang => TextAlign.center,
@@ -115,7 +117,7 @@ class LatestAssessmentCard extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: context.ui(4)),
                   ),
                   child: Text(
-                    'Lihat Detail ›',
+                    l10n.viewDetails,
                     style: AppTextStyles.link(context)
                         .copyWith(fontSize: context.ui(12)),
                   ),
@@ -128,8 +130,9 @@ class LatestAssessmentCard extends StatelessWidget {
   }
 
   Widget _buildRiskHeading(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final title = Text(
-      'Risiko Burnout',
+      l10n.burnoutRisk,
       style: AppTextStyles.title(context).copyWith(fontSize: context.ui(22)),
     );
     if (riskLevel == null) return title;
@@ -144,7 +147,7 @@ class LatestAssessmentCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(context.ui(20)),
       ),
       child: Text(
-        riskLevel!.label.toUpperCase(),
+        _riskLabel(l10n, riskLevel!).toUpperCase(),
         style: AppTextStyles.link(context)
             .copyWith(fontSize: context.ui(11), color: _riskColor(context)),
       ),
@@ -174,6 +177,12 @@ class LatestAssessmentCard extends StatelessWidget {
       },
     );
   }
+
+  String _riskLabel(AppLocalizations l10n, RiskLevel level) => switch (level) {
+    RiskLevel.rendah => l10n.riskLow,
+    RiskLevel.sedang => l10n.riskMedium,
+    RiskLevel.tinggi => l10n.riskHigh,
+  };
 
   Widget _buildRiskBar(BuildContext context) {
     return Padding(
