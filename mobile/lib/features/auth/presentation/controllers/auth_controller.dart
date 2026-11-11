@@ -70,6 +70,12 @@ class AuthController extends Notifier<AuthState> {
     }
   }
 
+  void updateCurrentUser(AuthUser updatedUser) {
+    if (state.status == AuthStatus.authenticated) {
+      state = state.copyWith(user: updatedUser);
+    }
+  }
+
   Future<void> logout() async {
     await _repository.logout();
     state = const AuthState.unauthenticated();

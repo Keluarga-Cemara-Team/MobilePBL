@@ -15,4 +15,10 @@ abstract class AuthRepository {
   });
 
   Future<void> logout();
+
+  Future<AuthUser> updateProfile({
+    required String userId,
+    required String name,
+    String? photoUrl,
+  });
 }

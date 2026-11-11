@@ -58,4 +58,39 @@ class Personalization {
       professionalSupport: professionalSupport ?? this.professionalSupport,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    'birth_date': birthDate?.toIso8601String(),
+    'gender': gender,
+    'country': country,
+    'education': education,
+    'occupation': occupation,
+    'employment_status': employmentStatus,
+    'work_location': workLocation,
+    'smoking': smoking,
+    'alcohol': alcohol,
+    'income': income,
+    'family_mental_health_history': familyMentalHealthHistory,
+    'professional_support': professionalSupport,
+  };
+
+  factory Personalization.fromJson(Map<String, dynamic> json) {
+    return Personalization(
+      birthDate: json['birth_date'] != null
+          ? DateTime.tryParse(json['birth_date'].toString())
+          : null,
+      gender: json['gender']?.toString() ?? '',
+      country: json['country']?.toString() ?? '',
+      education: json['education']?.toString() ?? '',
+      occupation: json['occupation']?.toString() ?? '',
+      employmentStatus: json['employment_status']?.toString() ?? '',
+      workLocation: json['work_location']?.toString() ?? '',
+      smoking: json['smoking']?.toString() ?? '',
+      alcohol: json['alcohol']?.toString() ?? '',
+      income: json['income']?.toString() ?? '',
+      familyMentalHealthHistory:
+          json['family_mental_health_history']?.toString() ?? '',
+      professionalSupport: json['professional_support']?.toString() ?? '',
+    );
+  }
 }

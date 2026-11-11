@@ -27,15 +27,28 @@ class UserAvatar extends StatelessWidget {
       ),
     );
 
-    Widget networkOrFallback() => url == null || url.isEmpty
-        ? fallback()
-        : Image.network(
-            url,
+    Widget networkOrFallback() {
+      if (url == null || url.isEmpty) return fallback();
+      if (url.startsWith('data:')) {
+        try {
+          final uriData = UriData.parse(url);
+          return Image.memory(
+            uriData.contentAsBytes(),
             fit: BoxFit.cover,
-            loadingBuilder: (context, child, progress) =>
-                progress == null ? child : fallback(),
             errorBuilder: (context, error, stackTrace) => fallback(),
           );
+        } catch (_) {
+          return fallback();
+        }
+      }
+      return Image.network(
+        url,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, progress) =>
+            progress == null ? child : fallback(),
+        errorBuilder: (context, error, stackTrace) => fallback(),
+      );
+    }
 
     return Semantics(
       image: true,

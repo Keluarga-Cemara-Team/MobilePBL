@@ -197,5 +197,44 @@ class FirestoreAuthRepository implements AuthRepository {
     await SecureTokenStorage.instance.clearTokens();
     debugPrint('FirestoreAuthRepository: Pengguna berhasil keluar (logout).');
   }
+
+  @override
+  Future<AuthUser> updateProfile({
+    required String userId,
+    required String name,
+    String? photoUrl,
+  }) async {
+    final cleanName = name.trim();
+    final updateData = <String, dynamic>{
+      'full_name': cleanName,
+    };
+    if (photoUrl != null) {
+      updateData['photo_url'] = photoUrl;
+    } else {
+      updateData['photo_url'] = FieldValue.delete();
+    }
+
+    try {
+      await _ensureFirebase();
+      if (Firebase.apps.isNotEmpty) {
+        await _firestore
+            .collection('users')
+            .doc(userId)
+            .set(updateData, SetOptions(merge: true));
+        debugPrint('FirestoreAuthRepository: Profil user $userId berhasil diperbarui di Firestore.');
+      }
+    } catch (e) {
+      debugPrint('FirestoreAuthRepository updateProfile warning: $e');
+    }
+
+    final updated = AuthUser(
+      id: userId,
+      email: _currentUser?.email ?? '',
+      name: cleanName,
+      photoUrl: photoUrl,
+    );
+    _currentUser = updated;
+    return updated;
+  }
 }
 
