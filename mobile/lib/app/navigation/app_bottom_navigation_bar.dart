@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/responsive/app_scale.dart';
 import '../../core/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Scales the whole bar with its available width, keeping short screens compact.
 class AppBottomNavigationBar extends StatelessWidget {
@@ -17,6 +18,7 @@ class AppBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: colors.surface,
@@ -59,22 +61,22 @@ class AppBottomNavigationBar extends StatelessWidget {
                 unselectedFontSize: fontSize,
                 selectedLabelStyle: const TextStyle(height: 1.2),
                 unselectedLabelStyle: const TextStyle(height: 1.2),
-                items: const [
+                items: [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home_outlined),
-                    label: 'Beranda',
+                    label: l10n.navHome,
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.assignment_outlined),
-                    label: 'Survei',
+                    label: l10n.navSurvey,
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.pending_actions_outlined),
-                    label: 'Riwayat',
+                    label: l10n.navHistory,
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.person_outline_rounded),
-                    label: 'Profil',
+                    label: l10n.navProfile,
                   ),
                 ],
               ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../widgets/profile_subpage_scaffold.dart';
 
 class AboutPage extends StatelessWidget {
@@ -12,8 +13,9 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ProfileSubpageScaffold(
-      title: 'Tentang Aplikasi',
+      title: l10n.profileAboutTitle,
       onBack: onBack,
       children: [
         Container(
@@ -48,14 +50,14 @@ class AboutPage extends StatelessWidget {
               ),
               SizedBox(height: context.ui(6)),
               Text(
-                'Kenali dirimu. Jaga keseimbanganmu.',
+                l10n.profileMotto,
                 textAlign: TextAlign.center,
                 style: AppTextStyles.subtitle(context)
                     .copyWith(fontSize: context.ui(14)),
               ),
               SizedBox(height: context.ui(10)),
               Text(
-                'Versi 1.0.0',
+                l10n.profileVersion('1.0.0'),
                 style: AppTextStyles.subtitle(context)
                     .copyWith(fontSize: context.ui(12)),
               ),
@@ -64,34 +66,32 @@ class AboutPage extends StatelessWidget {
         ),
         SizedBox(height: context.ui(28)),
         Text(
-          'Tentang AntiBurnout',
+          l10n.profileAboutHeading,
           style: AppTextStyles.title(context)
               .copyWith(fontSize: context.ui(18)),
         ),
         SizedBox(height: context.ui(10)),
         Text(
-          'AntiBurnout membantu pengguna mengenali kondisi diri melalui '
-          'asesmen mandiri, melihat riwayat hasil, dan menemukan panduan '
-          'umum untuk menjaga keseimbangan aktivitas sehari-hari.',
+          l10n.profileAboutDescription,
           style: AppTextStyles.subtitle(context)
               .copyWith(fontSize: context.ui(14)),
         ),
         SizedBox(height: context.ui(24)),
-        for (final feature in const [
+        for (final feature in [
           (
             Icons.assignment_outlined,
-            'Asesmen mandiri',
-            'Refleksikan kebiasaan dan kondisi melalui pertanyaan singkat.',
+            l10n.profileFeatureAssessment,
+            l10n.profileFeatureAssessmentDescription,
           ),
           (
             Icons.history_rounded,
-            'Riwayat asesmen',
-            'Telusuri kembali hasil dan ringkasan asesmen sebelumnya.',
+            l10n.profileFeatureHistory,
+            l10n.profileFeatureHistoryDescription,
           ),
           (
             Icons.favorite_border_rounded,
-            'Panduan keseharian',
-            'Temukan ide untuk istirahat, relaksasi, dan dukungan sosial.',
+            l10n.profileFeatureGuidance,
+            l10n.profileFeatureGuidanceDescription,
           ),
         ]) ...[
           Row(
@@ -135,14 +135,12 @@ class AboutPage extends StatelessWidget {
           ),
           SizedBox(height: context.ui(20)),
         ],
-        const ProfileInfoCard(
-          text:
-              'Hasil asesmen bukan diagnosis medis. '
-              'Aplikasi ini tidak menggantikan konsultasi dengan tenaga profesional.',
+        ProfileInfoCard(
+          text: l10n.profileAboutDisclaimer,
         ),
         SizedBox(height: context.ui(28)),
         Text(
-          'Dikembangkan oleh Tim AntiBurnout',
+          l10n.profileDevelopedBy,
           textAlign: TextAlign.center,
           style: AppTextStyles.subtitle(context)
               .copyWith(fontSize: context.ui(13)),

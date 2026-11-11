@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/personalization.dart';
 import 'personalization_fields.dart';
 
@@ -15,15 +16,14 @@ class AdditionalInformationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const PersonalizationDescription(
-          'Isi jika kamu merasa nyaman.',
-        ),
+        PersonalizationDescription(l10n.personalizationOptionalIntro),
         PersonalizationNumberField(
-          label: 'Pendapatan bulanan (IDR)',
-          hint: 'Isi jumlah atau biarkan kosong',
+          label: l10n.personalizationMonthlyIncome,
+          hint: l10n.personalizationIncomeHint,
           suffix: 'IDR',
           value: data.income,
           onChanged: (value) {
@@ -31,10 +31,8 @@ class AdditionalInformationSection extends StatelessWidget {
           },
         ),
         PersonalizationChoices(
-          label: 'Riwayat kondisi kesehatan mental',
-          description:
-              'Apakah ada anggota keluarga yang pernah mengalami '
-              'gangguan kesehatan mental?',
+          label: l10n.personalizationFamilyHistory,
+          description: l10n.personalizationFamilyHistoryDescription,
           value: data.familyMentalHealthHistory,
           options: const [
             'Ya',
@@ -47,10 +45,8 @@ class AdditionalInformationSection extends StatelessWidget {
           },
         ),
         PersonalizationChoices(
-          label: 'Dukungan profesional',
-          description:
-              'Apakah kamu mengikuti terapi atau konseling '
-              'untuk kesehatan mental?',
+          label: l10n.personalizationProfessionalSupport,
+          description: l10n.personalizationProfessionalSupportDescription,
           value: data.professionalSupport,
           options: const [
             'Ya',

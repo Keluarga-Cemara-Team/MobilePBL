@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../features/auth/presentation/controllers/auth_controller.dart';
 import '../../features/auth/presentation/controllers/auth_state.dart';
 import '../../features/auth/presentation/pages/forgot_password_page.dart';
@@ -193,8 +194,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                           state.uri.queryParameters['origin'] == 'registration';
                       return PersonalizationPage(
                         backTooltip: fromRegistration
-                            ? 'Kembali ke beranda'
-                            : 'Kembali ke profil',
+                            ? AppLocalizations.of(context)!.profileBackToHome
+                            : AppLocalizations.of(context)!
+                                  .profileBackToProfile,
                         onBack: () {
                           if (fromRegistration) {
                             ref
