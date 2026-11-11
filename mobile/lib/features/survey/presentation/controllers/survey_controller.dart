@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../assessment/di/assessment_providers.dart';
@@ -75,17 +76,12 @@ class SurveyController extends AutoDisposeFamilyNotifier<SurveyState, String> {
         completedAssessment: assessment,
       );
       return assessment;
-    } on UnsupportedError {
+    } catch (e, stack) {
+      debugPrint('SurveyController.submit error: $e\n$stack');
       if (_disposed) return null;
       state = state.copyWith(
         isSubmitting: false,
-        errorMessage: 'Layanan asesmen belum tersedia. Jawaban belum dikirim.',
-      );
-    } catch (_) {
-      if (_disposed) return null;
-      state = state.copyWith(
-        isSubmitting: false,
-        errorMessage: 'Jawaban gagal dikirim. Coba lagi.',
+        errorMessage: 'Jawaban gagal dikirim: ${e.toString().replaceFirst('Exception: ', '')}',
       );
     }
     return null;

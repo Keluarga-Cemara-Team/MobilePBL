@@ -69,6 +69,22 @@ class FakeAuthRepository implements AuthRepository {
   Future<void> logout() async {
     _currentUser = null;
   }
+
+  @override
+  Future<AuthUser> updateProfile({
+    required String userId,
+    required String name,
+    String? photoUrl,
+  }) async {
+    final updated = AuthUser(
+      id: userId,
+      email: _currentUser?.email ?? '',
+      name: name.trim(),
+      photoUrl: photoUrl,
+    );
+    _currentUser = updated;
+    return updated;
+  }
 }
 
 class _StoredAccount {
