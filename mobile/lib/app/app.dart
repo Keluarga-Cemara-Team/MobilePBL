@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/theme/app_theme.dart';
 import '../features/profile/presentation/controllers/preferences_controller.dart';
+import '../l10n/app_localizations.dart';
 import 'router/app_router.dart';
 
 class AntiBurnoutApp extends ConsumerWidget {
@@ -17,12 +18,20 @@ class AntiBurnoutApp extends ConsumerWidget {
         (preferences) => preferences.themeMode,
       ),
     );
+    final language = ref.watch(
+      preferencesControllerProvider.select(
+        (preferences) => preferences.language,
+      ),
+    );
     return MaterialApp.router(
       title: 'AntiBurnout',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: themeMode,
+      locale: Locale(language == AppLanguage.english ? 'en' : 'id'),
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       builder: (context, child) {
         final dark = Theme.of(context).brightness == Brightness.dark;
         return AnnotatedRegion<SystemUiOverlayStyle>(

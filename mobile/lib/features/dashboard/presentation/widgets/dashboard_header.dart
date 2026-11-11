@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -15,17 +16,18 @@ class DashboardHeader extends StatelessWidget {
     this.photoUrl,
     this.photoBytes,
     this.onProfileTap,
-    this.subtitle = 'Jaga kesehatan mentalmu, mulai dari sekarang.',
+    this.subtitle,
   });
 
   final String userName;
   final String? photoUrl;
   final Uint8List? photoBytes;
   final VoidCallback? onProfileTap;
-  final String subtitle;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -37,7 +39,7 @@ class DashboardHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Halo,',
+                    l10n.dashboardHello,
                     style: AppTextStyles.subtitle(context).copyWith(
                       fontSize: context.ui(18),
                       color: AppColors.of(context).navy,
@@ -54,7 +56,7 @@ class DashboardHeader extends StatelessWidget {
             ),
             SizedBox(width: context.ui(AppSpacing.md)),
             IconButton(
-              tooltip: 'Buka profil',
+              tooltip: l10n.openProfile,
               onPressed: onProfileTap,
               style: IconButton.styleFrom(
                 padding: EdgeInsets.zero,
@@ -68,7 +70,7 @@ class DashboardHeader extends StatelessWidget {
         ),
         SizedBox(height: context.ui(AppSpacing.md)),
         Text(
-          subtitle,
+          subtitle ?? l10n.dashboardSubtitle,
           style: AppTextStyles.subtitle(context)
               .copyWith(fontSize: context.ui(15)),
         ),

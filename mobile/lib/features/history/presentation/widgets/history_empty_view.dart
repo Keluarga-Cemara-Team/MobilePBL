@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class HistoryEmptyView extends StatelessWidget {
   final String message;
@@ -9,7 +10,7 @@ class HistoryEmptyView extends StatelessWidget {
 
   const HistoryEmptyView({
     super.key,
-    this.message = 'Belum ada riwayat pemeriksaan.',
+    required this.message,
     this.onRetry,
   });
 
@@ -32,7 +33,7 @@ class HistoryEmptyView extends StatelessWidget {
             TextButton(
               onPressed: onRetry,
               child: Text(
-                'Coba lagi',
+                AppLocalizations.of(context)!.historyRetry,
                 style: TextStyle(fontSize: context.ui(14)),
               ),
             ),

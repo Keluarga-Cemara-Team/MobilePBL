@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -12,6 +13,7 @@ import '../../../assessment/domain/entities/assessment.dart';
 import '../../domain/entities/survey_question.dart';
 import '../controllers/survey_controller.dart';
 import '../controllers/survey_state.dart';
+import '../survey_copy.dart';
 import '../widgets/survey_stepper.dart';
 
 class SurveyQuestionPage extends ConsumerWidget {
@@ -28,6 +30,7 @@ class SurveyQuestionPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final state = ref.watch(surveyControllerProvider(sessionKey));
     if (!state.isLoading &&
         state.questions.any(
@@ -59,9 +62,9 @@ class SurveyQuestionPage extends ConsumerWidget {
               slivers: [
                 SliverToBoxAdapter(
                   child: AppPageHeader(
-                    title: 'Survei Harian',
+                    title: l10n.surveyTitle,
                     fontSize: 22,
-                    tooltip: 'Kembali ke pengantar survei',
+                    tooltip: l10n.surveyBackToIntro,
                     onBack: state.isSubmitting ? null : onBack,
                   ),
                 ),
@@ -85,6 +88,7 @@ class SurveyQuestionPage extends ConsumerWidget {
   }
 
   Widget _buildContent(BuildContext context, WidgetRef ref, SurveyState state) {
+    final l10n = AppLocalizations.of(context)!;
     final controller = ref.read(surveyControllerProvider(sessionKey).notifier);
     if (state.isLoading) {
       return Padding(
@@ -105,27 +109,27 @@ class SurveyQuestionPage extends ConsumerWidget {
           SizedBox(height: context.ui(AppSpacing.md)),
           Text(
             state.errorMessage == null
-                ? 'Survei belum tersedia'
-                : 'Survei gagal dimuat',
+                ? l10n.surveyUnavailable
+                : l10n.surveyLoadFailed,
             textAlign: TextAlign.center,
             style: AppTextStyles.title(context)
                 .copyWith(fontSize: context.ui(20)),
           ),
           SizedBox(height: context.ui(AppSpacing.sm)),
           Text(
-            state.errorMessage ??
-                'Pertanyaan dan layanan asesmen belum tersedia. '
-                    'Silakan kembali lagi nanti.',
+            state.errorMessage == null
+                ? l10n.surveyUnavailableBody
+                : localizedSurveyError(l10n, state.errorMessage!),
             textAlign: TextAlign.center,
             style: AppTextStyles.subtitle(context)
                 .copyWith(fontSize: context.ui(14)),
           ),
           SizedBox(height: context.ui(AppSpacing.lg)),
           if (state.errorMessage != null) ...[
-            AppButton(label: 'Coba Lagi', onPressed: controller.load),
+            AppButton(label: l10n.surveyRetry, onPressed: controller.load),
             SizedBox(height: context.ui(AppSpacing.sm)),
           ],
-          AppButton(label: 'Kembali ke Pengantar', onPressed: onBack),
+          AppButton(label: l10n.surveyBackToIntroButton, onPressed: onBack),
         ],
       );
     }
@@ -134,7 +138,7 @@ class SurveyQuestionPage extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          'Jawab sesuai kondisi yang kamu rasakan.',
+          l10n.surveyAnswerPrompt,
           style: AppTextStyles.subtitle(context)
               .copyWith(fontSize: context.ui(14)),
         ),
@@ -152,7 +156,7 @@ class SurveyQuestionPage extends ConsumerWidget {
           Semantics(
             liveRegion: true,
             child: Text(
-              state.errorMessage!,
+              localizedSurveyError(l10n, state.errorMessage!),
               style: AppTextStyles.subtitle(context).copyWith(
                 color: AppColors.of(context).error,
                 fontSize: context.ui(14),
@@ -162,7 +166,7 @@ class SurveyQuestionPage extends ConsumerWidget {
           SizedBox(height: context.ui(AppSpacing.md)),
         ],
         AppButton(
-          label: 'Kirim Jawaban',
+          label: l10n.surveySubmitAnswers,
           isLoading: state.isSubmitting,
           onPressed: state.canSubmit
               ? () async {
@@ -192,11 +196,12 @@ class _QuestionInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          question.label,
+          question.localizedLabel(l10n),
           style: AppTextStyles.subtitle(context).copyWith(
             color: AppColors.of(context).navy,
             fontWeight: FontWeight.w700,
@@ -215,7 +220,7 @@ class _QuestionInput extends StatelessWidget {
             style: AppTextStyles.subtitle(context)
                 .copyWith(fontSize: context.ui(14)),
             decoration: InputDecoration(
-              hintText: 'Tulis jawabanmu',
+              hintText: l10n.surveyWriteAnswer,
               hintStyle: AppTextStyles.subtitle(context).copyWith(
                 color: AppColors.of(context).hint,
                 fontSize: context.ui(14),
@@ -229,9 +234,9 @@ class _QuestionInput extends StatelessWidget {
             spacing: context.ui(AppSpacing.sm),
             runSpacing: context.ui(AppSpacing.sm),
             children: [
-              for (final option in question.options)
+              for (final (index, option) in question.options.indexed)
                 ChoiceChip(
-                  label: Text(option),
+                  label: Text(question.localizedOption(l10n, index)),
                   labelStyle: AppTextStyles.subtitle(context).copyWith(
                     fontSize: context.ui(14),
                     color: value == option

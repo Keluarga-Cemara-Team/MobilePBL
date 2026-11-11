@@ -1,0 +1,200 @@
+{
+  "@@locale": "en",
+  "dashboardHello": "Hello,",
+  "dashboardSubtitle": "Take care of your mental health, starting today.",
+  "openProfile": "Open profile",
+  "latestAssessmentHeading": "LATEST ASSESSMENT",
+  "startSurvey": "Start Assessment",
+  "startSurveySubtitle": "Take a new burnout assessment",
+  "myHistory": "My History",
+  "myHistorySubtitle": "View previous assessment results",
+  "latestAssessmentEmpty": "No assessment yet",
+  "startSurveyPrompt": "Start an assessment to understand your daily wellbeing.",
+  "viewDetails": "View Details ›",
+  "burnoutRisk": "Burnout Risk",
+  "riskLow": "Low",
+  "riskMedium": "Moderate",
+  "riskHigh": "High",
+  "motivationTitle": "Today’s Motivation",
+  "riskStatisticsTitle": "Risk Statistics",
+  "assessmentHistorySummary": "Summary of all assessment history",
+  "samplePreview": "Preview with sample data",
+  "includesSampleData": "Includes sample data",
+  "assessmentsTotal": "{count, plural, =0{No assessments} =1{1 assessment in total} other{{count} assessments in total}}",
+  "@@assessmentsTotal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "lastSevenDaysChart": "Last 7 Days",
+  "weeklyEmpty": "No assessments in the last 7 days.",
+  "weeklyBarDescription": "Each bar represents one assessment. Tap to view its risk level.",
+  "weeklyChartOrderNote": "Ordered from newest to oldest. Bar height shows the risk category, not a medical score.",
+  "swipeForDates": "Swipe to see other dates.",
+  "dayAssessmentCount": "{count, plural, =0{No assessments} =1{1 assessment} other{{count} assessments}}",
+  "@@dayAssessmentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "emptyDateSemantics": "{date}, no assessments",
+  "@@emptyDateSemantics": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "riskTooltip": "{risk} · {time}",
+  "@@riskTooltip": {
+    "placeholders": {
+      "risk": {},
+      "time": {}
+    }
+  },
+  "riskSemantics": "{date}, {risk} risk",
+  "@@riskSemantics": {
+    "placeholders": {
+      "date": {},
+      "risk": {}
+    }
+  },
+  "weekRange": "{start} – {end}",
+  "@@weekRange": {
+    "placeholders": {
+      "start": {},
+      "end": {}
+    }
+  },
+  "motivation01": "Getting enough sleep supports your mental health and productivity.",
+  "motivation02": "Small steps still matter. Move at your own pace.",
+  "motivation03": "A short rest gives you room to begin again.",
+  "motivation04": "You do not have to finish everything at once. Start with what matters most.",
+  "motivation05": "Give yourself credit for what you have done today.",
+  "motivation06": "Make a little time for something you enjoy, even on a busy day.",
+  "motivation07": "When you feel overwhelmed, it is okay to ask someone you trust for help.",
+  "motivation08": "Give yourself permission to pause and reset your priorities.",
+  "motivation09": "A difficult day does not erase the progress you have made.",
+  "motivation10": "It is okay to set boundaries when your time and energy are limited.",
+  "motivation11": "Make time to connect with someone who makes you feel heard.",
+  "motivation12": "Begin again with one small step. Nothing has to be perfect.",
+  "mondayShort": "Mon",
+  "tuesdayShort": "Tue",
+  "wednesdayShort": "Wed",
+  "thursdayShort": "Thu",
+  "fridayShort": "Fri",
+  "saturdayShort": "Sat",
+  "sundayShort": "Sun",
+  "surveyTitle": "Daily Survey",
+  "surveyIntroTime": "Time for yourself · 3–5 minutes",
+  "surveyIntroQuestion": "How was your day?",
+  "surveyIntroBody": "Take a moment to reflect on your activities, habits, and feelings today.",
+  "surveyIntroBenefitTitle": "Small steps, meaningful benefits",
+  "surveyIntroSimpleTitle": "Simple questions",
+  "surveyIntroSimpleBody": "Tell us about your daily activities and habits.",
+  "surveyIntroPatternTitle": "Understand your daily patterns",
+  "surveyIntroPatternBody": "Reflect and keep track of your wellbeing.",
+  "surveyIntroDisclaimer": "There are no right or wrong answers. Answer based on how you feel.",
+  "surveyStart": "Start Survey",
+  "surveyBackToIntro": "Back to survey introduction",
+  "surveyUnavailable": "Survey is unavailable",
+  "surveyLoadFailed": "Could not load survey",
+  "surveyUnavailableBody": "Questions and assessment services are unavailable. Please try again later.",
+  "surveyRetry": "Try Again",
+  "surveyBackToIntroButton": "Back to Introduction",
+  "surveyAnswerPrompt": "Answer based on how you feel.",
+  "surveySubmitAnswers": "Submit Answers",
+  "surveyWriteAnswer": "Write your answer",
+  "surveyReviewTitle": "Review your answers",
+  "surveyReviewSubtitle": "Make sure your answers are correct before submitting.",
+  "surveyReviewTip": "Results are a risk estimate, not a diagnosis.",
+  "surveyStepLabel": "Step {current} of {total}",
+  "surveyBack": "Back",
+  "surveyContinue": "Continue",
+  "surveySubmitViewResults": "Submit & View Results",
+  "surveyEditAnswer": "Edit",
+  "surveyActivityEasy": "Activities feel manageable",
+  "surveyActivityOverwhelming": "They feel demanding, but still manageable",
+  "surveyActivityDifficult": "The workload feels difficult to manage",
+  "surveyZeroHours": "0 hours",
+  "surveyMaximumHours": "{hours} hours",
+  "surveyOutOf100": "out of 100",
+  "surveyVeryUncomfortable": "Very uncomfortable",
+  "surveyVeryComfortable": "Very comfortable",
+  "surveyOwnDuration": "Or enter a duration",
+  "surveyUnitHours": "hours",
+  "surveyUnitCups": "cups",
+  "surveyUnitMinutes": "minutes",
+  "surveyMinutesValidation": "Enter a whole number of minutes greater than or equal to 0.",
+  "surveyErrorLoadQuestions": "Could not load survey questions. Try again.",
+  "surveyErrorServiceUnavailable": "Assessment service is unavailable. Your answers were not submitted.",
+  "surveyErrorSubmit": "Could not submit answers. Try again.",
+  "sleepQualityLabel": "How was your sleep\nlast night?",
+  "sleepQualitySubtitle": "Choose the sleep quality that best fits.",
+  "sleepQualityTip": "Sleep duration and sleep quality are two different things.",
+  "sleepQualityReview": "Sleep quality",
+  "sleepPoor": "Poor",
+  "sleepFair": "Fair",
+  "sleepGood": "Good",
+  "sleepVeryGood": "Very good",
+  "screenTimeLabel": "How long have you used\na screen today?",
+  "screenTimeSubtitle": "Include phone, laptop, and TV use.",
+  "screenTimeTip": "Take screen breaks to rest your eyes and mind.",
+  "screenTimeReview": "Screen time",
+  "sleepDurationLabel": "How long did you sleep\nlast night?",
+  "sleepDurationSubtitle": "Use the slider or buttons to set your sleep duration.",
+  "sleepDurationTip": "Enough sleep supports your mental health and productivity.",
+  "sleepDurationReview": "Sleep duration",
+  "coffeeLabel": "How many cups of coffee have you\nhad today?",
+  "coffeeSubtitle": "Use the buttons to increase or decrease the amount.",
+  "coffeeTip": "Moderate caffeine can boost energy, but too much may trigger anxiety.",
+  "coffeeReview": "Coffee",
+  "workloadLabel": "How overwhelmed do you feel by\ntoday’s activities?",
+  "workloadSubtitle": "Choose the option closest to how you feel.",
+  "workloadTip": "Balancing daily activities is important for your physical and mental health.",
+  "workloadReview": "Stress",
+  "workloadLight": "Light",
+  "workloadModerate": "Moderate",
+  "workloadHeavy": "Heavy",
+  "meditationLabel": "How many minutes did you\nmeditate today?",
+  "meditationSubtitle": "Choose a duration or enter a number.",
+  "meditationTip": "Just 15 minutes of meditation can recharge you and clear your mind.",
+  "meditationReview": "Meditation",
+  "moodLabel": "How would you rate your day\noverall?",
+  "moodSubtitle": "Use the slider to choose a score.",
+  "moodTip": "A short end-of-day reflection can help you recognize what makes you stressed or happy.",
+  "moodReview": "Mood",
+  "@surveyStepLabel": {
+    "description": "Step number and total number of survey steps",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@surveyMaximumHours": {
+    "description": "Maximum duration for the current question in hours",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "historyTitle": "Survey History",
+  "historyDescription": "Your previous burnout assessment results.",
+  "historySearchHint": "Search history...",
+  "historyFilterAll": "All",
+  "historyEmpty": "No assessment history yet.",
+  "historyNoResults": "No history found.",
+  "historyLoadError": "Could not load history. Try again.",
+  "historyRetry": "Try again",
+  "historyLatest": "Latest assessment result",
+  "historyPrevious": "Previous assessment result",
+  "historyRiskTitle": "Burnout Risk",
+  "historyDetails": "Details"
+}

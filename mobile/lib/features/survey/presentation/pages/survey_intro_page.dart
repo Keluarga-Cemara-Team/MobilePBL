@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -16,6 +17,7 @@ class SurveyIntroPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.of(context).background,
       body: AppBlobBackground(
@@ -24,10 +26,7 @@ class SurveyIntroPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const AppPageHeader(
-                  title: 'Survei Harian',
-                  showBackButton: false,
-                ),
+                AppPageHeader(title: l10n.surveyTitle, showBackButton: false),
                 Padding(
                   padding: EdgeInsets.fromLTRB(
                     context.ui(24),
@@ -81,7 +80,7 @@ class SurveyIntroPage extends StatelessWidget {
                                   SizedBox(width: context.ui(6)),
                                   Flexible(
                                     child: Text(
-                                      'Waktu untuk dirimu · 3–5 menit',
+                                      l10n.surveyIntroTime,
                                       textAlign: TextAlign.center,
                                       style: AppTextStyles.link(context)
                                           .copyWith(fontSize: context.ui(12)),
@@ -100,15 +99,14 @@ class SurveyIntroPage extends StatelessWidget {
                             ),
                             SizedBox(height: context.ui(8)),
                             Text(
-                              'Bagaimana harimu?',
+                              l10n.surveyIntroQuestion,
                               textAlign: TextAlign.center,
                               style: AppTextStyles.title(context)
                                   .copyWith(fontSize: context.ui(23)),
                             ),
                             SizedBox(height: context.ui(4)),
                             Text(
-                              'Luangkan waktu sejenak untuk mengenali aktivitas, '
-                              'kebiasaan, dan perasaanmu hari ini.',
+                              l10n.surveyIntroBody,
                               textAlign: TextAlign.center,
                               style: AppTextStyles.subtitle(context)
                                   .copyWith(fontSize: context.ui(12)),
@@ -118,7 +116,7 @@ class SurveyIntroPage extends StatelessWidget {
                       ),
                       SizedBox(height: context.ui(18)),
                       Text(
-                        'Langkah kecil, manfaat berarti',
+                        l10n.surveyIntroBenefitTitle,
                         style: AppTextStyles.title(context).copyWith(
                           fontSize: context.ui(17),
                           fontWeight: FontWeight.w700,
@@ -141,8 +139,8 @@ class SurveyIntroPage extends StatelessWidget {
                             _feature(
                               context,
                               Icons.assignment_outlined,
-                              'Pertanyaan sederhana',
-                              'Ceritakan aktivitas dan kebiasaan harianmu.',
+                              l10n.surveyIntroSimpleTitle,
+                              l10n.surveyIntroSimpleBody,
                             ),
                             Padding(
                               padding: EdgeInsets.symmetric(
@@ -156,8 +154,8 @@ class SurveyIntroPage extends StatelessWidget {
                             _feature(
                               context,
                               Icons.favorite_border_rounded,
-                              'Kenali pola keseharianmu',
-                              'Bantu refleksi dan pantau kesejahteraanmu.',
+                              l10n.surveyIntroPatternTitle,
+                              l10n.surveyIntroPatternBody,
                             ),
                           ],
                         ),
@@ -185,8 +183,7 @@ class SurveyIntroPage extends StatelessWidget {
                             SizedBox(width: context.ui(10)),
                             Expanded(
                               child: Text(
-                                'Tidak ada jawaban benar atau salah. '
-                                'Jawab sesuai kondisi yang kamu rasakan.',
+                                l10n.surveyIntroDisclaimer,
                                 style: AppTextStyles.subtitle(context)
                                     .copyWith(fontSize: context.ui(11)),
                               ),
@@ -196,7 +193,7 @@ class SurveyIntroPage extends StatelessWidget {
                       ),
                       SizedBox(height: context.ui(24)),
                       AppButton(
-                        label: 'Mulai Survei',
+                        label: l10n.surveyStart,
                         onPressed: onStartSurvey,
                       ),
                     ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -13,16 +14,17 @@ class DashboardShortcuts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final survey = _ShortcutCard(
       icon: Icons.check_rounded,
-      title: 'Mulai Survei',
-      subtitle: 'Lakukan asesmen burnout baru',
+      title: l10n.startSurvey,
+      subtitle: l10n.startSurveySubtitle,
       onTap: onSurveyTap,
     );
     final history = _ShortcutCard(
       icon: Icons.menu_rounded,
-      title: 'Riwayat Saya',
-      subtitle: 'Lihat hasil asesmen sebelumnya',
+      title: l10n.myHistory,
+      subtitle: l10n.myHistorySubtitle,
       onTap: onHistoryTap,
     );
 

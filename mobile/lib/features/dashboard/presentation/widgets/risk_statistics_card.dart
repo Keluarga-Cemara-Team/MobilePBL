@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -75,6 +76,8 @@ class _RiskStatisticsCardState extends State<RiskStatisticsCard>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final english = Localizations.localeOf(context).languageCode == 'en';
     final colors = AppColors.of(context);
     final week = WeeklyRiskStatistics.fromAssessments(
       widget.assessments,
@@ -92,7 +95,7 @@ class _RiskStatisticsCardState extends State<RiskStatisticsCard>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Statistik Risiko',
+            l10n.riskStatisticsTitle,
             style: TextStyle(
               fontSize: context.ui(20),
               fontWeight: FontWeight.w700,
@@ -100,13 +103,13 @@ class _RiskStatisticsCardState extends State<RiskStatisticsCard>
             ),
           ),
           SizedBox(height: context.ui(6)),
-          Text('Ringkasan seluruh riwayat survei', style: body),
+          Text(l10n.assessmentHistorySummary, style: body),
           if (widget.assessments.any((item) => item.isExample)) ...[
             SizedBox(height: context.ui(10)),
             Text(
               widget.assessments.every((item) => item.isExample)
-                  ? 'Pratinjau dengan data contoh'
-                  : 'Termasuk data contoh',
+                  ? l10n.samplePreview
+                  : l10n.includesSampleData,
               style: body.copyWith(
                 color: colors.primary,
                 fontWeight: FontWeight.w600,
@@ -115,7 +118,7 @@ class _RiskStatisticsCardState extends State<RiskStatisticsCard>
           ],
           SizedBox(height: context.ui(20)),
           Text(
-            '${widget.assessments.length} asesmen secara keseluruhan',
+            l10n.assessmentsTotal(widget.assessments.length),
             key: const ValueKey('risk-total-count'),
             style: body.copyWith(
               color: colors.navy,
@@ -166,7 +169,7 @@ class _RiskStatisticsCardState extends State<RiskStatisticsCard>
                               color: colors.navy,
                             ),
                           ),
-                          Text(level.label, style: body),
+                          Text(_riskLabel(l10n, level), style: body),
                         ],
                       ),
                     ),
@@ -178,7 +181,7 @@ class _RiskStatisticsCardState extends State<RiskStatisticsCard>
           Divider(height: 1, color: colors.border),
           SizedBox(height: context.ui(20)),
           Text(
-            'Grafik 7 hari terakhir',
+            l10n.lastSevenDaysChart,
             style: body.copyWith(
               color: colors.navy,
               fontWeight: FontWeight.w600,
@@ -186,7 +189,10 @@ class _RiskStatisticsCardState extends State<RiskStatisticsCard>
           ),
           SizedBox(height: context.ui(6)),
           Text(
-            '${formatAssessmentDate(week.days.first.date)} – ${formatAssessmentDate(week.days.last.date)}',
+            l10n.weekRange(
+              formatAssessmentDate(week.days.last.date, english: english),
+              formatAssessmentDate(week.days.first.date, english: english),
+            ),
             style: body,
           ),
           SizedBox(height: context.ui(6)),
@@ -197,19 +203,22 @@ class _RiskStatisticsCardState extends State<RiskStatisticsCard>
           // SizedBox(height: context.ui(6)),
           Text(
             week.assessments.isEmpty
-                ? 'Belum ada survei dalam 7 hari terakhir.'
-                : 'Setiap batang mewakili satu survei. Ketuk untuk melihat risikonya.',
+                ? l10n.weeklyEmpty
+                : l10n.weeklyBarDescription,
             style: body,
           ),
           SizedBox(height: context.ui(12)),
           WeeklyRiskChart(days: week.days),
           SizedBox(height: context.ui(14)),
-          Text(
-            'Urutan dari baru ke lama. Tinggi batang menunjukkan kategori risiko, bukan skor medis.',
-            style: body,
-          ),
+          Text(l10n.weeklyChartOrderNote, style: body),
         ],
       ),
     );
   }
+
+  String _riskLabel(AppLocalizations l10n, RiskLevel level) => switch (level) {
+    RiskLevel.rendah => l10n.riskLow,
+    RiskLevel.sedang => l10n.riskMedium,
+    RiskLevel.tinggi => l10n.riskHigh,
+  };
 }

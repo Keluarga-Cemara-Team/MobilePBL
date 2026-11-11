@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class HistorySearchField extends StatelessWidget {
   final ValueChanged<String> onChanged;
@@ -10,6 +11,7 @@ class HistorySearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = AppColors.of(context);
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(context.ui(16)),
@@ -19,7 +21,7 @@ class HistorySearchField extends StatelessWidget {
       onChanged: onChanged,
       style: TextStyle(fontSize: context.ui(14), color: colors.body),
       decoration: InputDecoration(
-        hintText: 'Cari riwayat...',
+        hintText: l10n.historySearchHint,
         hintStyle: TextStyle(fontSize: context.ui(14), color: colors.hint),
         prefixIcon: Icon(
           Icons.search_rounded,

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../shared/widgets/app_blob_background.dart';
 import '../../../../shared/widgets/app_page_header.dart';
+import '../../../../shared/utils/date_formatter.dart';
+import '../../../assessment/domain/entities/risk_level.dart';
 import '../widgets/assessment_history_item.dart';
 import '../controllers/history_controller.dart';
 import '../widgets/assessment_history_tile.dart';
@@ -22,6 +25,7 @@ class HistoryPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final state = ref.watch(historyControllerProvider);
     final controller = ref.read(historyControllerProvider.notifier);
 
@@ -34,8 +38,8 @@ class HistoryPage extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const AppPageHeader(
-                title: 'Riwayat Survei',
+              AppPageHeader(
+                title: l10n.historyTitle,
                 showBackButton: false,
               ),
               Expanded(
@@ -59,7 +63,7 @@ class HistoryPage extends ConsumerWidget {
                       SizedBox(height: context.ui(14)),
 
                       Text(
-                        'Hasil asesmen burnout sebelumnya.',
+                        l10n.historyDescription,
                         style: TextStyle(
                           fontSize: context.ui(12),
                           color: AppColors.of(context).hint,
@@ -86,23 +90,36 @@ class HistoryPage extends ConsumerWidget {
     HistoryState state,
     HistoryController controller,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     if (state.isLoading && state.items.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
 
     if (state.errorMessage != null) {
       return HistoryEmptyView(
-        message: state.errorMessage!,
+        message: l10n.historyLoadError,
         onRetry: controller.load,
       );
     }
 
-    final visible = state.visibleItems;
+    final visible = state.visibleItemsMatching((item) {
+      final risk = switch (item.riskLevel) {
+        RiskLevel.rendah => l10n.riskLow,
+        RiskLevel.sedang => l10n.riskMedium,
+        RiskLevel.tinggi => l10n.riskHigh,
+      };
+      final date = formatAssessmentDate(
+        item.takenAt,
+        includeTime: true,
+        english: l10n.localeName == 'en',
+      );
+      return '$risk $date';
+    });
     if (visible.isEmpty) {
       return HistoryEmptyView(
         message: state.items.isEmpty
-            ? 'Belum ada riwayat pemeriksaan.'
-            : 'Riwayat tidak ditemukan.',
+            ? l10n.historyEmpty
+            : l10n.historyNoResults,
       );
     }
 
