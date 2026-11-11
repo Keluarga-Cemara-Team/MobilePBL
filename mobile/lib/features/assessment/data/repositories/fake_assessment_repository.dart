@@ -14,6 +14,31 @@ class FakeAssessmentRepository implements AssessmentRepository {
 
   @override
   Future<Assessment> submit(Map<String, String> answers) async {
-    throw UnsupportedError('Layanan asesmen belum tersedia.');
+    final now = DateTime.now();
+    final newId = 'ASM-${now.millisecondsSinceEpoch}';
+    final rawActivity = answers['activity_load']?.toLowerCase() ?? 'sedang';
+    final riskLevel = switch (rawActivity) {
+      'berat' => RiskLevel.tinggi,
+      'ringan' => RiskLevel.rendah,
+      _ => RiskLevel.sedang,
+    };
+
+    final assessment = Assessment(
+      id: newId,
+      riskLevel: riskLevel,
+      takenAt: now,
+      isExample: false,
+      modelFactors: const [
+        AssessmentFactor(label: 'Evaluasi kelelahan kerja & ritme harian'),
+        AssessmentFactor(label: 'Analisis waktu istirahat dan stres'),
+      ],
+      answerSummary: [
+        for (final entry in answers.entries)
+          AssessmentAnswerSummary(label: entry.key, value: entry.value),
+      ],
+    );
+
+    _assessments[newId] = assessment;
+    return assessment;
   }
 }
