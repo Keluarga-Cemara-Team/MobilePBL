@@ -33,6 +33,7 @@ class DefaultFirebaseOptions {
     appId: '1:738635318814:web:586f7db50d992a697f100f',
     messagingSenderId: '738635318814',
     projectId: 'antiburnout-1c07d',
+    authDomain: 'antiburnout-1c07d.firebaseapp.com',
     storageBucket: 'antiburnout-1c07d.firebasestorage.app',
   );
 
@@ -41,6 +42,7 @@ class DefaultFirebaseOptions {
     appId: '1:738635318814:web:586f7db50d992a697f100f',
     messagingSenderId: '738635318814',
     projectId: 'antiburnout-1c07d',
+    authDomain: 'antiburnout-1c07d.firebaseapp.com',
     storageBucket: 'antiburnout-1c07d.firebasestorage.app',
   );
 
