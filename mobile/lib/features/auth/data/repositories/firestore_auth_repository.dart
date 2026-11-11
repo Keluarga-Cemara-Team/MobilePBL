@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import '../../../../core/storage/secure_storage.dart';
 import '../../../../firebase_options.dart';
 import '../../domain/entities/auth_user.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -51,11 +52,18 @@ class FirestoreAuthRepository implements AuthRepository {
     // 1. Dukungan akun fallback pengujian
     if (cleanEmail == _fallbackEmail && cleanPassword == _fallbackPassword) {
       _currentUser = _fallbackUser;
+      await SecureTokenStorage.instance.saveTokens(
+        accessToken: 'dummy-access-token-123',
+        refreshToken: 'dummy-refresh-token-123',
+      );
       return _fallbackUser;
     }
 
     try {
       await _ensureFirebase();
+      if (Firebase.apps.isEmpty) {
+        throw Exception('Firebase belum siap. Silakan muat ulang (refresh) halaman browser Anda.');
+      }
 
       // 2. Cari di koleksi Firestore 'users' berdasarkan email
       var query = await _firestore
@@ -96,12 +104,17 @@ class FirestoreAuthRepository implements AuthRepository {
       );
 
       _currentUser = user;
+      await SecureTokenStorage.instance.saveTokens(
+        accessToken: 'jwt-access-${user.id}-${DateTime.now().millisecondsSinceEpoch}',
+        refreshToken: 'jwt-refresh-${user.id}-${DateTime.now().millisecondsSinceEpoch}',
+      );
       debugPrint('FirestoreAuthRepository: Berhasil login sebagai ${user.email} (${user.id})');
       return user;
     } catch (e) {
       debugPrint('FirestoreAuthRepository login error: $e');
       if (e.toString().contains('tidak ditemukan') ||
-          e.toString().contains('salah')) {
+          e.toString().contains('salah') ||
+          e.toString().contains('belum siap')) {
         rethrow;
       }
       throw Exception('Gagal melakukan login. Periksa koneksi internet Anda: $e');
@@ -127,6 +140,9 @@ class FirestoreAuthRepository implements AuthRepository {
 
     try {
       await _ensureFirebase();
+      if (Firebase.apps.isEmpty) {
+        throw Exception('Firebase belum siap. Silakan muat ulang (refresh) halaman browser Anda.');
+      }
 
       // 1. Cek apakah email sudah terdaftar di Firestore
       final existing = await _firestore
@@ -158,12 +174,17 @@ class FirestoreAuthRepository implements AuthRepository {
       );
 
       _currentUser = user;
+      await SecureTokenStorage.instance.saveTokens(
+        accessToken: 'jwt-access-${user.id}-${DateTime.now().millisecondsSinceEpoch}',
+        refreshToken: 'jwt-refresh-${user.id}-${DateTime.now().millisecondsSinceEpoch}',
+      );
       debugPrint('FirestoreAuthRepository: Registrasi berhasil untuk ${user.email} (DocID: ${docRef.id})');
       return user;
     } catch (e) {
       debugPrint('FirestoreAuthRepository register error: $e');
       if (e.toString().contains('sudah terdaftar') ||
-          e.toString().contains('karakter')) {
+          e.toString().contains('karakter') ||
+          e.toString().contains('belum siap')) {
         rethrow;
       }
       throw Exception('Gagal mendaftarkan akun baru. Periksa koneksi internet Anda: $e');
@@ -173,6 +194,7 @@ class FirestoreAuthRepository implements AuthRepository {
   @override
   Future<void> logout() async {
     _currentUser = null;
+    await SecureTokenStorage.instance.clearTokens();
     debugPrint('FirestoreAuthRepository: Pengguna berhasil keluar (logout).');
   }
 }
