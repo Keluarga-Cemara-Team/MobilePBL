@@ -4,6 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../widgets/assessment_history_item.dart';
 
+import '../../../auth/presentation/controllers/auth_controller.dart';
+import '../../data/repositories/firestore_history_repository.dart';
+
 abstract class HistoryRepository {
   Future<List<AssessmentHistoryItem>> fetchHistory();
 }
@@ -75,6 +78,8 @@ class DummyHistoryRepository implements HistoryRepository {
   }
 }
 
-final historyRepositoryProvider = Provider<HistoryRepository>(
-  (ref) => DummyHistoryRepository(ref.watch(assessmentFixtureProvider)),
-);
+final historyRepositoryProvider = Provider<HistoryRepository>((ref) {
+  return FirestoreHistoryRepository(
+    currentUserProvider: () => ref.watch(authControllerProvider).user,
+  );
+});
