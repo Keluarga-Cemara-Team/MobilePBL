@@ -6,10 +6,12 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/theme/assessment_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/utils/date_formatter.dart';
 import '../../../../shared/widgets/app_blob_background.dart';
 import '../../../assessment/di/assessment_providers.dart';
 import '../../../assessment/domain/entities/risk_level.dart';
+import '../result_copy.dart';
 import '../widgets/risk_summary_card.dart';
 
 class ResultPage extends ConsumerWidget {
@@ -26,6 +28,7 @@ class ResultPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final assessment = ref.watch(assessmentByIdProvider(assessmentId));
     final goBack = onBack ?? () => Navigator.of(context).maybePop();
 
@@ -46,7 +49,7 @@ class ResultPage extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hasil asesmen belum dapat dimuat.',
+                    l10n.resultLoadError,
                     style: AppTextStyles.subtitle(context)
                         .copyWith(fontSize: context.ui(14)),
                   ),
@@ -57,7 +60,7 @@ class ResultPage extends ConsumerWidget {
                       textStyle: TextStyle(fontSize: context.ui(14)),
                       padding: EdgeInsets.all(context.ui(12)),
                     ),
-                    child: const Text('Coba lagi'),
+                    child: Text(l10n.historyRetry),
                   ),
                 ],
               ),
@@ -67,8 +70,7 @@ class ResultPage extends ConsumerWidget {
                 return _ResultStatus(
                   onBack: goBack,
                   child: Text(
-                    'Hasil asesmen tidak ditemukan. Buka hasil dari riwayat '
-                    'atau selesaikan survei terlebih dahulu.',
+                    l10n.resultNotFound,
                     style: AppTextStyles.subtitle(context)
                         .copyWith(fontSize: context.ui(14)),
                   ),
@@ -76,24 +78,28 @@ class ResultPage extends ConsumerWidget {
               }
 
               final (label, color) = switch (item.riskLevel) {
-                RiskLevel.rendah => ('Rendah', AssessmentColors.riskLow),
-                RiskLevel.sedang => ('Sedang', AssessmentColors.riskMedium),
-                RiskLevel.tinggi => ('Tinggi', AssessmentColors.riskHigh),
+                RiskLevel.rendah => (l10n.riskLow, AssessmentColors.riskLow),
+                RiskLevel.sedang => (
+                  l10n.riskMedium,
+                  AssessmentColors.riskMedium,
+                ),
+                RiskLevel.tinggi => (l10n.riskHigh, AssessmentColors.riskHigh),
               };
               return RiskSummaryCard(
                 key: ValueKey(item.id),
                 scrollKey: PageStorageKey('result-scroll-${item.id}'),
-                title: 'Hasil Prediksi',
+                title: l10n.resultTitle,
                 level: label,
                 levelColor: color,
                 ringColor: color,
-                description:
-                    'Hasil asesmen menunjukkan indikasi risiko burnout '
-                    'pada tingkat ${label.toLowerCase()}.',
-                assessmentDate: formatAssessmentDate(item.takenAt),
-                disclaimer:
-                    'Ini bukan diagnosis medis, tetapi indikasi awal '
-                    'yang dapat membantumu lebih memahami kondisi diri.',
+                description: l10n.resultDescription(label.toLowerCase()),
+                assessmentDate: l10n.resultAssessmentDate(
+                  formatAssessmentDate(
+                    item.takenAt,
+                    english: l10n.localeName == 'en',
+                  ),
+                ),
+                disclaimer: l10n.resultDisclaimer,
                 isExample: item.isExample,
                 factors: [
                   for (var index = 0; index < item.modelFactors.length; index++)
@@ -105,7 +111,10 @@ class ResultPage extends ConsumerWidget {
                               _ => Icons.favorite_rounded,
                             }
                           : Icons.insights_outlined,
-                      label: item.modelFactors[index].label,
+                      label: localizeResultFactor(
+                        l10n,
+                        item.modelFactors[index].label,
+                      ),
                       backgroundColor: item.isExample
                           ? switch (index) {
                               0 => AppColors.of(context).blob,
@@ -125,8 +134,8 @@ class ResultPage extends ConsumerWidget {
                 answerSummary: [
                   for (final answer in item.answerSummary)
                     AnswerSummaryItemData(
-                      label: answer.label,
-                      value: answer.value,
+                      label: localizeResultAnswerLabel(l10n, answer.label),
+                      value: localizeResultAnswerValue(l10n, answer),
                     ),
                 ],
                 onBackTap: goBack,
@@ -152,7 +161,10 @@ class _ResultStatus extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ResultHeader(title: 'Hasil Prediksi', onBack: onBack),
+          ResultHeader(
+            title: AppLocalizations.of(context)!.resultTitle,
+            onBack: onBack,
+          ),
           Padding(
             padding: EdgeInsets.all(context.ui(AppSpacing.lg)),
             child: SizedBox(width: double.infinity, child: child),

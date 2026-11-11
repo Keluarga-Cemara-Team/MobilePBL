@@ -500,4 +500,143 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get historyDetails => 'Detail';
+
+  @override
+  String get resultTitle => 'Hasil Prediksi';
+
+  @override
+  String get resultLoadError => 'Hasil asesmen belum dapat dimuat.';
+
+  @override
+  String get resultNotFound =>
+      'Hasil asesmen tidak ditemukan. Buka hasil dari riwayat atau selesaikan survei terlebih dahulu.';
+
+  @override
+  String resultDescription(Object risk) {
+    return 'Hasil asesmen menunjukkan indikasi risiko burnout pada tingkat $risk.';
+  }
+
+  @override
+  String resultAssessmentDate(Object date) {
+    return 'Asesmen $date';
+  }
+
+  @override
+  String get resultDisclaimer =>
+      'Ini bukan diagnosis medis, tetapi indikasi awal yang dapat membantumu lebih memahami kondisi diri.';
+
+  @override
+  String get resultSampleData => 'Data contoh';
+
+  @override
+  String get resultFactorsTitle => 'Faktor yang Mempengaruhi';
+
+  @override
+  String get resultFactorsUnavailable =>
+      'Faktor dari model belum tersedia untuk asesmen ini.';
+
+  @override
+  String get resultExampleFactorsCaption =>
+      'Faktor pada contoh hasil asesmen ini.';
+
+  @override
+  String get resultModelFactorsCaption =>
+      'Faktor yang disertakan dalam hasil model untuk asesmen ini.';
+
+  @override
+  String get resultAnswerSummaryTitle => 'Ringkasan Jawaban';
+
+  @override
+  String get resultExampleAnswersCaption =>
+      'Ringkasan jawaban pada contoh asesmen ini.';
+
+  @override
+  String get resultAnswersCaption =>
+      'Ringkasan jawaban survei, bukan kontribusi model prediksi.';
+
+  @override
+  String get resultAnswersUnavailable => 'Ringkasan jawaban belum tersedia.';
+
+  @override
+  String get resultRecommendation => 'Lihat Rekomendasi';
+
+  @override
+  String get resultRiskLevel => 'Tingkat Risiko';
+
+  @override
+  String get resultRiskBurnout => 'Risiko Burnout';
+
+  @override
+  String get resultStressLabel => 'Tingkat stres';
+
+  @override
+  String resultRiskSemantics(Object risk) {
+    return 'Tingkat risiko burnout: $risk';
+  }
+
+  @override
+  String get resultExampleFactorSleep => 'Durasi tidur kurang stabil';
+
+  @override
+  String get resultExampleFactorActivity => 'Beban aktivitas cukup tinggi';
+
+  @override
+  String get resultExampleFactorStress => 'Tingkat stres yang meningkat';
+
+  @override
+  String resultFactorSleepSuboptimal(Object hours) {
+    return 'Durasi tidur kurang optimal ($hours jam)';
+  }
+
+  @override
+  String get resultFactorActivityStressHigh =>
+      'Beban aktivitas dan stres harian tinggi';
+
+  @override
+  String resultFactorScreenIntensive(Object hours) {
+    return 'Paparan layar intensif ($hours jam)';
+  }
+
+  @override
+  String resultFactorCoffeeHigh(Object cups) {
+    return 'Konsumsi kafein tinggi ($cups cangkir)';
+  }
+
+  @override
+  String resultFactorCoffeeModerateHigh(Object cups) {
+    return 'Konsumsi kafein cukup tinggi ($cups cangkir)';
+  }
+
+  @override
+  String get resultFactorMeditationPositive =>
+      'Praktik relaksasi / meditasi sangat baik';
+
+  @override
+  String get resultFactorBalancedActivityRest =>
+      'Aktivitas dan pola istirahat seimbang';
+
+  @override
+  String get resultFactorStressHigh => 'Tingkat stres tergolong tinggi';
+
+  @override
+  String resultFactorSleepLow(Object hours) {
+    return 'Durasi tidur kurang ($hours jam)';
+  }
+
+  @override
+  String resultFactorScreenHigh(Object hours) {
+    return 'Waktu layar cukup tinggi ($hours jam)';
+  }
+
+  @override
+  String get resultFactorRestWorkBalanced =>
+      'Pola istirahat dan beban kerja terkendali';
+
+  @override
+  String get resultFactorFatigueRhythm =>
+      'Evaluasi kelelahan kerja & ritme harian';
+
+  @override
+  String get resultFactorRestStressAnalysis =>
+      'Analisis waktu istirahat dan stres';
 }

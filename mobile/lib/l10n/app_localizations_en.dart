@@ -495,4 +495,141 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get historyDetails => 'Details';
+
+  @override
+  String get resultTitle => 'Prediction Result';
+
+  @override
+  String get resultLoadError => 'The assessment result could not be loaded.';
+
+  @override
+  String get resultNotFound =>
+      'Assessment result not found. Open a result from History or complete a survey first.';
+
+  @override
+  String resultDescription(Object risk) {
+    return 'The assessment indicates a $risk level of burnout risk.';
+  }
+
+  @override
+  String resultAssessmentDate(Object date) {
+    return 'Assessment $date';
+  }
+
+  @override
+  String get resultDisclaimer =>
+      'This is not a medical diagnosis, but an initial indication that may help you better understand your wellbeing.';
+
+  @override
+  String get resultSampleData => 'Sample data';
+
+  @override
+  String get resultFactorsTitle => 'Contributing Factors';
+
+  @override
+  String get resultFactorsUnavailable =>
+      'Model factors are not available for this assessment.';
+
+  @override
+  String get resultExampleFactorsCaption =>
+      'Factors shown in this sample assessment result.';
+
+  @override
+  String get resultModelFactorsCaption =>
+      'Factors included in the model result for this assessment.';
+
+  @override
+  String get resultAnswerSummaryTitle => 'Answer Summary';
+
+  @override
+  String get resultExampleAnswersCaption =>
+      'Answers from this sample assessment.';
+
+  @override
+  String get resultAnswersCaption =>
+      'Survey answers, separate from the prediction model\'s contributing factors.';
+
+  @override
+  String get resultAnswersUnavailable => 'Answer summary is not available.';
+
+  @override
+  String get resultRecommendation => 'View Recommendations';
+
+  @override
+  String get resultRiskLevel => 'Risk Level';
+
+  @override
+  String get resultRiskBurnout => 'Burnout Risk';
+
+  @override
+  String get resultStressLabel => 'Stress level';
+
+  @override
+  String resultRiskSemantics(Object risk) {
+    return 'Burnout risk level: $risk';
+  }
+
+  @override
+  String get resultExampleFactorSleep => 'Irregular sleep duration';
+
+  @override
+  String get resultExampleFactorActivity => 'High activity load';
+
+  @override
+  String get resultExampleFactorStress => 'Increasing stress level';
+
+  @override
+  String resultFactorSleepSuboptimal(Object hours) {
+    return 'Suboptimal sleep duration ($hours hours)';
+  }
+
+  @override
+  String get resultFactorActivityStressHigh =>
+      'High daily activity and stress load';
+
+  @override
+  String resultFactorScreenIntensive(Object hours) {
+    return 'Intensive screen exposure ($hours hours)';
+  }
+
+  @override
+  String resultFactorCoffeeHigh(Object cups) {
+    return 'High caffeine intake ($cups cups)';
+  }
+
+  @override
+  String resultFactorCoffeeModerateHigh(Object cups) {
+    return 'Fairly high caffeine intake ($cups cups)';
+  }
+
+  @override
+  String get resultFactorMeditationPositive =>
+      'Very good relaxation / meditation practice';
+
+  @override
+  String get resultFactorBalancedActivityRest =>
+      'Balanced activity and rest patterns';
+
+  @override
+  String get resultFactorStressHigh => 'High stress level';
+
+  @override
+  String resultFactorSleepLow(Object hours) {
+    return 'Short sleep duration ($hours hours)';
+  }
+
+  @override
+  String resultFactorScreenHigh(Object hours) {
+    return 'High screen time ($hours hours)';
+  }
+
+  @override
+  String get resultFactorRestWorkBalanced => 'Balanced rest and workload';
+
+  @override
+  String get resultFactorFatigueRhythm =>
+      'Work fatigue and daily rhythm evaluation';
+
+  @override
+  String get resultFactorRestStressAnalysis => 'Rest and stress analysis';
 }

@@ -943,6 +943,222 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Detail'**
   String get historyDetails;
+
+  /// No description provided for @resultTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil Prediksi'**
+  String get resultTitle;
+
+  /// No description provided for @resultLoadError.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil asesmen belum dapat dimuat.'**
+  String get resultLoadError;
+
+  /// No description provided for @resultNotFound.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil asesmen tidak ditemukan. Buka hasil dari riwayat atau selesaikan survei terlebih dahulu.'**
+  String get resultNotFound;
+
+  /// No description provided for @resultDescription.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil asesmen menunjukkan indikasi risiko burnout pada tingkat {risk}.'**
+  String resultDescription(Object risk);
+
+  /// No description provided for @resultAssessmentDate.
+  ///
+  /// In id, this message translates to:
+  /// **'Asesmen {date}'**
+  String resultAssessmentDate(Object date);
+
+  /// No description provided for @resultDisclaimer.
+  ///
+  /// In id, this message translates to:
+  /// **'Ini bukan diagnosis medis, tetapi indikasi awal yang dapat membantumu lebih memahami kondisi diri.'**
+  String get resultDisclaimer;
+
+  /// No description provided for @resultSampleData.
+  ///
+  /// In id, this message translates to:
+  /// **'Data contoh'**
+  String get resultSampleData;
+
+  /// No description provided for @resultFactorsTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Faktor yang Mempengaruhi'**
+  String get resultFactorsTitle;
+
+  /// No description provided for @resultFactorsUnavailable.
+  ///
+  /// In id, this message translates to:
+  /// **'Faktor dari model belum tersedia untuk asesmen ini.'**
+  String get resultFactorsUnavailable;
+
+  /// No description provided for @resultExampleFactorsCaption.
+  ///
+  /// In id, this message translates to:
+  /// **'Faktor pada contoh hasil asesmen ini.'**
+  String get resultExampleFactorsCaption;
+
+  /// No description provided for @resultModelFactorsCaption.
+  ///
+  /// In id, this message translates to:
+  /// **'Faktor yang disertakan dalam hasil model untuk asesmen ini.'**
+  String get resultModelFactorsCaption;
+
+  /// No description provided for @resultAnswerSummaryTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Ringkasan Jawaban'**
+  String get resultAnswerSummaryTitle;
+
+  /// No description provided for @resultExampleAnswersCaption.
+  ///
+  /// In id, this message translates to:
+  /// **'Ringkasan jawaban pada contoh asesmen ini.'**
+  String get resultExampleAnswersCaption;
+
+  /// No description provided for @resultAnswersCaption.
+  ///
+  /// In id, this message translates to:
+  /// **'Ringkasan jawaban survei, bukan kontribusi model prediksi.'**
+  String get resultAnswersCaption;
+
+  /// No description provided for @resultAnswersUnavailable.
+  ///
+  /// In id, this message translates to:
+  /// **'Ringkasan jawaban belum tersedia.'**
+  String get resultAnswersUnavailable;
+
+  /// No description provided for @resultRecommendation.
+  ///
+  /// In id, this message translates to:
+  /// **'Lihat Rekomendasi'**
+  String get resultRecommendation;
+
+  /// No description provided for @resultRiskLevel.
+  ///
+  /// In id, this message translates to:
+  /// **'Tingkat Risiko'**
+  String get resultRiskLevel;
+
+  /// No description provided for @resultRiskBurnout.
+  ///
+  /// In id, this message translates to:
+  /// **'Risiko Burnout'**
+  String get resultRiskBurnout;
+
+  /// No description provided for @resultStressLabel.
+  ///
+  /// In id, this message translates to:
+  /// **'Tingkat stres'**
+  String get resultStressLabel;
+
+  /// No description provided for @resultRiskSemantics.
+  ///
+  /// In id, this message translates to:
+  /// **'Tingkat risiko burnout: {risk}'**
+  String resultRiskSemantics(Object risk);
+
+  /// No description provided for @resultExampleFactorSleep.
+  ///
+  /// In id, this message translates to:
+  /// **'Durasi tidur kurang stabil'**
+  String get resultExampleFactorSleep;
+
+  /// No description provided for @resultExampleFactorActivity.
+  ///
+  /// In id, this message translates to:
+  /// **'Beban aktivitas cukup tinggi'**
+  String get resultExampleFactorActivity;
+
+  /// No description provided for @resultExampleFactorStress.
+  ///
+  /// In id, this message translates to:
+  /// **'Tingkat stres yang meningkat'**
+  String get resultExampleFactorStress;
+
+  /// No description provided for @resultFactorSleepSuboptimal.
+  ///
+  /// In id, this message translates to:
+  /// **'Durasi tidur kurang optimal ({hours} jam)'**
+  String resultFactorSleepSuboptimal(Object hours);
+
+  /// No description provided for @resultFactorActivityStressHigh.
+  ///
+  /// In id, this message translates to:
+  /// **'Beban aktivitas dan stres harian tinggi'**
+  String get resultFactorActivityStressHigh;
+
+  /// No description provided for @resultFactorScreenIntensive.
+  ///
+  /// In id, this message translates to:
+  /// **'Paparan layar intensif ({hours} jam)'**
+  String resultFactorScreenIntensive(Object hours);
+
+  /// No description provided for @resultFactorCoffeeHigh.
+  ///
+  /// In id, this message translates to:
+  /// **'Konsumsi kafein tinggi ({cups} cangkir)'**
+  String resultFactorCoffeeHigh(Object cups);
+
+  /// No description provided for @resultFactorCoffeeModerateHigh.
+  ///
+  /// In id, this message translates to:
+  /// **'Konsumsi kafein cukup tinggi ({cups} cangkir)'**
+  String resultFactorCoffeeModerateHigh(Object cups);
+
+  /// No description provided for @resultFactorMeditationPositive.
+  ///
+  /// In id, this message translates to:
+  /// **'Praktik relaksasi / meditasi sangat baik'**
+  String get resultFactorMeditationPositive;
+
+  /// No description provided for @resultFactorBalancedActivityRest.
+  ///
+  /// In id, this message translates to:
+  /// **'Aktivitas dan pola istirahat seimbang'**
+  String get resultFactorBalancedActivityRest;
+
+  /// No description provided for @resultFactorStressHigh.
+  ///
+  /// In id, this message translates to:
+  /// **'Tingkat stres tergolong tinggi'**
+  String get resultFactorStressHigh;
+
+  /// No description provided for @resultFactorSleepLow.
+  ///
+  /// In id, this message translates to:
+  /// **'Durasi tidur kurang ({hours} jam)'**
+  String resultFactorSleepLow(Object hours);
+
+  /// No description provided for @resultFactorScreenHigh.
+  ///
+  /// In id, this message translates to:
+  /// **'Waktu layar cukup tinggi ({hours} jam)'**
+  String resultFactorScreenHigh(Object hours);
+
+  /// No description provided for @resultFactorRestWorkBalanced.
+  ///
+  /// In id, this message translates to:
+  /// **'Pola istirahat dan beban kerja terkendali'**
+  String get resultFactorRestWorkBalanced;
+
+  /// No description provided for @resultFactorFatigueRhythm.
+  ///
+  /// In id, this message translates to:
+  /// **'Evaluasi kelelahan kerja & ritme harian'**
+  String get resultFactorFatigueRhythm;
+
+  /// No description provided for @resultFactorRestStressAnalysis.
+  ///
+  /// In id, this message translates to:
+  /// **'Analisis waktu istirahat dan stres'**
+  String get resultFactorRestStressAnalysis;
 }
 
 class _AppLocalizationsDelegate
