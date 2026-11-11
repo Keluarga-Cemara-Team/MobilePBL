@@ -184,5 +184,17 @@
         "type": "int"
       }
     }
-  }
+  },
+  "historyTitle": "Riwayat Survei",
+  "historyDescription": "Hasil asesmen burnout sebelumnya.",
+  "historySearchHint": "Cari riwayat...",
+  "historyFilterAll": "Semua",
+  "historyEmpty": "Belum ada riwayat pemeriksaan.",
+  "historyNoResults": "Riwayat tidak ditemukan.",
+  "historyLoadError": "Gagal memuat riwayat. Coba lagi.",
+  "historyRetry": "Coba lagi",
+  "historyLatest": "Hasil asesmen terbaru",
+  "historyPrevious": "Hasil asesmen sebelumnya",
+  "historyRiskTitle": "Risiko Burnout",
+  "historyDetails": "Detail"
 }

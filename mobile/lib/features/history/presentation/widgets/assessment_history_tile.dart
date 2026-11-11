@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/assessment_colors.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../../shared/utils/date_formatter.dart';
 import 'assessment_history_item.dart';
 
 class AssessmentHistoryTile extends StatelessWidget {
@@ -19,6 +21,7 @@ class AssessmentHistoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colors = AppColors.of(context);
     final style = _RiskStyle.of(context, item.riskLevel);
 
@@ -89,7 +92,7 @@ class AssessmentHistoryTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Risiko Burnout',
+                          l10n.historyRiskTitle,
                           style: TextStyle(
                             fontSize: context.ui(15),
                             fontWeight: FontWeight.w800,
@@ -98,7 +101,11 @@ class AssessmentHistoryTile extends StatelessWidget {
                         ),
                         SizedBox(height: context.ui(4)),
                         Text(
-                          item.dateTimeLabel,
+                          formatAssessmentDate(
+                            item.takenAt,
+                            includeTime: true,
+                            english: l10n.localeName == 'en',
+                          ),
                           style: TextStyle(
                             fontSize: context.ui(11),
                             color: colors.hint,
@@ -107,8 +114,8 @@ class AssessmentHistoryTile extends StatelessWidget {
                         SizedBox(height: context.ui(6)),
                         Text(
                           isLatest
-                              ? 'Hasil asesmen terbaru'
-                              : 'Hasil asesmen sebelumnya',
+                              ? l10n.historyLatest
+                              : l10n.historyPrevious,
                           style: TextStyle(
                             fontSize: context.ui(11),
                             color: colors.body,
@@ -134,7 +141,11 @@ class AssessmentHistoryTile extends StatelessWidget {
                           borderRadius: BorderRadius.circular(context.ui(20)),
                         ),
                         child: Text(
-                          item.riskLevel.label.toUpperCase(),
+                          switch (item.riskLevel) {
+                            RiskLevel.rendah => l10n.riskLow,
+                            RiskLevel.sedang => l10n.riskMedium,
+                            RiskLevel.tinggi => l10n.riskHigh,
+                          }.toUpperCase(),
                           style: TextStyle(
                             fontSize: context.ui(10),
                             fontWeight: FontWeight.w800,
@@ -146,7 +157,7 @@ class AssessmentHistoryTile extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Detail',
+                            l10n.historyDetails,
                             style: TextStyle(
                               fontSize: context.ui(11),
                               fontWeight: FontWeight.w700,

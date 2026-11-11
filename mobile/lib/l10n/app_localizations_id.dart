@@ -464,4 +464,40 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get moodReview => 'Suasana hati';
+
+  @override
+  String get historyTitle => 'Riwayat Survei';
+
+  @override
+  String get historyDescription => 'Hasil asesmen burnout sebelumnya.';
+
+  @override
+  String get historySearchHint => 'Cari riwayat...';
+
+  @override
+  String get historyFilterAll => 'Semua';
+
+  @override
+  String get historyEmpty => 'Belum ada riwayat pemeriksaan.';
+
+  @override
+  String get historyNoResults => 'Riwayat tidak ditemukan.';
+
+  @override
+  String get historyLoadError => 'Gagal memuat riwayat. Coba lagi.';
+
+  @override
+  String get historyRetry => 'Coba lagi';
+
+  @override
+  String get historyLatest => 'Hasil asesmen terbaru';
+
+  @override
+  String get historyPrevious => 'Hasil asesmen sebelumnya';
+
+  @override
+  String get historyRiskTitle => 'Risiko Burnout';
+
+  @override
+  String get historyDetails => 'Detail';
 }

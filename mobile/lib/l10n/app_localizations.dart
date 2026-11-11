@@ -871,6 +871,78 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Suasana hati'**
   String get moodReview;
+
+  /// No description provided for @historyTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Riwayat Survei'**
+  String get historyTitle;
+
+  /// No description provided for @historyDescription.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil asesmen burnout sebelumnya.'**
+  String get historyDescription;
+
+  /// No description provided for @historySearchHint.
+  ///
+  /// In id, this message translates to:
+  /// **'Cari riwayat...'**
+  String get historySearchHint;
+
+  /// No description provided for @historyFilterAll.
+  ///
+  /// In id, this message translates to:
+  /// **'Semua'**
+  String get historyFilterAll;
+
+  /// No description provided for @historyEmpty.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada riwayat pemeriksaan.'**
+  String get historyEmpty;
+
+  /// No description provided for @historyNoResults.
+  ///
+  /// In id, this message translates to:
+  /// **'Riwayat tidak ditemukan.'**
+  String get historyNoResults;
+
+  /// No description provided for @historyLoadError.
+  ///
+  /// In id, this message translates to:
+  /// **'Gagal memuat riwayat. Coba lagi.'**
+  String get historyLoadError;
+
+  /// No description provided for @historyRetry.
+  ///
+  /// In id, this message translates to:
+  /// **'Coba lagi'**
+  String get historyRetry;
+
+  /// No description provided for @historyLatest.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil asesmen terbaru'**
+  String get historyLatest;
+
+  /// No description provided for @historyPrevious.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil asesmen sebelumnya'**
+  String get historyPrevious;
+
+  /// No description provided for @historyRiskTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Risiko Burnout'**
+  String get historyRiskTitle;
+
+  /// No description provided for @historyDetails.
+  ///
+  /// In id, this message translates to:
+  /// **'Detail'**
+  String get historyDetails;
 }
 
 class _AppLocalizationsDelegate

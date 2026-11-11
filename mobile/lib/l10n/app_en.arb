@@ -184,5 +184,17 @@
         "type": "int"
       }
     }
-  }
+  },
+  "historyTitle": "Survey History",
+  "historyDescription": "Your previous burnout assessment results.",
+  "historySearchHint": "Search history...",
+  "historyFilterAll": "All",
+  "historyEmpty": "No assessment history yet.",
+  "historyNoResults": "No history found.",
+  "historyLoadError": "Could not load history. Try again.",
+  "historyRetry": "Try again",
+  "historyLatest": "Latest assessment result",
+  "historyPrevious": "Previous assessment result",
+  "historyRiskTitle": "Burnout Risk",
+  "historyDetails": "Details"
 }

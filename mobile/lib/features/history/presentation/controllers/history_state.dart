@@ -31,12 +31,19 @@ class HistoryState {
   String? get latestId => items.isEmpty ? null : items.first.id;
 
   List<AssessmentHistoryItem> get visibleItems {
+    return visibleItemsMatching((_) => '');
+  }
+
+  List<AssessmentHistoryItem> visibleItemsMatching(
+    String Function(AssessmentHistoryItem item) localizedSearchText,
+  ) {
     final q = query.trim().toLowerCase();
     return items.where((item) {
       final matchFilter = filter.risk == null || item.riskLevel == filter.risk;
       final matchQuery = q.isEmpty ||
           item.riskLevel.label.toLowerCase().contains(q) ||
-          item.dateTimeLabel.toLowerCase().contains(q);
+          item.dateTimeLabel.toLowerCase().contains(q) ||
+          localizedSearchText(item).toLowerCase().contains(q);
       return matchFilter && matchQuery;
     }).toList();
   }

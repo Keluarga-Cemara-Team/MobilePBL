@@ -459,4 +459,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moodReview => 'Mood';
+
+  @override
+  String get historyTitle => 'Survey History';
+
+  @override
+  String get historyDescription => 'Your previous burnout assessment results.';
+
+  @override
+  String get historySearchHint => 'Search history...';
+
+  @override
+  String get historyFilterAll => 'All';
+
+  @override
+  String get historyEmpty => 'No assessment history yet.';
+
+  @override
+  String get historyNoResults => 'No history found.';
+
+  @override
+  String get historyLoadError => 'Could not load history. Try again.';
+
+  @override
+  String get historyRetry => 'Try again';
+
+  @override
+  String get historyLatest => 'Latest assessment result';
+
+  @override
+  String get historyPrevious => 'Previous assessment result';
+
+  @override
+  String get historyRiskTitle => 'Burnout Risk';
+
+  @override
+  String get historyDetails => 'Details';
 }

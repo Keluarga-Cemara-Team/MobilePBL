@@ -6,6 +6,8 @@ import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../assessment/domain/entities/risk_level.dart';
 import '../controllers/history_state.dart';
 
 class HistoryFilterBar extends StatelessWidget {
@@ -20,6 +22,7 @@ class HistoryFilterBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     const filters = HistoryFilter.values;
     final fontSize = context.ui(12);
     final verticalPadding = context.ui(AppSpacing.sm);
@@ -67,7 +70,12 @@ class HistoryFilterBar extends StatelessWidget {
                     height: 1.2,
                   ),
                 ),
-                child: Text(filter.label),
+                child: Text(switch (filter) {
+                  HistoryFilter.semua => l10n.historyFilterAll,
+                  HistoryFilter.rendah => l10n.riskLow,
+                  HistoryFilter.sedang => l10n.riskMedium,
+                  HistoryFilter.tinggi => l10n.riskHigh,
+                }),
               ),
             ),
           );
