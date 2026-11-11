@@ -4,11 +4,15 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'app/app.dart';
 import 'core/services/notification_service.dart';
+import 'firebase_options.dart';
 
 Future<void> bootstrap() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    debugPrint('>> Firebase berhasil diinisialisasi dengan DefaultFirebaseOptions.');
   } catch (e) {
     debugPrint('Firebase initialization error: $e');
   }
