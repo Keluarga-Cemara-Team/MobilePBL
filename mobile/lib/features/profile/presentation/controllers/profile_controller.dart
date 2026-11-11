@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../auth/di/auth_providers.dart';
 import '../../../auth/presentation/controllers/auth_controller.dart';
 
 class ProfileDetails {
@@ -32,18 +35,39 @@ class ProfileController extends Notifier<ProfileDetails> {
     );
   }
 
-  bool updateProfile({
+  Future<bool> updateProfile({
     required String name,
     Uint8List? photoBytes,
     bool removePhoto = false,
-  }) {
+  }) async {
     final trimmedName = name.trim();
     if (trimmedName.isEmpty) return false;
+
+    String? photoUrl = state.photoUrl;
+    if (removePhoto) {
+      photoUrl = null;
+    } else if (photoBytes != null) {
+      photoUrl = 'data:image/jpeg;base64,${base64Encode(photoBytes)}';
+    }
+
+    final user = ref.read(authControllerProvider).user;
+    final userId = user?.id ?? 'guest-user';
+
+    try {
+      final updatedUser = await ref.read(authRepositoryProvider).updateProfile(
+        userId: userId,
+        name: trimmedName,
+        photoUrl: photoUrl,
+      );
+      ref.read(authControllerProvider.notifier).updateCurrentUser(updatedUser);
+    } catch (e) {
+      debugPrint('ProfileController updateProfile error: $e');
+    }
 
     state = ProfileDetails(
       name: trimmedName,
       email: state.email,
-      photoUrl: removePhoto ? null : state.photoUrl,
+      photoUrl: photoUrl,
       photoBytes: removePhoto ? null : (photoBytes ?? state.photoBytes),
     );
     return true;

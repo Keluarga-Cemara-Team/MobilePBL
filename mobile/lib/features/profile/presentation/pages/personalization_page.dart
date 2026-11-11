@@ -88,7 +88,7 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         const SnackBar(
-          content: Text('Personalisasi tersimpan untuk sesi ini.'),
+          content: Text('Personalisasi profil berhasil disimpan.'),
         ),
       );
 

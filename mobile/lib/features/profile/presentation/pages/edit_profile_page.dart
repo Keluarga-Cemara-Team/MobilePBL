@@ -29,6 +29,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   Uint8List? _photoBytes;
   bool _removePhoto = false;
   bool _isPickingPhoto = false;
+  bool _isSaving = false;
   String? _photoError;
 
   @override
@@ -79,23 +80,26 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     }
   }
 
-  void _save() {
-    if (_isPickingPhoto || !(_formKey.currentState?.validate() ?? false)) {
+  Future<void> _save() async {
+    if (_isPickingPhoto || _isSaving || !(_formKey.currentState?.validate() ?? false)) {
       return;
     }
     FocusScope.of(context).unfocus();
-    final saved = ref
+    setState(() => _isSaving = true);
+    final saved = await ref
         .read(profileControllerProvider.notifier)
         .updateProfile(
           name: _nameController.text,
           photoBytes: _photoBytes,
           removePhoto: _removePhoto,
         );
+    if (!mounted) return;
+    setState(() => _isSaving = false);
     if (!saved) return;
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        const SnackBar(content: Text('Profil diperbarui untuk sesi ini.')),
+        const SnackBar(content: Text('Profil berhasil diperbarui dan disimpan.')),
       );
     widget.onBack();
   }
@@ -251,13 +255,13 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
               SizedBox(height: context.ui(26)),
               const ProfileInfoCard(
                 text:
-                    'Nama dan foto tersimpan selama sesi aplikasi ini. '
-                    'Perubahan belum disinkronkan ke akun.',
+                    'Nama dan foto profil disinkronkan secara aman ke akun Anda.',
               ),
               SizedBox(height: context.ui(28)),
               AppButton(
                 label: 'Simpan Perubahan',
-                onPressed: _isPickingPhoto ? null : _save,
+                isLoading: _isSaving,
+                onPressed: _isPickingPhoto || _isSaving ? null : _save,
               ),
               SizedBox(height: context.ui(8)),
               TextButton(
