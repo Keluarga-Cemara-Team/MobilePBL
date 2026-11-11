@@ -4,6 +4,8 @@ import 'package:mobile/core/services/notification_service.dart';
 import 'package:mobile/features/profile/presentation/controllers/preferences_controller.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('NotificationService Constants & Quotes Tests', () {
     test('Notification channels and IDs are properly configured', () {
       expect(NotificationService.reminderNotificationId, 1001);
