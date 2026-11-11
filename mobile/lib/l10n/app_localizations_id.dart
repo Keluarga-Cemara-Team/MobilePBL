@@ -500,4 +500,665 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get historyDetails => 'Detail';
+
+  @override
+  String get resultTitle => 'Hasil Prediksi';
+
+  @override
+  String get resultLoadError => 'Hasil asesmen belum dapat dimuat.';
+
+  @override
+  String get resultNotFound =>
+      'Hasil asesmen tidak ditemukan. Buka hasil dari riwayat atau selesaikan survei terlebih dahulu.';
+
+  @override
+  String resultDescription(Object risk) {
+    return 'Hasil asesmen menunjukkan indikasi risiko burnout pada tingkat $risk.';
+  }
+
+  @override
+  String resultAssessmentDate(Object date) {
+    return 'Asesmen $date';
+  }
+
+  @override
+  String get resultDisclaimer =>
+      'Ini bukan diagnosis medis, tetapi indikasi awal yang dapat membantumu lebih memahami kondisi diri.';
+
+  @override
+  String get resultSampleData => 'Data contoh';
+
+  @override
+  String get resultFactorsTitle => 'Faktor yang Mempengaruhi';
+
+  @override
+  String get resultFactorsUnavailable =>
+      'Faktor dari model belum tersedia untuk asesmen ini.';
+
+  @override
+  String get resultExampleFactorsCaption =>
+      'Faktor pada contoh hasil asesmen ini.';
+
+  @override
+  String get resultModelFactorsCaption =>
+      'Faktor yang disertakan dalam hasil model untuk asesmen ini.';
+
+  @override
+  String get resultAnswerSummaryTitle => 'Ringkasan Jawaban';
+
+  @override
+  String get resultExampleAnswersCaption =>
+      'Ringkasan jawaban pada contoh asesmen ini.';
+
+  @override
+  String get resultAnswersCaption =>
+      'Ringkasan jawaban survei, bukan kontribusi model prediksi.';
+
+  @override
+  String get resultAnswersUnavailable => 'Ringkasan jawaban belum tersedia.';
+
+  @override
+  String get resultRecommendation => 'Lihat Rekomendasi';
+
+  @override
+  String get resultRiskLevel => 'Tingkat Risiko';
+
+  @override
+  String get resultRiskBurnout => 'Risiko Burnout';
+
+  @override
+  String get resultStressLabel => 'Tingkat stres';
+
+  @override
+  String resultRiskSemantics(Object risk) {
+    return 'Tingkat risiko burnout: $risk';
+  }
+
+  @override
+  String get resultExampleFactorSleep => 'Durasi tidur kurang stabil';
+
+  @override
+  String get resultExampleFactorActivity => 'Beban aktivitas cukup tinggi';
+
+  @override
+  String get resultExampleFactorStress => 'Tingkat stres yang meningkat';
+
+  @override
+  String resultFactorSleepSuboptimal(Object hours) {
+    return 'Durasi tidur kurang optimal ($hours jam)';
+  }
+
+  @override
+  String get resultFactorActivityStressHigh =>
+      'Beban aktivitas dan stres harian tinggi';
+
+  @override
+  String resultFactorScreenIntensive(Object hours) {
+    return 'Paparan layar intensif ($hours jam)';
+  }
+
+  @override
+  String resultFactorCoffeeHigh(Object cups) {
+    return 'Konsumsi kafein tinggi ($cups cangkir)';
+  }
+
+  @override
+  String resultFactorCoffeeModerateHigh(Object cups) {
+    return 'Konsumsi kafein cukup tinggi ($cups cangkir)';
+  }
+
+  @override
+  String get resultFactorMeditationPositive =>
+      'Praktik relaksasi / meditasi sangat baik';
+
+  @override
+  String get resultFactorBalancedActivityRest =>
+      'Aktivitas dan pola istirahat seimbang';
+
+  @override
+  String get resultFactorStressHigh => 'Tingkat stres tergolong tinggi';
+
+  @override
+  String resultFactorSleepLow(Object hours) {
+    return 'Durasi tidur kurang ($hours jam)';
+  }
+
+  @override
+  String resultFactorScreenHigh(Object hours) {
+    return 'Waktu layar cukup tinggi ($hours jam)';
+  }
+
+  @override
+  String get resultFactorRestWorkBalanced =>
+      'Pola istirahat dan beban kerja terkendali';
+
+  @override
+  String get resultFactorFatigueRhythm =>
+      'Evaluasi kelelahan kerja & ritme harian';
+
+  @override
+  String get resultFactorRestStressAnalysis =>
+      'Analisis waktu istirahat dan stres';
+
+  @override
+  String get navHome => 'Beranda';
+
+  @override
+  String get navSurvey => 'Survei';
+
+  @override
+  String get navHistory => 'Riwayat';
+
+  @override
+  String get navProfile => 'Profil';
+
+  @override
+  String get userAvatarSemantics => 'Avatar pengguna';
+
+  @override
+  String get profileTitle => 'Profil';
+
+  @override
+  String get profileEdit => 'Edit Profil';
+
+  @override
+  String get profilePersonalization => 'Personalisasi Profil';
+
+  @override
+  String get profilePreferences => 'Preferensi';
+
+  @override
+  String get profileHelp => 'Bantuan';
+
+  @override
+  String get profileAbout => 'Tentang Aplikasi';
+
+  @override
+  String get profileLogout => 'Keluar';
+
+  @override
+  String get profileLogoutError => 'Gagal keluar. Silakan coba lagi.';
+
+  @override
+  String get profileDefaultUser => 'Pengguna';
+
+  @override
+  String get profileEditTitle => 'Edit Profil';
+
+  @override
+  String get profileChangePhoto => 'Ubah Foto';
+
+  @override
+  String get profileOpeningGallery => 'Membuka galeri...';
+
+  @override
+  String get profileUseDefaultAvatar => 'Gunakan avatar bawaan';
+
+  @override
+  String get profilePhotoError =>
+      'Foto belum dapat dibuka. Izinkan akses galeri atau coba foto lain.';
+
+  @override
+  String get profileName => 'Nama';
+
+  @override
+  String get profileNameHint => 'Masukkan nama kamu';
+
+  @override
+  String get profileNameRequired => 'Nama tidak boleh kosong.';
+
+  @override
+  String get profileEmail => 'Email';
+
+  @override
+  String get profileEmailCannotChange => 'Email tidak dapat diubah.';
+
+  @override
+  String get profileNamePhotoSync =>
+      'Nama dan foto profil disinkronkan secara aman ke akun Anda.';
+
+  @override
+  String get profileSaveChanges => 'Simpan Perubahan';
+
+  @override
+  String get profileCancel => 'Batal';
+
+  @override
+  String get profileSaved => 'Profil berhasil diperbarui dan disimpan.';
+
+  @override
+  String get profilePreferencesIntro =>
+      'Sesuaikan tampilan tema, bahasa, serta jadwal pengingat check-in harian dan motivasi untuk mendukung kesehatan mentalmu.';
+
+  @override
+  String get profileAppearance => 'Tampilan';
+
+  @override
+  String get profileChooseTheme => 'Pilih tema yang paling nyaman untukmu.';
+
+  @override
+  String get profileThemeLight => 'Terang';
+
+  @override
+  String get profileThemeDark => 'Gelap';
+
+  @override
+  String get profileThemeSystem => 'Sistem';
+
+  @override
+  String get profileLanguageTitle => 'Bahasa';
+
+  @override
+  String get profileChooseLanguage =>
+      'Pilih bahasa yang digunakan pada aplikasi.';
+
+  @override
+  String get profileLanguageIndonesian => 'Indonesia';
+
+  @override
+  String get profileLanguageIndonesianSubtitle => 'Bahasa Indonesia';
+
+  @override
+  String get profileLanguageEnglish => 'English';
+
+  @override
+  String get profileLanguageEnglishSubtitle => 'English';
+
+  @override
+  String get profileNotifications => 'Pengingat & Notifikasi';
+
+  @override
+  String get profileNotificationDescription =>
+      'Pilih mode notifikasi yang ingin kamu aktifkan untuk mendukung rutinitas harianmu.';
+
+  @override
+  String get profileDailyCheckIn => 'Pengingat Harian (Check-in)';
+
+  @override
+  String get profileDailyCheckInDescription =>
+      'Pengingat otomatis setiap pagi (09:00) untuk evaluasi tingkat burnout.';
+
+  @override
+  String get profileDailyReminderEnabled =>
+      'Pengingat harian dijadwalkan setiap 09:00 WIB';
+
+  @override
+  String get profileDailyReminderDisabled => 'Pengingat harian dinonaktifkan';
+
+  @override
+  String get profileWellbeingMotivation => 'Motivasi Sederhana';
+
+  @override
+  String get profileWellbeingMotivationDescription =>
+      'Kutipan penyemangat & afirmasi relaksasi setiap siang (14:00).';
+
+  @override
+  String get profileMotivationEnabled =>
+      'Motivasi harian dijadwalkan setiap 14:00 WIB';
+
+  @override
+  String get profileMotivationDisabled => 'Motivasi harian dinonaktifkan';
+
+  @override
+  String get profileTestReminder => 'Tes Reminder';
+
+  @override
+  String get profileTestMotivation => 'Tes Motivasi';
+
+  @override
+  String get profileTestReminderSuccess =>
+      'Notifikasi Reminder Harian berhasil dikirim!';
+
+  @override
+  String get profileTestMotivationSuccess =>
+      'Notifikasi Motivasi berhasil dikirim!';
+
+  @override
+  String get profileNotificationTestHint =>
+      'Gunakan tombol tes di atas untuk mencoba pratinjau notifikasi secara instan pada perangkat.';
+
+  @override
+  String get profileAboutTitle => 'Tentang Aplikasi';
+
+  @override
+  String get profileMotto => 'Kenali dirimu. Jaga keseimbanganmu.';
+
+  @override
+  String profileVersion(Object version) {
+    return 'Versi $version';
+  }
+
+  @override
+  String get profileAboutHeading => 'Tentang AntiBurnout';
+
+  @override
+  String get profileAboutDescription =>
+      'AntiBurnout membantu pengguna mengenali kondisi diri melalui asesmen mandiri, melihat riwayat hasil, dan menemukan panduan umum untuk menjaga keseimbangan aktivitas sehari-hari.';
+
+  @override
+  String get profileFeatureAssessment => 'Asesmen mandiri';
+
+  @override
+  String get profileFeatureAssessmentDescription =>
+      'Refleksikan kebiasaan dan kondisi melalui pertanyaan singkat.';
+
+  @override
+  String get profileFeatureHistory => 'Riwayat asesmen';
+
+  @override
+  String get profileFeatureHistoryDescription =>
+      'Telusuri kembali hasil dan ringkasan asesmen sebelumnya.';
+
+  @override
+  String get profileFeatureGuidance => 'Panduan keseharian';
+
+  @override
+  String get profileFeatureGuidanceDescription =>
+      'Temukan ide untuk istirahat, relaksasi, dan dukungan sosial.';
+
+  @override
+  String get profileAboutDisclaimer =>
+      'Hasil asesmen bukan diagnosis medis. Aplikasi ini tidak menggantikan konsultasi dengan tenaga profesional.';
+
+  @override
+  String get profileDevelopedBy => 'Dikembangkan oleh Tim AntiBurnout';
+
+  @override
+  String get profileHelpTitle => 'Bantuan';
+
+  @override
+  String get profileHelpIntro =>
+      'Temukan jawaban tentang penggunaan aplikasi. Ketuk pertanyaan untuk membaca penjelasannya.';
+
+  @override
+  String get profileFaqTitle => 'Pertanyaan yang sering diajukan';
+
+  @override
+  String get profileFaq1Question => 'Bagaimana cara menggunakan AntiBurnout?';
+
+  @override
+  String get profileFaq1Answer =>
+      'Mulai dari Beranda untuk melihat ringkasan kondisi dan motivasi harian. Gunakan tab Survei untuk mengisi asesmen, Riwayat untuk membuka hasil sebelumnya, dan Profil untuk mengatur informasi diri.';
+
+  @override
+  String get profileFaq2Question => 'Bagaimana cara memulai survei?';
+
+  @override
+  String get profileFaq2Answer =>
+      'Buka tab Survei atau ketuk Mulai Survei di Beranda. Baca pengantar, lalu pilih jawaban yang paling sesuai dengan kondisimu. Tinjau kembali jawaban sebelum mengirim. Layanan pengiriman dan prediksi masih dalam pengembangan.';
+
+  @override
+  String get profileFaq3Question =>
+      'Di mana saya bisa melihat hasil sebelumnya?';
+
+  @override
+  String get profileFaq3Answer =>
+      'Buka tab Riwayat, lalu ketuk salah satu asesmen untuk melihat detailnya. Pencarian dan filter dapat membantu menemukan riwayat. Data yang ditampilkan saat ini merupakan contoh untuk pratinjau UI.';
+
+  @override
+  String get profileFaq4Question =>
+      'Apakah hasil asesmen merupakan diagnosis medis?';
+
+  @override
+  String get profileFaq4Answer =>
+      'Tidak. Hasil asesmen bukan diagnosis medis dan tidak menggantikan konsultasi dengan tenaga profesional. Gunakan informasi ini sebagai bahan refleksi untuk lebih mengenali kondisi diri.';
+
+  @override
+  String get profileFaq5Question =>
+      'Bagaimana membaca faktor dan ringkasan jawaban?';
+
+  @override
+  String get profileFaq5Answer =>
+      'Faktor dan ringkasan membantu menjelaskan tampilan hasil asesmen. Pada versi pratinjau ini, isinya adalah data statis. Ringkasan jawaban tidak menunjukkan besarnya kontribusi model prediksi.';
+
+  @override
+  String get profileFaq6Question => 'Bagaimana cara mengubah nama dan foto?';
+
+  @override
+  String get profileFaq6Answer =>
+      'Buka Profil, lalu Edit Profil. Ubah nama atau pilih foto dari galeri, kemudian ketuk Simpan Perubahan. Perubahan diingat selama sesi aplikasi dan belum disimpan ke server.';
+
+  @override
+  String get profileFaq7Question => 'Bagaimana cara mengubah tema aplikasi?';
+
+  @override
+  String get profileFaq7Answer =>
+      'Buka Profil, lalu Preferensi. Pilih Terang atau Gelap untuk mengubah tampilan aplikasi, atau Sistem untuk mengikuti tema perangkat. Pengingat masih berupa pratinjau dan belum mengirim notifikasi.';
+
+  @override
+  String get profileBackToProfile => 'Kembali ke profil';
+
+  @override
+  String get profileBackToHome => 'Kembali ke beranda';
+
+  @override
+  String get personalizationTitle => 'Personalisasi Profil';
+
+  @override
+  String get personalizationIntroTitle => 'Kenali dirimu lebih dekat';
+
+  @override
+  String get personalizationIntroBody =>
+      'Isi sekali untuk melengkapi surveimu.\nPerbarui kapan pun kondisimu berubah.';
+
+  @override
+  String get personalizationTabPersonal => 'Data Diri';
+
+  @override
+  String get personalizationTabActivity => 'Aktivitas';
+
+  @override
+  String get personalizationTabAdditional => 'Tambahan';
+
+  @override
+  String get personalizationSectionBasic => 'Informasi dasar';
+
+  @override
+  String get personalizationSectionActivity => 'Aktivitas & kebiasaan';
+
+  @override
+  String get personalizationSectionAdditional => 'Informasi tambahan';
+
+  @override
+  String get personalizationSaved => 'Personalisasi profil berhasil disimpan.';
+
+  @override
+  String get personalizationUnavailable => 'Personalisasi belum tersedia.';
+
+  @override
+  String get personalizationRetry => 'Coba Lagi';
+
+  @override
+  String get personalizationContinue => 'Selanjutnya';
+
+  @override
+  String get personalizationSave => 'Simpan Personalisasi';
+
+  @override
+  String get personalizationPrevious => 'Sebelumnya';
+
+  @override
+  String personalizationProgress(int current, int total) {
+    return 'Langkah $current dari $total';
+  }
+
+  @override
+  String get personalizationLoginRequired => 'Silakan masuk terlebih dahulu.';
+
+  @override
+  String get personalizationLoadError =>
+      'Personalisasi gagal dimuat. Silakan coba lagi.';
+
+  @override
+  String get personalizationBirthDateInvalid =>
+      'Pilih tanggal lahir antara 1 Januari 1900 dan hari ini.';
+
+  @override
+  String get personalizationSaveError =>
+      'Personalisasi gagal disimpan. Silakan coba lagi.';
+
+  @override
+  String get personalizationTellAboutYou => 'Ceritakan sedikit tentang dirimu.';
+
+  @override
+  String get personalizationBirthDate => 'Tanggal Lahir';
+
+  @override
+  String get personalizationGender => 'Jenis kelamin';
+
+  @override
+  String get personalizationCountry => 'Negara tempat tinggal';
+
+  @override
+  String get personalizationSelectCountry => 'Pilih negara';
+
+  @override
+  String get personalizationEducation =>
+      'Pendidikan terakhir yang diselesaikan';
+
+  @override
+  String get personalizationSelectEducation => 'Pilih jenjang pendidikan';
+
+  @override
+  String get personalizationGenderFemale => 'Perempuan';
+
+  @override
+  String get personalizationGenderMale => 'Laki-laki';
+
+  @override
+  String get personalizationOther => 'Lainnya';
+
+  @override
+  String get personalizationCountrySingapore => 'Singapura';
+
+  @override
+  String get personalizationCountryPhilippines => 'Filipina';
+
+  @override
+  String get personalizationEducationPrimary => 'SD / sederajat';
+
+  @override
+  String get personalizationEducationJunior => 'SMP / sederajat';
+
+  @override
+  String get personalizationEducationSenior => 'SMA / SMK / sederajat';
+
+  @override
+  String get personalizationEducationDiploma => 'Diploma';
+
+  @override
+  String get personalizationEducationBachelor => 'D4 / S1';
+
+  @override
+  String get personalizationEducationMaster => 'S2';
+
+  @override
+  String get personalizationEducationDoctorate => 'S3';
+
+  @override
+  String get personalizationDateHint => 'Pilih tanggal lahir (DD/MM/YYYY)';
+
+  @override
+  String get personalizationRemoveDate => 'Hapus tanggal lahir';
+
+  @override
+  String get personalizationSelectDate => 'Pilih tanggal lahir';
+
+  @override
+  String get personalizationDateCancel => 'Batal';
+
+  @override
+  String get personalizationDateConfirm => 'Pilih';
+
+  @override
+  String get personalizationActivityOccupation => 'Pekerjaan / aktivitas utama';
+
+  @override
+  String get personalizationSelectOccupation => 'Pilih aktivitas utama';
+
+  @override
+  String get personalizationOccupationStudent => 'Pelajar / Mahasiswa';
+
+  @override
+  String get personalizationOccupationEmployee => 'Karyawan';
+
+  @override
+  String get personalizationOccupationEntrepreneur => 'Wirausaha';
+
+  @override
+  String get personalizationOccupationFreelancer => 'Freelancer';
+
+  @override
+  String get personalizationOccupationHomemaker => 'Mengurus rumah tangga';
+
+  @override
+  String get personalizationOccupationUnemployed => 'Belum bekerja';
+
+  @override
+  String get personalizationEmploymentStatus => 'Status pekerjaan';
+
+  @override
+  String get personalizationSelectEmploymentStatus => 'Pilih status pekerjaan';
+
+  @override
+  String get personalizationEmploymentFullTime => 'Penuh waktu';
+
+  @override
+  String get personalizationEmploymentPartTime => 'Paruh waktu';
+
+  @override
+  String get personalizationEmploymentContract => 'Kontrak';
+
+  @override
+  String get personalizationEmploymentIntern => 'Magang';
+
+  @override
+  String get personalizationEmploymentSelfEmployed => 'Bekerja mandiri';
+
+  @override
+  String get personalizationEmploymentUnemployed => 'Tidak bekerja';
+
+  @override
+  String get personalizationWorkLocation => 'Lokasi kerja';
+
+  @override
+  String get personalizationWorkHome => 'Rumah';
+
+  @override
+  String get personalizationWorkOffice => 'Kantor';
+
+  @override
+  String get personalizationSmoking => 'Apakah kamu merokok?';
+
+  @override
+  String get personalizationAlcohol => 'Apakah kamu mengonsumsi alkohol?';
+
+  @override
+  String get personalizationYes => 'Ya';
+
+  @override
+  String get personalizationNo => 'Tidak';
+
+  @override
+  String get personalizationOptionalIntro => 'Isi jika kamu merasa nyaman.';
+
+  @override
+  String get personalizationMonthlyIncome => 'Pendapatan bulanan (IDR)';
+
+  @override
+  String get personalizationIncomeHint => 'Isi jumlah atau biarkan kosong';
+
+  @override
+  String get personalizationFamilyHistory => 'Riwayat kondisi kesehatan mental';
+
+  @override
+  String get personalizationFamilyHistoryDescription =>
+      'Apakah ada anggota keluarga yang pernah mengalami gangguan kesehatan mental?';
+
+  @override
+  String get personalizationProfessionalSupport => 'Dukungan profesional';
+
+  @override
+  String get personalizationProfessionalSupportDescription =>
+      'Apakah kamu mengikuti terapi atau konseling untuk kesehatan mental?';
 }

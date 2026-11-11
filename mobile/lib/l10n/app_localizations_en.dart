@@ -495,4 +495,662 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get historyDetails => 'Details';
+
+  @override
+  String get resultTitle => 'Prediction Result';
+
+  @override
+  String get resultLoadError => 'The assessment result could not be loaded.';
+
+  @override
+  String get resultNotFound =>
+      'Assessment result not found. Open a result from History or complete a survey first.';
+
+  @override
+  String resultDescription(Object risk) {
+    return 'The assessment indicates a $risk level of burnout risk.';
+  }
+
+  @override
+  String resultAssessmentDate(Object date) {
+    return 'Assessment $date';
+  }
+
+  @override
+  String get resultDisclaimer =>
+      'This is not a medical diagnosis, but an initial indication that may help you better understand your wellbeing.';
+
+  @override
+  String get resultSampleData => 'Sample data';
+
+  @override
+  String get resultFactorsTitle => 'Contributing Factors';
+
+  @override
+  String get resultFactorsUnavailable =>
+      'Model factors are not available for this assessment.';
+
+  @override
+  String get resultExampleFactorsCaption =>
+      'Factors shown in this sample assessment result.';
+
+  @override
+  String get resultModelFactorsCaption =>
+      'Factors included in the model result for this assessment.';
+
+  @override
+  String get resultAnswerSummaryTitle => 'Answer Summary';
+
+  @override
+  String get resultExampleAnswersCaption =>
+      'Answers from this sample assessment.';
+
+  @override
+  String get resultAnswersCaption =>
+      'Survey answers, separate from the prediction model\'s contributing factors.';
+
+  @override
+  String get resultAnswersUnavailable => 'Answer summary is not available.';
+
+  @override
+  String get resultRecommendation => 'View Recommendations';
+
+  @override
+  String get resultRiskLevel => 'Risk Level';
+
+  @override
+  String get resultRiskBurnout => 'Burnout Risk';
+
+  @override
+  String get resultStressLabel => 'Stress level';
+
+  @override
+  String resultRiskSemantics(Object risk) {
+    return 'Burnout risk level: $risk';
+  }
+
+  @override
+  String get resultExampleFactorSleep => 'Irregular sleep duration';
+
+  @override
+  String get resultExampleFactorActivity => 'High activity load';
+
+  @override
+  String get resultExampleFactorStress => 'Increasing stress level';
+
+  @override
+  String resultFactorSleepSuboptimal(Object hours) {
+    return 'Suboptimal sleep duration ($hours hours)';
+  }
+
+  @override
+  String get resultFactorActivityStressHigh =>
+      'High daily activity and stress load';
+
+  @override
+  String resultFactorScreenIntensive(Object hours) {
+    return 'Intensive screen exposure ($hours hours)';
+  }
+
+  @override
+  String resultFactorCoffeeHigh(Object cups) {
+    return 'High caffeine intake ($cups cups)';
+  }
+
+  @override
+  String resultFactorCoffeeModerateHigh(Object cups) {
+    return 'Fairly high caffeine intake ($cups cups)';
+  }
+
+  @override
+  String get resultFactorMeditationPositive =>
+      'Very good relaxation / meditation practice';
+
+  @override
+  String get resultFactorBalancedActivityRest =>
+      'Balanced activity and rest patterns';
+
+  @override
+  String get resultFactorStressHigh => 'High stress level';
+
+  @override
+  String resultFactorSleepLow(Object hours) {
+    return 'Short sleep duration ($hours hours)';
+  }
+
+  @override
+  String resultFactorScreenHigh(Object hours) {
+    return 'High screen time ($hours hours)';
+  }
+
+  @override
+  String get resultFactorRestWorkBalanced => 'Balanced rest and workload';
+
+  @override
+  String get resultFactorFatigueRhythm =>
+      'Work fatigue and daily rhythm evaluation';
+
+  @override
+  String get resultFactorRestStressAnalysis => 'Rest and stress analysis';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navSurvey => 'Survey';
+
+  @override
+  String get navHistory => 'History';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get userAvatarSemantics => 'User avatar';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get profileEdit => 'Edit Profile';
+
+  @override
+  String get profilePersonalization => 'Profile Personalization';
+
+  @override
+  String get profilePreferences => 'Preferences';
+
+  @override
+  String get profileHelp => 'Help';
+
+  @override
+  String get profileAbout => 'About App';
+
+  @override
+  String get profileLogout => 'Log Out';
+
+  @override
+  String get profileLogoutError => 'Could not log out. Please try again.';
+
+  @override
+  String get profileDefaultUser => 'User';
+
+  @override
+  String get profileEditTitle => 'Edit Profile';
+
+  @override
+  String get profileChangePhoto => 'Change Photo';
+
+  @override
+  String get profileOpeningGallery => 'Opening gallery...';
+
+  @override
+  String get profileUseDefaultAvatar => 'Use default avatar';
+
+  @override
+  String get profilePhotoError =>
+      'Could not open the photo. Allow gallery access or try another photo.';
+
+  @override
+  String get profileName => 'Name';
+
+  @override
+  String get profileNameHint => 'Enter your name';
+
+  @override
+  String get profileNameRequired => 'Name cannot be empty.';
+
+  @override
+  String get profileEmail => 'Email';
+
+  @override
+  String get profileEmailCannotChange => 'Email cannot be changed.';
+
+  @override
+  String get profileNamePhotoSync =>
+      'Your name and profile photo are securely synced to your account.';
+
+  @override
+  String get profileSaveChanges => 'Save Changes';
+
+  @override
+  String get profileCancel => 'Cancel';
+
+  @override
+  String get profileSaved => 'Profile updated and saved.';
+
+  @override
+  String get profilePreferencesIntro =>
+      'Adjust the theme, language, daily check-in reminders, and motivational notifications to support your mental wellbeing.';
+
+  @override
+  String get profileAppearance => 'Appearance';
+
+  @override
+  String get profileChooseTheme =>
+      'Choose the theme that feels most comfortable.';
+
+  @override
+  String get profileThemeLight => 'Light';
+
+  @override
+  String get profileThemeDark => 'Dark';
+
+  @override
+  String get profileThemeSystem => 'System';
+
+  @override
+  String get profileLanguageTitle => 'Language';
+
+  @override
+  String get profileChooseLanguage => 'Choose the language used in the app.';
+
+  @override
+  String get profileLanguageIndonesian => 'Indonesian';
+
+  @override
+  String get profileLanguageIndonesianSubtitle => 'Bahasa Indonesia';
+
+  @override
+  String get profileLanguageEnglish => 'English';
+
+  @override
+  String get profileLanguageEnglishSubtitle => 'English';
+
+  @override
+  String get profileNotifications => 'Reminders & Notifications';
+
+  @override
+  String get profileNotificationDescription =>
+      'Choose the notifications you want to enable for your daily routine.';
+
+  @override
+  String get profileDailyCheckIn => 'Daily Reminder (Check-in)';
+
+  @override
+  String get profileDailyCheckInDescription =>
+      'Automatic reminder every morning (09:00) to check your burnout level.';
+
+  @override
+  String get profileDailyReminderEnabled =>
+      'Daily reminder scheduled for 09:00 WIB';
+
+  @override
+  String get profileDailyReminderDisabled => 'Daily reminder disabled';
+
+  @override
+  String get profileWellbeingMotivation => 'Daily Motivation';
+
+  @override
+  String get profileWellbeingMotivationDescription =>
+      'An encouraging quote and relaxing affirmation every afternoon (14:00).';
+
+  @override
+  String get profileMotivationEnabled =>
+      'Daily motivation scheduled for 14:00 WIB';
+
+  @override
+  String get profileMotivationDisabled => 'Daily motivation disabled';
+
+  @override
+  String get profileTestReminder => 'Test Reminder';
+
+  @override
+  String get profileTestMotivation => 'Test Motivation';
+
+  @override
+  String get profileTestReminderSuccess => 'Daily reminder notification sent!';
+
+  @override
+  String get profileTestMotivationSuccess => 'Motivation notification sent!';
+
+  @override
+  String get profileNotificationTestHint =>
+      'Use the buttons above to preview notifications instantly on this device.';
+
+  @override
+  String get profileAboutTitle => 'About App';
+
+  @override
+  String get profileMotto => 'Understand yourself. Keep your balance.';
+
+  @override
+  String profileVersion(Object version) {
+    return 'Version $version';
+  }
+
+  @override
+  String get profileAboutHeading => 'About AntiBurnout';
+
+  @override
+  String get profileAboutDescription =>
+      'AntiBurnout helps you understand your wellbeing through self-assessments, review past results, and find general guidance for balancing daily activities.';
+
+  @override
+  String get profileFeatureAssessment => 'Self-assessment';
+
+  @override
+  String get profileFeatureAssessmentDescription =>
+      'Reflect on your habits and wellbeing through a few short questions.';
+
+  @override
+  String get profileFeatureHistory => 'Assessment history';
+
+  @override
+  String get profileFeatureHistoryDescription =>
+      'Review previous assessment results and summaries.';
+
+  @override
+  String get profileFeatureGuidance => 'Everyday guidance';
+
+  @override
+  String get profileFeatureGuidanceDescription =>
+      'Find ideas for rest, relaxation, and social support.';
+
+  @override
+  String get profileAboutDisclaimer =>
+      'Assessment results are not a medical diagnosis. This app does not replace consultation with a healthcare professional.';
+
+  @override
+  String get profileDevelopedBy => 'Developed by the AntiBurnout Team';
+
+  @override
+  String get profileHelpTitle => 'Help';
+
+  @override
+  String get profileHelpIntro =>
+      'Find answers about using the app. Tap a question to read its explanation.';
+
+  @override
+  String get profileFaqTitle => 'Frequently asked questions';
+
+  @override
+  String get profileFaq1Question => 'How do I use AntiBurnout?';
+
+  @override
+  String get profileFaq1Answer =>
+      'Start on Home to see your wellbeing summary and daily motivation. Use Survey to complete an assessment, History to open previous results, and Profile to manage your information.';
+
+  @override
+  String get profileFaq2Question => 'How do I start a survey?';
+
+  @override
+  String get profileFaq2Answer =>
+      'Open Survey or tap Start Assessment on Home. Read the introduction, then choose the answers that best match how you feel. Review your answers before submitting. Submission and prediction services are still in development.';
+
+  @override
+  String get profileFaq3Question => 'Where can I see previous results?';
+
+  @override
+  String get profileFaq3Answer =>
+      'Open History and tap an assessment to view its details. Search and filters can help you find an entry. The results currently shown are sample data for the UI preview.';
+
+  @override
+  String get profileFaq4Question =>
+      'Are assessment results a medical diagnosis?';
+
+  @override
+  String get profileFaq4Answer =>
+      'No. Assessment results are not a medical diagnosis and do not replace consultation with a healthcare professional. Use this information for reflection and to better understand your wellbeing.';
+
+  @override
+  String get profileFaq5Question =>
+      'How should I read the factors and answer summary?';
+
+  @override
+  String get profileFaq5Answer =>
+      'The factors and summary explain what appears on the assessment result screen. In this preview version, the content is static sample data. The answer summary does not show how much each factor contributes to the prediction model.';
+
+  @override
+  String get profileFaq6Question => 'How do I change my name and photo?';
+
+  @override
+  String get profileFaq6Answer =>
+      'Open Profile, then Edit Profile. Change your name or choose a photo from the gallery, then tap Save Changes. Changes are kept for the current app session and are not yet saved to the server.';
+
+  @override
+  String get profileFaq7Question => 'How do I change the app theme?';
+
+  @override
+  String get profileFaq7Answer =>
+      'Open Profile, then Preferences. Choose Light or Dark, or choose System to follow your device theme. Reminders are still a preview and do not send notifications yet.';
+
+  @override
+  String get profileBackToProfile => 'Back to profile';
+
+  @override
+  String get profileBackToHome => 'Back to home';
+
+  @override
+  String get personalizationTitle => 'Profile Personalization';
+
+  @override
+  String get personalizationIntroTitle => 'Get to know yourself better';
+
+  @override
+  String get personalizationIntroBody =>
+      'Fill this in once to complete your survey.\nUpdate it whenever your circumstances change.';
+
+  @override
+  String get personalizationTabPersonal => 'Personal';
+
+  @override
+  String get personalizationTabActivity => 'Activity';
+
+  @override
+  String get personalizationTabAdditional => 'Additional';
+
+  @override
+  String get personalizationSectionBasic => 'Basic information';
+
+  @override
+  String get personalizationSectionActivity => 'Activities & habits';
+
+  @override
+  String get personalizationSectionAdditional => 'Additional information';
+
+  @override
+  String get personalizationSaved => 'Profile personalization saved.';
+
+  @override
+  String get personalizationUnavailable => 'Personalization is unavailable.';
+
+  @override
+  String get personalizationRetry => 'Try Again';
+
+  @override
+  String get personalizationContinue => 'Continue';
+
+  @override
+  String get personalizationSave => 'Save Personalization';
+
+  @override
+  String get personalizationPrevious => 'Previous';
+
+  @override
+  String personalizationProgress(int current, int total) {
+    return 'Step $current of $total';
+  }
+
+  @override
+  String get personalizationLoginRequired => 'Please sign in first.';
+
+  @override
+  String get personalizationLoadError =>
+      'Could not load personalization. Please try again.';
+
+  @override
+  String get personalizationBirthDateInvalid =>
+      'Choose a birth date between January 1, 1900 and today.';
+
+  @override
+  String get personalizationSaveError =>
+      'Could not save personalization. Please try again.';
+
+  @override
+  String get personalizationTellAboutYou => 'Tell us a little about yourself.';
+
+  @override
+  String get personalizationBirthDate => 'Date of birth';
+
+  @override
+  String get personalizationGender => 'Gender';
+
+  @override
+  String get personalizationCountry => 'Country of residence';
+
+  @override
+  String get personalizationSelectCountry => 'Select a country';
+
+  @override
+  String get personalizationEducation => 'Highest level of education completed';
+
+  @override
+  String get personalizationSelectEducation => 'Select an education level';
+
+  @override
+  String get personalizationGenderFemale => 'Female';
+
+  @override
+  String get personalizationGenderMale => 'Male';
+
+  @override
+  String get personalizationOther => 'Other';
+
+  @override
+  String get personalizationCountrySingapore => 'Singapore';
+
+  @override
+  String get personalizationCountryPhilippines => 'Philippines';
+
+  @override
+  String get personalizationEducationPrimary => 'Elementary / equivalent';
+
+  @override
+  String get personalizationEducationJunior => 'Junior high / equivalent';
+
+  @override
+  String get personalizationEducationSenior =>
+      'Senior high / vocational / equivalent';
+
+  @override
+  String get personalizationEducationDiploma => 'Diploma';
+
+  @override
+  String get personalizationEducationBachelor => 'Bachelor\'s degree';
+
+  @override
+  String get personalizationEducationMaster => 'Master\'s degree';
+
+  @override
+  String get personalizationEducationDoctorate => 'Doctoral degree';
+
+  @override
+  String get personalizationDateHint => 'Select a birth date (DD/MM/YYYY)';
+
+  @override
+  String get personalizationRemoveDate => 'Clear date of birth';
+
+  @override
+  String get personalizationSelectDate => 'Select date of birth';
+
+  @override
+  String get personalizationDateCancel => 'Cancel';
+
+  @override
+  String get personalizationDateConfirm => 'Select';
+
+  @override
+  String get personalizationActivityOccupation => 'Occupation / main activity';
+
+  @override
+  String get personalizationSelectOccupation => 'Select your main activity';
+
+  @override
+  String get personalizationOccupationStudent => 'Student';
+
+  @override
+  String get personalizationOccupationEmployee => 'Employee';
+
+  @override
+  String get personalizationOccupationEntrepreneur => 'Entrepreneur';
+
+  @override
+  String get personalizationOccupationFreelancer => 'Freelancer';
+
+  @override
+  String get personalizationOccupationHomemaker => 'Homemaker';
+
+  @override
+  String get personalizationOccupationUnemployed => 'Not currently working';
+
+  @override
+  String get personalizationEmploymentStatus => 'Employment status';
+
+  @override
+  String get personalizationSelectEmploymentStatus =>
+      'Select your employment status';
+
+  @override
+  String get personalizationEmploymentFullTime => 'Full-time';
+
+  @override
+  String get personalizationEmploymentPartTime => 'Part-time';
+
+  @override
+  String get personalizationEmploymentContract => 'Contract';
+
+  @override
+  String get personalizationEmploymentIntern => 'Internship';
+
+  @override
+  String get personalizationEmploymentSelfEmployed => 'Self-employed';
+
+  @override
+  String get personalizationEmploymentUnemployed => 'Unemployed';
+
+  @override
+  String get personalizationWorkLocation => 'Work location';
+
+  @override
+  String get personalizationWorkHome => 'Home';
+
+  @override
+  String get personalizationWorkOffice => 'Office';
+
+  @override
+  String get personalizationSmoking => 'Do you smoke?';
+
+  @override
+  String get personalizationAlcohol => 'Do you consume alcohol?';
+
+  @override
+  String get personalizationYes => 'Yes';
+
+  @override
+  String get personalizationNo => 'No';
+
+  @override
+  String get personalizationOptionalIntro =>
+      'Fill this in only if you feel comfortable.';
+
+  @override
+  String get personalizationMonthlyIncome => 'Monthly income (IDR)';
+
+  @override
+  String get personalizationIncomeHint => 'Enter an amount or leave blank';
+
+  @override
+  String get personalizationFamilyHistory => 'Mental health history';
+
+  @override
+  String get personalizationFamilyHistoryDescription =>
+      'Has anyone in your family experienced a mental health condition?';
+
+  @override
+  String get personalizationProfessionalSupport => 'Professional support';
+
+  @override
+  String get personalizationProfessionalSupportDescription =>
+      'Are you receiving therapy or counseling for your mental health?';
 }

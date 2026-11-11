@@ -4,6 +4,7 @@ import 'package:mobile/core/theme/app_theme.dart';
 import 'package:mobile/features/survey/data/fixtures/survey_questions.dart';
 import 'package:mobile/features/survey/presentation/controllers/survey_state.dart';
 import 'package:mobile/features/survey/presentation/widgets/survey_stepper.dart';
+import 'package:mobile/l10n/app_localizations.dart';
 
 void main() {
   for (final viewport in [const Size(390, 844), const Size(430, 1000)]) {
@@ -17,6 +18,9 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           theme: AppTheme.light(),
+          locale: const Locale('id'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           home: Scaffold(
             body: SurveyStepper(
               state: SurveyState(

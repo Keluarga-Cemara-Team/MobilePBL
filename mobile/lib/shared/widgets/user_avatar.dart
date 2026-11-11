@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/responsive/app_scale.dart';
 import '../../core/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 
 class UserAvatar extends StatelessWidget {
   const UserAvatar({super.key, this.photoUrl, this.photoBytes, this.size = 48});
@@ -52,7 +53,7 @@ class UserAvatar extends StatelessWidget {
 
     return Semantics(
       image: true,
-      label: 'Avatar pengguna',
+      label: AppLocalizations.of(context)!.userAvatarSemantics,
       child: Container(
         width: diameter,
         height: diameter,

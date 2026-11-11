@@ -7,6 +7,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/theme/assessment_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_page_header.dart';
 
@@ -65,6 +66,7 @@ class RiskSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final bodyStyle = AppTextStyles.subtitle(context)
         .copyWith(fontSize: context.ui(14));
     final sectionStyle = AppTextStyles.title(context)
@@ -102,7 +104,7 @@ class RiskSummaryCard extends StatelessWidget {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     Text(
-                      'Asesmen $assessmentDate',
+                      assessmentDate,
                       style: bodyStyle.copyWith(fontSize: context.ui(12)),
                     ),
                     if (isExample)
@@ -116,7 +118,7 @@ class RiskSummaryCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(context.ui(20)),
                         ),
                         child: Text(
-                          'Data contoh',
+                          l10n.resultSampleData,
                           style: bodyStyle.copyWith(
                             fontSize: context.ui(11),
                             fontWeight: FontWeight.w600,
@@ -161,16 +163,18 @@ class RiskSummaryCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: context.ui(AppSpacing.lg)),
-                Text('Faktor yang Mempengaruhi', style: sectionStyle),
+                Text(l10n.resultFactorsTitle, style: sectionStyle),
                 SizedBox(height: context.ui(AppSpacing.sm)),
                 if (factors.isEmpty)
                   Text(
-                    'Faktor dari model belum tersedia untuk asesmen ini.',
+                    l10n.resultFactorsUnavailable,
                     style: bodyStyle,
                   )
                 else ...[
                   Text(
-                    isExample ? 'Faktor pada contoh hasil asesmen ini.' : 'Faktor yang disertakan dalam hasil model untuk asesmen ini.',
+                    isExample
+                        ? l10n.resultExampleFactorsCaption
+                        : l10n.resultModelFactorsCaption,
                     style: bodyStyle.copyWith(fontSize: context.ui(12)),
                   ),
                   SizedBox(height: context.ui(AppSpacing.sm)),
@@ -204,15 +208,17 @@ class RiskSummaryCard extends StatelessWidget {
                     ),
                 ],
                 SizedBox(height: context.ui(AppSpacing.lg)),
-                Text('Ringkasan Jawaban', style: sectionStyle),
+                Text(l10n.resultAnswerSummaryTitle, style: sectionStyle),
                 SizedBox(height: context.ui(AppSpacing.sm)),
                 Text(
-                  isExample ? 'Ringkasan jawaban pada contoh asesmen ini.' : 'Ringkasan jawaban survei, bukan kontribusi model prediksi.',
+                  isExample
+                      ? l10n.resultExampleAnswersCaption
+                      : l10n.resultAnswersCaption,
                   style: bodyStyle.copyWith(fontSize: context.ui(12)),
                 ),
                 SizedBox(height: context.ui(AppSpacing.sm)),
                 if (answerSummary.isEmpty)
-                  Text('Ringkasan jawaban belum tersedia.', style: bodyStyle)
+                  Text(l10n.resultAnswersUnavailable, style: bodyStyle)
                 else
                   Container(
                     width: double.infinity,
@@ -258,7 +264,7 @@ class RiskSummaryCard extends StatelessWidget {
                   ),
                 SizedBox(height: context.ui(AppSpacing.lg)),
                 AppButton(
-                  label: 'Lihat Rekomendasi',
+                  label: l10n.resultRecommendation,
                   onPressed: onRecommendationTap,
                 ),
               ],
@@ -285,6 +291,7 @@ class _RiskRing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final levelStyle = AppTextStyles.title(context).copyWith(
       fontSize: context.ui(32),
       fontWeight: FontWeight.w700,
@@ -326,9 +333,9 @@ class _RiskRing extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final top = measure('Tingkat Risiko', bodyStyle);
+        final top = measure(l10n.resultRiskLevel, bodyStyle);
         final risk = measure(level, levelStyle);
-        final bottom = measure('Risiko Burnout', bodyStyle);
+        final bottom = measure(l10n.resultRiskBurnout, bodyStyle);
         final contentWidth = math.max(
           top.width,
           math.max(risk.width, bottom.width),
@@ -356,7 +363,7 @@ class _RiskRing extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Tingkat Risiko',
+                  l10n.resultRiskLevel,
                   style: bodyStyle,
                   textAlign: TextAlign.center,
                 ),
@@ -364,7 +371,7 @@ class _RiskRing extends StatelessWidget {
                 Text(level, style: levelStyle, textAlign: TextAlign.center),
                 SizedBox(height: gap),
                 Text(
-                  'Risiko Burnout',
+                  l10n.resultRiskBurnout,
                   style: bodyStyle,
                   textAlign: TextAlign.center,
                 ),
@@ -391,7 +398,7 @@ class _RiskRing extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Tingkat Risiko',
+                l10n.resultRiskLevel,
                 style: bodyStyle,
                 textAlign: TextAlign.center,
               ),
@@ -424,7 +431,7 @@ class _RiskRing extends StatelessWidget {
               ],
               SizedBox(height: gap),
               Text(
-                'Risiko Burnout',
+                l10n.resultRiskBurnout,
                 style: bodyStyle,
                 textAlign: TextAlign.center,
               ),
@@ -434,7 +441,7 @@ class _RiskRing extends StatelessWidget {
 
         return Center(
           child: Semantics(
-            label: 'Tingkat risiko burnout: $level',
+            label: l10n.resultRiskSemantics(level),
             excludeSemantics: true,
             child: content,
           ),
@@ -455,6 +462,7 @@ class ResultHeader extends StatelessWidget {
     return AppPageHeader(
       title: title,
       onBack: onBack ?? () => Navigator.of(context).maybePop(),
+      tooltip: AppLocalizations.of(context)!.surveyBack,
       fontSize: 22,
     );
   }

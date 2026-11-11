@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../profile_copy.dart';
 
 class PersonalizationFieldStyle {
   static Color softColor(BuildContext context) => AppColors.of(context).blob;
@@ -161,6 +163,7 @@ class PersonalizationDateField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final date = value;
     final text = date == null
         ? ''
@@ -184,14 +187,14 @@ class PersonalizationDateField extends StatelessWidget {
             decoration:
                 PersonalizationFieldStyle.decoration(
                   context,
-                  hint: 'Pilih tanggal lahir (DD/MM/YYYY)',
+                  hint: l10n.personalizationDateHint,
                 ).copyWith(
                   suffixIcon: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (date != null)
                         IconButton(
-                          tooltip: 'Hapus tanggal lahir',
+                          tooltip: l10n.personalizationRemoveDate,
                           onPressed: () => onChanged(null),
                           icon: Icon(Icons.close_rounded, size: context.ui(24)),
                         ),
@@ -224,9 +227,9 @@ class PersonalizationDateField extends StatelessWidget {
                 initialDatePickerMode: date == null
                     ? DatePickerMode.year
                     : DatePickerMode.day,
-                helpText: 'Pilih tanggal lahir',
-                cancelText: 'Batal',
-                confirmText: 'Pilih',
+                helpText: l10n.personalizationSelectDate,
+                cancelText: l10n.personalizationDateCancel,
+                confirmText: l10n.personalizationDateConfirm,
               );
               if (context.mounted && selected != null) onChanged(selected);
             },
@@ -255,6 +258,7 @@ class PersonalizationDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final selectedValue = options.contains(value) ? value : null;
 
     return Padding(
@@ -285,7 +289,10 @@ class PersonalizationDropdown extends StatelessWidget {
             items: options.map((option) {
               return DropdownMenuItem<String>(
                 value: option,
-                child: Text(option, overflow: TextOverflow.ellipsis),
+                child: Text(
+                  localizeProfileOption(l10n, option),
+                  overflow: TextOverflow.ellipsis,
+                ),
               );
             }).toList(),
             onChanged: (value) {
@@ -318,6 +325,7 @@ class PersonalizationChoices extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.only(bottom: context.ui(14)),
       child: Column(
@@ -360,7 +368,7 @@ class PersonalizationChoices extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        options[index],
+                        localizeProfileOption(l10n, options[index]),
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: context.ui(12)),
                       ),
