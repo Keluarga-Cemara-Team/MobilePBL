@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_page_header.dart';
 import '../../../../shared/widgets/app_blob_background.dart';
 
@@ -26,7 +27,12 @@ class ProfileSubpageScaffold extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              AppPageHeader(title: title, onBack: onBack, fontSize: 22),
+              AppPageHeader(
+                title: title,
+                onBack: onBack,
+                tooltip: AppLocalizations.of(context)!.surveyBack,
+                fontSize: 22,
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.fromLTRB(

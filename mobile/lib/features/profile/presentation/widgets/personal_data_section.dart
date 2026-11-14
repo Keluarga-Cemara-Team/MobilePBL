@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/personalization.dart';
 import 'personalization_fields.dart';
 
@@ -15,13 +16,14 @@ class PersonalDataSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final now = DateTime.now();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const PersonalizationDescription('Ceritakan sedikit tentang dirimu.'),
+        PersonalizationDescription(l10n.personalizationTellAboutYou),
         PersonalizationDateField(
-          label: 'Tanggal Lahir',
+          label: l10n.personalizationBirthDate,
           value: data.birthDate,
           firstDate: DateTime(1900),
           lastDate: DateTime(now.year, now.month, now.day),
@@ -32,7 +34,7 @@ class PersonalDataSection extends StatelessWidget {
           },
         ),
         PersonalizationChoices(
-          label: 'Jenis kelamin',
+          label: l10n.personalizationGender,
           value: data.gender,
           options: const ['Perempuan', 'Laki-laki', 'Lainnya'],
           onChanged: (value) {
@@ -40,8 +42,8 @@ class PersonalDataSection extends StatelessWidget {
           },
         ),
         PersonalizationDropdown(
-          label: 'Negara tempat tinggal',
-          hint: 'Pilih negara',
+          label: l10n.personalizationCountry,
+          hint: l10n.personalizationSelectCountry,
           value: data.country,
           options: const [
             'Indonesia',
@@ -57,8 +59,8 @@ class PersonalDataSection extends StatelessWidget {
           },
         ),
         PersonalizationDropdown(
-          label: 'Pendidikan terakhir yang diselesaikan',
-          hint: 'Pilih jenjang pendidikan',
+          label: l10n.personalizationEducation,
+          hint: l10n.personalizationSelectEducation,
           value: data.education,
           options: const [
             'SD / sederajat',

@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_blob_background.dart';
 import '../../../../shared/widgets/app_page_header.dart';
 import '../controllers/personalization_controller.dart';
+import '../profile_copy.dart';
 import '../widgets/activity_section.dart';
 import '../widgets/additional_information_section.dart';
 import '../widgets/personal_data_section.dart';
@@ -16,7 +18,7 @@ class PersonalizationPage extends ConsumerStatefulWidget {
   const PersonalizationPage({
     super.key,
     required this.onBack,
-    this.backTooltip = 'Kembali ke profil',
+    this.backTooltip = '',
   });
 
   final VoidCallback onBack;
@@ -33,12 +35,16 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
 
   int _step = 0;
 
-  static const _tabs = ['Data Diri', 'Aktivitas', 'Tambahan'];
+  List<String> _tabs(AppLocalizations l10n) => [
+    l10n.personalizationTabPersonal,
+    l10n.personalizationTabActivity,
+    l10n.personalizationTabAdditional,
+  ];
 
-  static const _titles = [
-    'Informasi dasar',
-    'Aktivitas & kebiasaan',
-    'Informasi tambahan',
+  List<String> _titles(AppLocalizations l10n) => [
+    l10n.personalizationSectionBasic,
+    l10n.personalizationSectionActivity,
+    l10n.personalizationSectionAdditional,
   ];
 
   @override
@@ -48,7 +54,8 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
   }
 
   void _changeStep(int next) {
-    if (next == _step || next < 0 || next >= _tabs.length) {
+    final tabCount = _tabs(AppLocalizations.of(context)!).length;
+    if (next == _step || next < 0 || next >= tabCount) {
       return;
     }
 
@@ -87,8 +94,8 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
-        const SnackBar(
-          content: Text('Personalisasi profil berhasil disimpan.'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.personalizationSaved),
         ),
       );
 
@@ -96,6 +103,7 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
   }
 
   Widget _buildIntroduction() {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.all(context.ui(14)),
       decoration: BoxDecoration(
@@ -106,7 +114,7 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Kenali dirimu lebih dekat',
+            l10n.personalizationIntroTitle,
             style: TextStyle(
               color: AppColors.of(context).navy,
               fontSize: context.ui(14),
@@ -115,8 +123,7 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
           ),
           SizedBox(height: context.ui(6)),
           Text(
-            'Isi sekali untuk melengkapi surveimu.\n'
-            'Perbarui kapan pun kondisimu berubah.',
+            l10n.personalizationIntroBody,
             style: TextStyle(
               color: AppColors.of(context).hint,
               fontSize: context.ui(12),
@@ -129,9 +136,10 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
   }
 
   Widget _buildTabs() {
+    final tabs = _tabs(AppLocalizations.of(context)!);
     return Row(
       children: [
-        for (var index = 0; index < _tabs.length; index++) ...[
+        for (var index = 0; index < tabs.length; index++) ...[
           if (index > 0) SizedBox(width: context.ui(8)),
           Expanded(
             child: Semantics(
@@ -155,7 +163,7 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
                   ),
                 ),
                 child: Text(
-                  _tabs[index],
+                  tabs[index],
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: context.ui(12),
@@ -174,6 +182,7 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final state = ref.watch(personalizationControllerProvider);
     final controller = ref.read(personalizationControllerProvider.notifier);
 
@@ -191,7 +200,9 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                state.errorMessage ?? 'Personalisasi belum tersedia.',
+                state.errorMessage == null
+                    ? l10n.personalizationUnavailable
+                    : localizePersonalizationError(l10n, state.errorMessage!),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.of(context).hint,
@@ -201,7 +212,7 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
               if (state.userId != null) ...[
                 SizedBox(height: context.ui(16)),
                 AppButton(
-                  label: 'Coba Lagi',
+                  label: l10n.personalizationRetry,
                   onPressed: () {
                     controller.reload();
                   },
@@ -233,7 +244,7 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
                   _buildTabs(),
                   SizedBox(height: context.ui(20)),
                   Text(
-                    _titles[_step],
+                    _titles(l10n)[_step],
                     style: TextStyle(
                       color: AppColors.of(context).navy,
                       fontSize: context.ui(18),
@@ -267,7 +278,7 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
             if (state.errorMessage != null) ...[
               SizedBox(height: context.ui(8)),
               Text(
-                state.errorMessage!,
+                localizePersonalizationError(l10n, state.errorMessage!),
                 style: TextStyle(
                   color: AppColors.of(context).error,
                   fontSize: context.ui(13),
@@ -276,7 +287,9 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
             ],
             SizedBox(height: context.ui(12)),
             AppButton(
-              label: _step == 2 ? 'Simpan Personalisasi' : 'Selanjutnya',
+              label: _step == 2
+                  ? l10n.personalizationSave
+                  : l10n.personalizationContinue,
               isLoading: state.isSaving,
               onPressed: state.isSaving
                   ? null
@@ -309,7 +322,7 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
                       ),
                     ),
                     child: Text(
-                      'Sebelumnya',
+                      l10n.personalizationPrevious,
                       style: TextStyle(
                         color: AppColors.of(context).primary,
                         fontSize: context.ui(14),
@@ -317,7 +330,7 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
                     ),
                   ),
                 Text(
-                  'Langkah ${_step + 1} dari 3',
+                  l10n.personalizationProgress(_step + 1, 3),
                   textAlign: TextAlign.end,
                   style: TextStyle(
                     color: AppColors.of(context).hint,
@@ -347,9 +360,11 @@ class _PersonalizationPageState extends ConsumerState<PersonalizationPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 AppPageHeader(
-                  title: 'Personalisasi Profil',
+                  title: l10n.personalizationTitle,
                   onBack: state.isSaving ? null : widget.onBack,
-                  tooltip: widget.backTooltip,
+                  tooltip: widget.backTooltip.isEmpty
+                      ? l10n.profileBackToProfile
+                      : widget.backTooltip,
                 ),
                 SizedBox(height: context.ui(16)),
                 Expanded(child: body),

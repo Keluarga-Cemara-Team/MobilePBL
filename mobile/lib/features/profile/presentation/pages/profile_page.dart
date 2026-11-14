@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/user_avatar.dart';
 import '../../../../shared/widgets/app_blob_background.dart';
 import '../../../auth/presentation/controllers/auth_controller.dart';
@@ -59,7 +60,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Gagal keluar. Silakan coba lagi.')),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.profileLogoutError),
+        ),
       );
     } finally {
       if (mounted) {
@@ -87,6 +90,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     }
 
     final profile = ref.watch(profileControllerProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: AppColors.of(context).background,
@@ -103,7 +107,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Profil',
+                  l10n.profileTitle,
                   style: AppTextStyles.title(context).copyWith(
                     color: AppColors.of(context).navy,
                     fontSize: context.ui(24),
@@ -125,7 +129,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            profile.name,
+                            profile.name == 'Pengguna'
+                                ? l10n.profileDefaultUser
+                                : profile.name,
                             style: AppTextStyles.title(context).copyWith(
                               color: AppColors.of(context).navy,
                               fontSize: context.ui(20),
@@ -159,7 +165,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               shape: const StadiumBorder(),
                             ),
                             child: Text(
-                              'Edit Profil',
+                              l10n.profileEdit,
                               style: AppTextStyles.link(context).copyWith(
                                 color: AppColors.of(context).primary,
                                 fontSize: context.ui(14),
@@ -184,7 +190,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     children: [
                       _ProfileMenuItem(
                         icon: Icons.person_outline_rounded,
-                        label: 'Personalisasi Profil',
+                        label: l10n.profilePersonalization,
                         onTap: () {
                           _openPage(
                             'personalization',
@@ -195,7 +201,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       const _ProfileDivider(),
                       _ProfileMenuItem(
                         icon: Icons.settings_outlined,
-                        label: 'Preferensi',
+                        label: l10n.profilePreferences,
                         onTap: () {
                           _openPage('preferences', widget.onPreferences);
                         },
@@ -203,7 +209,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       const _ProfileDivider(),
                       _ProfileMenuItem(
                         icon: Icons.question_mark_rounded,
-                        label: 'Bantuan',
+                        label: l10n.profileHelp,
                         onTap: () {
                           _openPage('help', widget.onHelp);
                         },
@@ -211,7 +217,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       const _ProfileDivider(),
                       _ProfileMenuItem(
                         icon: Icons.info_outline_rounded,
-                        label: 'Tentang Aplikasi',
+                        label: l10n.profileAbout,
                         onTap: () {
                           _openPage('about', widget.onAbout);
                         },
@@ -250,7 +256,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           ),
                         )
                       : Text(
-                          'Keluar',
+                          l10n.profileLogout,
                           style: TextStyle(
                             fontSize: context.ui(16),
                             fontWeight: FontWeight.w700,

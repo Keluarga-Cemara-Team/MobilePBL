@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../controllers/preferences_controller.dart';
 import '../widgets/profile_subpage_scaffold.dart';
 
@@ -14,27 +15,27 @@ class PreferencesPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final preferences = ref.watch(preferencesControllerProvider);
     final controller = ref.read(preferencesControllerProvider.notifier);
 
     return ProfileSubpageScaffold(
-      title: 'Preferensi',
+      title: l10n.profilePreferences,
       onBack: onBack,
       children: [
-        const ProfileInfoCard(
-          text:
-              'Sesuaikan tampilan tema, bahasa, serta jadwal pengingat check-in harian dan motivasi untuk mendukung kesehatan mentalmu.',
+        ProfileInfoCard(
+          text: l10n.profilePreferencesIntro,
           icon: Icons.tune_rounded,
         ),
         SizedBox(height: context.ui(28)),
         Text(
-          'Tampilan',
+          l10n.profileAppearance,
           style: AppTextStyles.title(context)
               .copyWith(fontSize: context.ui(18)),
         ),
         SizedBox(height: context.ui(8)),
         Text(
-          'Pilih tema yang paling nyaman untukmu.',
+          l10n.profileChooseTheme,
           style: AppTextStyles.subtitle(context)
               .copyWith(fontSize: context.ui(14)),
         ),
@@ -45,10 +46,22 @@ class PreferencesPage extends ConsumerWidget {
                 constraints.maxWidth < 300 ||
                 MediaQuery.textScalerOf(context).scale(14) > 20;
             final options = [
-              for (final option in const [
-                (ThemeMode.light, Icons.light_mode_outlined, 'Terang'),
-                (ThemeMode.dark, Icons.dark_mode_outlined, 'Gelap'),
-                (ThemeMode.system, Icons.brightness_auto_outlined, 'Sistem'),
+              for (final option in [
+                (
+                  ThemeMode.light,
+                  Icons.light_mode_outlined,
+                  l10n.profileThemeLight,
+                ),
+                (
+                  ThemeMode.dark,
+                  Icons.dark_mode_outlined,
+                  l10n.profileThemeDark,
+                ),
+                (
+                  ThemeMode.system,
+                  Icons.brightness_auto_outlined,
+                  l10n.profileThemeSystem,
+                ),
               ])
                 _ThemeOptionCard(
                   key: ValueKey('theme-option-${option.$1.name}'),
@@ -82,13 +95,13 @@ class PreferencesPage extends ConsumerWidget {
         ),
         SizedBox(height: context.ui(30)),
         Text(
-          'Bahasa / Language',
+          l10n.profileLanguageTitle,
           style: AppTextStyles.title(context)
               .copyWith(fontSize: context.ui(18)),
         ),
         SizedBox(height: context.ui(8)),
         Text(
-          'Pilih bahasa yang digunakan pada aplikasi.',
+          l10n.profileChooseLanguage,
           style: AppTextStyles.subtitle(context)
               .copyWith(fontSize: context.ui(14)),
         ),
@@ -99,8 +112,8 @@ class PreferencesPage extends ConsumerWidget {
               child: _LanguageOptionCard(
                 key: const ValueKey('language-option-id'),
                 icon: Icons.language_rounded,
-                label: 'Indonesia',
-                sublabel: 'Bahasa Indonesia',
+                label: l10n.profileLanguageIndonesian,
+                sublabel: l10n.profileLanguageIndonesianSubtitle,
                 selected: preferences.language == AppLanguage.indonesian,
                 onTap: () => controller.setLanguage(AppLanguage.indonesian),
               ),
@@ -110,8 +123,8 @@ class PreferencesPage extends ConsumerWidget {
               child: _LanguageOptionCard(
                 key: const ValueKey('language-option-en'),
                 icon: Icons.translate_rounded,
-                label: 'English',
-                sublabel: 'United States',
+                label: l10n.profileLanguageEnglish,
+                sublabel: l10n.profileLanguageEnglishSubtitle,
                 selected: preferences.language == AppLanguage.english,
                 onTap: () => controller.setLanguage(AppLanguage.english),
               ),
@@ -120,13 +133,13 @@ class PreferencesPage extends ConsumerWidget {
         ),
         SizedBox(height: context.ui(30)),
         Text(
-          'Pengingat & Notifikasi',
+          l10n.profileNotifications,
           style: AppTextStyles.title(context)
               .copyWith(fontSize: context.ui(18)),
         ),
         SizedBox(height: context.ui(8)),
         Text(
-          'Pilih mode notifikasi yang ingin kamu aktifkan untuk mendukung rutinitas harianmu.',
+          l10n.profileNotificationDescription,
           style: AppTextStyles.subtitle(context)
               .copyWith(fontSize: context.ui(14)),
         ),
@@ -142,14 +155,14 @@ class PreferencesPage extends ConsumerWidget {
             children: [
               SwitchListTile(
                 title: Text(
-                  'Reminder Harian (Check-in)',
+                  l10n.profileDailyCheckIn,
                   style: AppTextStyles.subtitle(context).copyWith(
                     color: AppColors.of(context).navy,
                     fontSize: context.ui(16),
                   ),
                 ),
                 subtitle: Text(
-                  'Pengingat otomatis setiap pagi (09:00) untuk evaluasi tingkat burnout.',
+                  l10n.profileDailyCheckInDescription,
                   style: AppTextStyles.subtitle(context)
                       .copyWith(fontSize: context.ui(14)),
                 ),
@@ -159,9 +172,11 @@ class PreferencesPage extends ConsumerWidget {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(val
-                            ? 'Pengingat harian dijadwalkan setiap 09:00 WIB'
-                            : 'Pengingat harian dinonaktifkan'),
+                        content: Text(
+                          val
+                              ? l10n.profileDailyReminderEnabled
+                              : l10n.profileDailyReminderDisabled,
+                        ),
                         duration: const Duration(seconds: 2),
                       ),
                     );
@@ -173,14 +188,14 @@ class PreferencesPage extends ConsumerWidget {
               Divider(height: 1, color: AppColors.of(context).border),
               SwitchListTile(
                 title: Text(
-                  'Motivasi Sederhana',
+                  l10n.profileWellbeingMotivation,
                   style: AppTextStyles.subtitle(context).copyWith(
                     color: AppColors.of(context).navy,
                     fontSize: context.ui(16),
                   ),
                 ),
                 subtitle: Text(
-                  'Kutipan penyemangat & afirmasi rileksasi setiap siang (14:00).',
+                  l10n.profileWellbeingMotivationDescription,
                   style: AppTextStyles.subtitle(context)
                       .copyWith(fontSize: context.ui(14)),
                 ),
@@ -190,9 +205,11 @@ class PreferencesPage extends ConsumerWidget {
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(val
-                            ? 'Motivasi harian dijadwalkan setiap 14:00 WIB'
-                            : 'Motivasi harian dinonaktifkan'),
+                        content: Text(
+                          val
+                              ? l10n.profileMotivationEnabled
+                              : l10n.profileMotivationDisabled,
+                        ),
                         duration: const Duration(seconds: 2),
                       ),
                     );
@@ -213,15 +230,18 @@ class PreferencesPage extends ConsumerWidget {
                   await controller.testSendDailyReminder();
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Notifikasi Reminder Harian berhasil dikirim!'),
+                      SnackBar(
+                        content: Text(l10n.profileTestReminderSuccess),
                         duration: Duration(seconds: 2),
                       ),
                     );
                   }
                 },
                 icon: const Icon(Icons.notifications_active_outlined, size: 16),
-                label: const Text('Tes Reminder', style: TextStyle(fontSize: 12)),
+                label: Text(
+                  l10n.profileTestReminder,
+                  style: const TextStyle(fontSize: 12),
+                ),
               ),
             ),
             SizedBox(width: context.ui(10)),
@@ -231,22 +251,25 @@ class PreferencesPage extends ConsumerWidget {
                   await controller.testSendMotivation();
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Notifikasi Motivasi berhasil dikirim!'),
+                      SnackBar(
+                        content: Text(l10n.profileTestMotivationSuccess),
                         duration: Duration(seconds: 2),
                       ),
                     );
                   }
                 },
                 icon: const Icon(Icons.lightbulb_outline, size: 16),
-                label: const Text('Tes Motivasi', style: TextStyle(fontSize: 12)),
+                label: Text(
+                  l10n.profileTestMotivation,
+                  style: const TextStyle(fontSize: 12),
+                ),
               ),
             ),
           ],
         ),
         SizedBox(height: context.ui(12)),
         Text(
-          'Gunakan tombol tes di atas untuk mencoba preview notifikasi secara instan pada perangkat.',
+          l10n.profileNotificationTestHint,
           style: AppTextStyles.subtitle(context)
               .copyWith(fontSize: context.ui(12)),
         ),

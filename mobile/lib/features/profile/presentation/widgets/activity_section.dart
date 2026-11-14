@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/personalization.dart';
 import 'personalization_fields.dart';
 
@@ -15,12 +16,13 @@ class ActivitySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         PersonalizationDropdown(
-          label: 'Pekerjaan / aktivitas utama',
-          hint: 'Pilih aktivitas utama',
+          label: l10n.personalizationActivityOccupation,
+          hint: l10n.personalizationSelectOccupation,
           value: data.occupation,
           options: const [
             'Pelajar / Mahasiswa',
@@ -36,8 +38,8 @@ class ActivitySection extends StatelessWidget {
           },
         ),
         PersonalizationDropdown(
-          label: 'Status pekerjaan',
-          hint: 'Pilih status pekerjaan',
+          label: l10n.personalizationEmploymentStatus,
+          hint: l10n.personalizationSelectEmploymentStatus,
           value: data.employmentStatus,
           options: const [
             'Penuh waktu',
@@ -52,7 +54,7 @@ class ActivitySection extends StatelessWidget {
           },
         ),
         PersonalizationChoices(
-          label: 'Lokasi kerja',
+          label: l10n.personalizationWorkLocation,
           value: data.workLocation,
           options: const [
             'Rumah',
@@ -64,7 +66,7 @@ class ActivitySection extends StatelessWidget {
           },
         ),
         PersonalizationChoices(
-          label: 'Apakah kamu merokok?',
+          label: l10n.personalizationSmoking,
           value: data.smoking,
           options: const [
             'Ya',
@@ -75,7 +77,7 @@ class ActivitySection extends StatelessWidget {
           },
         ),
         PersonalizationChoices(
-          label: 'Apakah kamu mengonsumsi alkohol?',
+          label: l10n.personalizationAlcohol,
           value: data.alcohol,
           options: const [
             'Ya',
