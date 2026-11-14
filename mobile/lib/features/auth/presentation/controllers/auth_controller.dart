@@ -44,6 +44,10 @@ class AuthController extends Notifier<AuthState> {
     return _submit(() => _repository.login(email: email, password: password));
   }
 
+  Future<bool> loginWithGoogle() {
+    return _submit(() => _repository.loginWithGoogle());
+  }
+
   Future<bool> _submit(
     Future<AuthUser> Function() action, {
     bool justRegistered = false,

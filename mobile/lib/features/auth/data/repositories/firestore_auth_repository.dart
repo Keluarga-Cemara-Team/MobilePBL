@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../../../../core/storage/secure_storage.dart';
 import '../../../../firebase_options.dart';
 import '../../domain/entities/auth_user.dart';
@@ -118,6 +120,122 @@ class FirestoreAuthRepository implements AuthRepository {
         rethrow;
       }
       throw Exception('Gagal melakukan login. Periksa koneksi internet Anda: $e');
+    }
+  }
+
+  @override
+  Future<AuthUser> loginWithGoogle() async {
+    try {
+      await _ensureFirebase();
+
+      User? firebaseUser;
+      String? email;
+      String? name;
+      String? photoUrl;
+      String? rawToken;
+
+      if (kIsWeb) {
+        // Pada Flutter Web, gunakan Firebase Auth popup resmi
+        final GoogleAuthProvider googleProvider = GoogleAuthProvider();
+        googleProvider.addScope('email');
+        googleProvider.addScope('profile');
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithPopup(googleProvider);
+        firebaseUser = userCredential.user;
+        email = firebaseUser?.email;
+        name = firebaseUser?.displayName ?? 'Pengguna Google';
+        photoUrl = firebaseUser?.photoURL;
+        rawToken = await firebaseUser?.getIdToken();
+      } else {
+        // Pada Android / Perangkat Mobile, gunakan GoogleSignIn native
+        final googleSignIn = GoogleSignIn(
+          scopes: ['email', 'profile'],
+        );
+
+        final GoogleSignInAccount? googleAccount = await googleSignIn.signIn();
+        if (googleAccount == null) {
+          throw Exception('Proses masuk dengan Google dibatalkan oleh pengguna.');
+        }
+
+        final GoogleSignInAuthentication googleAuth =
+            await googleAccount.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        // Sign in ke Firebase Auth
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        firebaseUser = userCredential.user;
+
+        email = firebaseUser?.email ?? googleAccount.email;
+        name = firebaseUser?.displayName ??
+            googleAccount.displayName ??
+            'Pengguna Google';
+        photoUrl = firebaseUser?.photoURL ?? googleAccount.photoUrl;
+        rawToken = googleAuth.accessToken ?? await firebaseUser?.getIdToken();
+      }
+
+      final safeEmail = email ?? 'user@google.com';
+      final safeName = name ?? 'Pengguna Google';
+
+      // Sinkronisasi data ke Cloud Firestore koleksi 'users'
+      String finalUserId = firebaseUser?.uid ?? 'google_${DateTime.now().millisecondsSinceEpoch}';
+      try {
+        final userQuery = await _firestore
+            .collection('users')
+            .where('email', isEqualTo: safeEmail.toLowerCase())
+            .limit(1)
+            .get();
+
+        if (userQuery.docs.isNotEmpty) {
+          final existingDoc = userQuery.docs.first;
+          finalUserId = existingDoc.id;
+          await _firestore.collection('users').doc(finalUserId).update({
+            'full_name': safeName,
+            if (photoUrl != null) 'photo_url': photoUrl,
+            'last_login': FieldValue.serverTimestamp(),
+          });
+        } else {
+          final newDoc = await _firestore.collection('users').add({
+            'full_name': safeName,
+            'email': safeEmail.toLowerCase(),
+            'username': safeEmail.split('@').first,
+            'photo_url': photoUrl,
+            'role': 'user',
+            'division': 'Google Sign-In Mobile',
+            'provider': 'google.com',
+            'created_at': FieldValue.serverTimestamp(),
+            'last_login': FieldValue.serverTimestamp(),
+          });
+          finalUserId = newDoc.id;
+        }
+      } catch (firestoreErr) {
+        debugPrint('Firestore sync notice during Google login: $firestoreErr');
+      }
+
+      final user = AuthUser(
+        id: finalUserId,
+        email: safeEmail,
+        name: safeName,
+        photoUrl: photoUrl,
+      );
+
+      _currentUser = user;
+      await SecureTokenStorage.instance.saveTokens(
+        accessToken: rawToken ?? 'jwt-google-${user.id}',
+        refreshToken: 'refresh-google-${user.id}',
+      );
+
+      debugPrint('FirestoreAuthRepository: Sukses login dengan Google: ${user.email} (${user.id})');
+      return user;
+    } catch (e) {
+      debugPrint('FirestoreAuthRepository loginWithGoogle error: $e');
+      if (e.toString().contains('dibatalkan')) {
+        rethrow;
+      }
+      throw Exception('Gagal masuk dengan Google: ${e.toString().replaceFirst('Exception: ', '')}');
     }
   }
 
