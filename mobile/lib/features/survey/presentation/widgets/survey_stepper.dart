@@ -537,36 +537,56 @@ class _SurveyStepperState extends State<SurveyStepper> {
                       size: context.ui(19),
                       color: AppColors.of(context).navy,
                     ),
-                  ),
-                  InkWell(
-                    onTap: () => setState(() => _step = index),
-                    borderRadius: BorderRadius.circular(context.ui(4)),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: context.ui(6),
-                        vertical: context.ui(4),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
+                    SizedBox(width: context.ui(12)),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Ubah',
-                            style: _subtitleStyle(context, 13).copyWith(
-                              color: AppColors.of(context).primary,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            '${question.localizedReviewLabel(l10n)}:',
+                            style: _subtitleStyle(context, 12),
                           ),
-                          SizedBox(width: context.ui(2)),
-                          Icon(
-                            Icons.chevron_right_rounded,
-                            color: AppColors.of(context).primary,
-                            size: context.ui(16),
+                          Text(
+                            '${question.localizedAnswer(l10n, widget.state.answers[question.id])} ${question.localizedUnit(l10n)}'
+                                .trim(),
+                            style: _subtitleStyle(context, 12).copyWith(
+                              color: AppColors.of(context).navy,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                ],
+                    InkWell(
+                      onTap: () => setState(() => _step = index),
+                      borderRadius: BorderRadius.circular(context.ui(4)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: context.ui(6),
+                          vertical: context.ui(4),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              l10n.surveyEditAnswer,
+                              style: _subtitleStyle(context, 13).copyWith(
+                                color: AppColors.of(context).primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(width: context.ui(2)),
+                            Icon(
+                              Icons.chevron_right_rounded,
+                              color: AppColors.of(context).primary,
+                              size: context.ui(16),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
         ],
