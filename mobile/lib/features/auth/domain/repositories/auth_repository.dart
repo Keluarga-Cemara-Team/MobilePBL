@@ -8,6 +8,8 @@ abstract class AuthRepository {
     required String password,
   });
 
+  Future<AuthUser> loginWithGoogle();
+
   Future<AuthUser> register({
     required String name,
     required String email,
