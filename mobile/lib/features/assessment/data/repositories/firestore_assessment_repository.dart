@@ -114,7 +114,7 @@ class FirestoreAssessmentRepository implements AssessmentRepository {
       debugPrint('ML prediction fallback heuristic error: $e');
     }
 
-    if (apiResponse != null && apiResponse['evaluation'] != null) {
+                                                                                                                                                                                                                                                                                                                                                                   if (apiResponse != null && apiResponse['evaluation'] != null) {
       final eval = apiResponse['evaluation'] as Map<String, dynamic>;
       burnoutScore = (eval['burnout_score'] as num?)?.toDouble() ?? 50.0;
       burnoutRisk = eval['burnout_risk']?.toString() ?? 'Moderate';
