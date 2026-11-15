@@ -18,6 +18,7 @@ abstract final class RoutePaths {
   static const registrationPersonalization =
       '$personalization?origin=registration';
   static const dashboardSurvey = '$survey?origin=dashboard';
+  static const nearbyPsychologists = '/nearby-psychologists';
 
   static String questionsFor(SurveyOrigin origin) =>
       '$survey/questions${_originQuery(origin)}';
