@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -314,6 +315,195 @@ class FirestoreAuthRepository implements AuthRepository {
     _currentUser = null;
     await SecureTokenStorage.instance.clearTokens();
     debugPrint('FirestoreAuthRepository: Pengguna berhasil keluar (logout).');
+  }
+
+  @override
+  Future<void> sendPasswordReset(String email) async {
+    final cleanEmail = email.trim().toLowerCase();
+    if (cleanEmail == _fallbackEmail) {
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+      return;
+    }
+
+    try {
+      await _ensureFirebase();
+      if (Firebase.apps.isNotEmpty) {
+        try {
+          await FirebaseAuth.instance.sendPasswordResetEmail(email: cleanEmail);
+          return;
+        } catch (authError) {
+          debugPrint('FirebaseAuth sendPasswordResetEmail note: $authError');
+        }
+
+        final query = await _firestore
+            .collection('users')
+            .where('email', isEqualTo: cleanEmail)
+            .limit(1)
+            .get();
+
+        if (query.docs.isEmpty) {
+          debugPrint('sendPasswordReset: Email $cleanEmail tidak ditemukan di Firestore users.');
+        }
+      }
+    } catch (e) {
+      debugPrint('FirestoreAuthRepository sendPasswordReset error: $e');
+      throw Exception('Gagal mengirim tautan reset kata sandi: $e');
+    }
+  }
+
+  @override
+  Future<String> requestPasswordResetOtp(String email) async {
+    final cleanEmail = email.trim().toLowerCase();
+    if (cleanEmail.isEmpty || !cleanEmail.contains('@')) {
+      throw Exception('Format email tidak valid.');
+    }
+
+    if (cleanEmail == _fallbackEmail) {
+      await Future<void>.delayed(const Duration(milliseconds: 400));
+      return '123456';
+    }
+
+    try {
+      await _ensureFirebase();
+      if (Firebase.apps.isEmpty) {
+        throw Exception('Firebase belum siap.');
+      }
+
+      // Pastikan email terdaftar di koleksi 'users'
+      final userQuery = await _firestore
+          .collection('users')
+          .where('email', isEqualTo: cleanEmail)
+          .limit(1)
+          .get();
+
+      if (userQuery.docs.isEmpty) {
+        throw Exception('Email tidak terdaftar di sistem.');
+      }
+
+      // Generate 6 digit angka acak
+      final otp = (100000 + math.Random().nextInt(900000)).toString();
+      final expiresAt = DateTime.now().add(const Duration(minutes: 10));
+
+      await _firestore.collection('password_resets').doc(cleanEmail).set({
+        'email': cleanEmail,
+        'otp': otp,
+        'expires_at': Timestamp.fromDate(expiresAt),
+        'created_at': FieldValue.serverTimestamp(),
+      });
+
+      try {
+        await _firestore.collection('mail').add({
+          'to': [cleanEmail],
+          'message': {
+            'subject': 'Kode OTP Reset Kata Sandi - AntiBurnout',
+            'html':
+                '<p>Halo,</p><p>Kode OTP untuk mengatur ulang kata sandi Anda adalah: <b style="font-size:24px;color:#4A67FF;letter-spacing:4px;">$otp</b></p><p>Kode ini berlaku selama 10 menit. Jangan berikan kode ini kepada siapa pun.</p><p>Salam hangat,<br>Tim AntiBurnout</p>',
+            'text':
+                'Halo,\n\nKode OTP untuk mengatur ulang kata sandi Anda adalah: $otp\n\nKode ini berlaku selama 10 menit. Jangan berikan kode ini kepada siapa pun.\n\nTim AntiBurnout',
+          },
+        });
+      } catch (_) {}
+
+      return otp;
+    } catch (e) {
+      debugPrint('FirestoreAuthRepository requestPasswordResetOtp error: $e');
+      if (e.toString().contains('tidak terdaftar') || e.toString().contains('tidak valid')) {
+        rethrow;
+      }
+      throw Exception('Gagal memproses kode OTP: $e');
+    }
+  }
+
+  @override
+  Future<bool> verifyPasswordResetOtp({
+    required String email,
+    required String otp,
+  }) async {
+    final cleanEmail = email.trim().toLowerCase();
+    final cleanOtp = otp.trim();
+
+    if (cleanEmail == _fallbackEmail && (cleanOtp == '123456' || cleanOtp.length == 6)) {
+      return true;
+    }
+
+    try {
+      await _ensureFirebase();
+      if (Firebase.apps.isEmpty) {
+        throw Exception('Firebase belum siap.');
+      }
+
+      final doc = await _firestore.collection('password_resets').doc(cleanEmail).get();
+      if (!doc.exists) {
+        throw Exception('Kode OTP tidak ditemukan atau telah kedaluwarsa. Silakan minta kode baru.');
+      }
+
+      final data = doc.data()!;
+      final storedOtp = data['otp']?.toString() ?? '';
+      final expiresAt = (data['expires_at'] as Timestamp?)?.toDate();
+
+      if (expiresAt != null && DateTime.now().isAfter(expiresAt)) {
+        throw Exception('Kode OTP telah kedaluwarsa. Silakan minta kode baru.');
+      }
+
+      if (storedOtp != cleanOtp) {
+        throw Exception('Kode OTP tidak sesuai. Periksa kembali 6 digit kode Anda.');
+      }
+
+      return true;
+    } catch (e) {
+      debugPrint('FirestoreAuthRepository verifyPasswordResetOtp error: $e');
+      if (e.toString().contains('tidak sesuai') ||
+          e.toString().contains('kedaluwarsa') ||
+          e.toString().contains('tidak ditemukan')) {
+        rethrow;
+      }
+      throw Exception('Gagal memverifikasi kode OTP: $e');
+    }
+  }
+
+  @override
+  Future<void> resetPasswordWithOtp({
+    required String email,
+    required String otp,
+    required String newPassword,
+  }) async {
+    final cleanEmail = email.trim().toLowerCase();
+    final cleanPassword = newPassword.trim();
+
+    if (cleanPassword.length < 6) {
+      throw Exception('Kata sandi baru minimal 6 karakter.');
+    }
+
+    await verifyPasswordResetOtp(email: cleanEmail, otp: otp);
+
+    if (cleanEmail == _fallbackEmail) {
+      await Future<void>.delayed(const Duration(milliseconds: 400));
+      return;
+    }
+
+    try {
+      await _ensureFirebase();
+      final userQuery = await _firestore
+          .collection('users')
+          .where('email', isEqualTo: cleanEmail)
+          .limit(1)
+          .get();
+
+      if (userQuery.docs.isNotEmpty) {
+        await userQuery.docs.first.reference.update({
+          'password': cleanPassword,
+          'updated_at': FieldValue.serverTimestamp(),
+        });
+        debugPrint('FirestoreAuthRepository: Kata sandi akun $cleanEmail berhasil diperbarui di Firestore.');
+      }
+
+      try {
+        await _firestore.collection('password_resets').doc(cleanEmail).delete();
+      } catch (_) {}
+    } catch (e) {
+      debugPrint('FirestoreAuthRepository resetPasswordWithOtp error: $e');
+      throw Exception('Gagal menyimpan kata sandi baru: $e');
+    }
   }
 
   @override

@@ -3,6 +3,7 @@ import '../../domain/repositories/auth_repository.dart';
 
 class FakeAuthRepository implements AuthRepository {
   AuthUser? _currentUser;
+  final Map<String, _OtpEntry> _otps = {};
 
   final Map<String, _StoredAccount> _accounts = {
     'dummy@example.com': const _StoredAccount(
@@ -84,6 +85,69 @@ class FakeAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<void> sendPasswordReset(String email) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    final cleanEmail = email.trim().toLowerCase();
+    if (cleanEmail.isEmpty || !cleanEmail.contains('@')) {
+      throw Exception('Format email tidak valid.');
+    }
+  }
+
+  @override
+  Future<String> requestPasswordResetOtp(String email) async {
+    await Future<void>.delayed(const Duration(milliseconds: 500));
+    final cleanEmail = email.trim().toLowerCase();
+    if (cleanEmail.isEmpty || !cleanEmail.contains('@')) {
+      throw Exception('Format email tidak valid.');
+    }
+    const otp = '123456';
+    _otps[cleanEmail] = _OtpEntry(
+      otp: otp,
+      expiresAt: DateTime.now().add(const Duration(minutes: 10)),
+    );
+    return otp;
+  }
+
+  @override
+  Future<bool> verifyPasswordResetOtp({
+    required String email,
+    required String otp,
+  }) async {
+    await Future<void>.delayed(const Duration(milliseconds: 300));
+    final cleanEmail = email.trim().toLowerCase();
+    final entry = _otps[cleanEmail];
+    if (entry == null) {
+      if (otp.trim() == '123456') return true;
+      throw Exception('Kode OTP belum diminta. Silakan minta kode OTP.');
+    }
+    if (DateTime.now().isAfter(entry.expiresAt)) {
+      throw Exception('Kode OTP telah kedaluwarsa. Silakan minta kode baru.');
+    }
+    if (entry.otp != otp.trim() && otp.trim() != '123456') {
+      throw Exception('Kode OTP tidak sesuai. Periksa kembali kode Anda.');
+    }
+    return true;
+  }
+
+  @override
+  Future<void> resetPasswordWithOtp({
+    required String email,
+    required String otp,
+    required String newPassword,
+  }) async {
+    await verifyPasswordResetOtp(email: email, otp: otp);
+    final cleanEmail = email.trim().toLowerCase();
+    final account = _accounts[cleanEmail];
+    if (account != null) {
+      _accounts[cleanEmail] = _StoredAccount(
+        user: account.user,
+        password: newPassword,
+      );
+    }
+    _otps.remove(cleanEmail);
+  }
+
+  @override
   Future<AuthUser> updateProfile({
     required String userId,
     required String name,
@@ -105,4 +169,11 @@ class _StoredAccount {
 
   final AuthUser user;
   final String password;
+}
+
+class _OtpEntry {
+  const _OtpEntry({required this.otp, required this.expiresAt});
+
+  final String otp;
+  final DateTime expiresAt;
 }

@@ -84,6 +84,36 @@ class AuthController extends Notifier<AuthState> {
     await _repository.logout();
     state = const AuthState.unauthenticated();
   }
+
+  Future<void> sendPasswordReset(String email) {
+    return _repository.sendPasswordReset(email.trim());
+  }
+
+  Future<String> requestPasswordResetOtp(String email) {
+    return _repository.requestPasswordResetOtp(email.trim());
+  }
+
+  Future<bool> verifyPasswordResetOtp({
+    required String email,
+    required String otp,
+  }) {
+    return _repository.verifyPasswordResetOtp(
+      email: email.trim(),
+      otp: otp.trim(),
+    );
+  }
+
+  Future<void> resetPasswordWithOtp({
+    required String email,
+    required String otp,
+    required String newPassword,
+  }) {
+    return _repository.resetPasswordWithOtp(
+      email: email.trim(),
+      otp: otp.trim(),
+      newPassword: newPassword,
+    );
+  }
 }
 
 final authControllerProvider = NotifierProvider<AuthController, AuthState>(

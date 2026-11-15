@@ -69,7 +69,24 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: RoutePaths.forgotPassword,
-        builder: (context, state) => const ForgotPasswordPage(),
+        builder: (context, state) => ForgotPasswordPage(
+          onRequestOtp: (email) => ref
+              .read(authControllerProvider.notifier)
+              .requestPasswordResetOtp(email),
+          onVerifyOtp: (email, otp) => ref
+              .read(authControllerProvider.notifier)
+              .verifyPasswordResetOtp(email: email, otp: otp),
+          onResetPassword: (email, otp, newPassword) => ref
+              .read(authControllerProvider.notifier)
+              .resetPasswordWithOtp(
+                email: email,
+                otp: otp,
+                newPassword: newPassword,
+              ),
+          onSendResetLink: (email) => ref
+              .read(authControllerProvider.notifier)
+              .sendPasswordReset(email),
+        ),
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, shell) => MainShell(
