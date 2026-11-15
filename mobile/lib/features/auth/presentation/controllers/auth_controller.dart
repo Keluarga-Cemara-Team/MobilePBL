@@ -56,7 +56,10 @@ class AuthController extends Notifier<AuthState> {
     state = state.copyWith(isSubmitting: true, clearError: true);
     try {
       final user = await action();
-      state = AuthState.authenticated(user, justRegistered: justRegistered);
+      state = AuthState.authenticated(
+        user,
+        justRegistered: justRegistered || user.isNewUser,
+      );
       return true;
     } catch (error) {
       state = state.copyWith(

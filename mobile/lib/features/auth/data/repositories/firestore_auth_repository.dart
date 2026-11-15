@@ -136,6 +136,7 @@ class FirestoreAuthRepository implements AuthRepository {
       String? name;
       String? photoUrl;
       String? rawToken;
+      bool isNewUser = false;
 
       if (kIsWeb) {
         // Pada Flutter Web, gunakan Firebase Auth popup resmi
@@ -149,6 +150,9 @@ class FirestoreAuthRepository implements AuthRepository {
         name = firebaseUser?.displayName ?? 'Pengguna Google';
         photoUrl = firebaseUser?.photoURL;
         rawToken = await firebaseUser?.getIdToken();
+        if (userCredential.additionalUserInfo?.isNewUser == true) {
+          isNewUser = true;
+        }
       } else {
         // Pada Android / Perangkat Mobile, gunakan GoogleSignIn native
         final googleSignIn = GoogleSignIn(
@@ -178,10 +182,13 @@ class FirestoreAuthRepository implements AuthRepository {
             'Pengguna Google';
         photoUrl = firebaseUser?.photoURL ?? googleAccount.photoUrl;
         rawToken = googleAuth.accessToken ?? await firebaseUser?.getIdToken();
+        if (userCredential.additionalUserInfo?.isNewUser == true) {
+          isNewUser = true;
+        }
       }
 
       final safeEmail = email ?? 'user@google.com';
-      final safeName = name ?? 'Pengguna Google';
+      final safeName = name.isEmpty ? 'Pengguna Google' : name;
 
       // Sinkronisasi data ke Cloud Firestore koleksi 'users'
       String finalUserId = firebaseUser?.uid ?? 'google_${DateTime.now().millisecondsSinceEpoch}';
@@ -200,7 +207,21 @@ class FirestoreAuthRepository implements AuthRepository {
             if (photoUrl != null) 'photo_url': photoUrl,
             'last_login': FieldValue.serverTimestamp(),
           });
+
+          // Cek apakah user sudah mengisi personalisasi
+          final personalizationDoc = await _firestore
+              .collection('personalizations')
+              .doc(finalUserId)
+              .get();
+          final userData = existingDoc.data();
+          final hasPersonalization = personalizationDoc.exists ||
+              (userData['personalization'] is Map &&
+                  (userData['personalization'] as Map).isNotEmpty);
+          if (!hasPersonalization) {
+            isNewUser = true;
+          }
         } else {
+          isNewUser = true;
           final newDoc = await _firestore.collection('users').add({
             'full_name': safeName,
             'email': safeEmail.toLowerCase(),
@@ -223,6 +244,7 @@ class FirestoreAuthRepository implements AuthRepository {
         email: safeEmail,
         name: safeName,
         photoUrl: photoUrl,
+        isNewUser: isNewUser,
       );
 
       _currentUser = user;
@@ -292,6 +314,7 @@ class FirestoreAuthRepository implements AuthRepository {
         id: docRef.id,
         email: cleanEmail,
         name: cleanName,
+        isNewUser: true,
       );
 
       _currentUser = user;

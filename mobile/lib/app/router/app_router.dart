@@ -44,10 +44,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           location == RoutePaths.forgotPassword;
 
       if (auth.status == AuthStatus.unknown) return null;
-      if (auth.status == AuthStatus.authenticated && isAuthRoute) {
-        return auth.justRegistered
-            ? RoutePaths.registrationPersonalization
-            : RoutePaths.home;
+      if (auth.status == AuthStatus.authenticated) {
+        if (isAuthRoute) {
+          return auth.justRegistered
+              ? RoutePaths.registrationPersonalization
+              : RoutePaths.home;
+        }
+        if (auth.justRegistered && location != RoutePaths.personalization) {
+          return RoutePaths.registrationPersonalization;
+        }
       }
       if (auth.status == AuthStatus.unauthenticated && !isAuthRoute) {
         return RoutePaths.welcome;

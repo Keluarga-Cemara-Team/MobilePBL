@@ -40,14 +40,17 @@ class FakeAuthRepository implements AuthRepository {
     return account.user;
   }
 
+  bool isGoogleNewUser = false;
+
   @override
   Future<AuthUser> loginWithGoogle() async {
     await Future<void>.delayed(const Duration(milliseconds: 300));
-    const googleUser = AuthUser(
+    final googleUser = AuthUser(
       id: 'google-demo-user',
       email: 'user.google@gmail.com',
       name: 'Google User Demo',
       photoUrl: null,
+      isNewUser: isGoogleNewUser,
     );
     _currentUser = googleUser;
     return googleUser;
@@ -71,10 +74,20 @@ class FakeAuthRepository implements AuthRepository {
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       email: key,
       name: name.trim(),
+      isNewUser: true,
     );
 
-    _accounts[key] = _StoredAccount(user: user, password: password);
-    _currentUser = user;
+    _accounts[key] = _StoredAccount(
+      user: AuthUser(
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        photoUrl: user.photoUrl,
+        isNewUser: false,
+      ),
+      password: password,
+    );
+    _currentUser = _accounts[key]!.user;
 
     return user;
   }

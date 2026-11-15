@@ -48,7 +48,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!mounted) return;
 
     if (ok) {
-      context.go(RoutePaths.home);
+      final auth = ref.read(authControllerProvider);
+      if (!auth.justRegistered) {
+        context.go(RoutePaths.home);
+      }
     }
   }
 
@@ -62,7 +65,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!mounted) return;
 
     if (ok) {
-      context.go(RoutePaths.home);
+      final auth = ref.read(authControllerProvider);
+      if (!auth.justRegistered) {
+        context.go(RoutePaths.home);
+      }
     }
   }
 
