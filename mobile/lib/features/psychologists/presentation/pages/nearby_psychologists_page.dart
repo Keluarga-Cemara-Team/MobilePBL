@@ -92,13 +92,16 @@ class _NearbyPsychologistsPageState
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Psikolog & Klinik Tersedia',
-                            style: AppTextStyles.title(context).copyWith(
-                              fontSize: context.ui(16),
-                              fontWeight: FontWeight.bold,
+                          Expanded(
+                            child: Text(
+                              'Psikolog & Klinik Tersedia',
+                              style: AppTextStyles.title(context).copyWith(
+                                fontSize: context.ui(16),
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
+                          SizedBox(width: context.ui(8)),
                           Text(
                             '${state.psychologists.length} ditemukan',
                             style: TextStyle(

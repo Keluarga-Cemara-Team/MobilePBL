@@ -128,24 +128,31 @@ class PsychologistCard extends StatelessWidget {
             SizedBox(height: context.ui(AppSpacing.sm)),
 
             // Baris Rating & Jarak
-            Row(
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: context.ui(AppSpacing.sm),
+              runSpacing: context.ui(4),
               children: [
-                Icon(
-                  Icons.star_rounded,
-                  color: Colors.amber.shade700,
-                  size: context.ui(18),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.star_rounded,
+                      color: Colors.amber.shade700,
+                      size: context.ui(18),
+                    ),
+                    SizedBox(width: context.ui(4)),
+                    Text(
+                      '${psychologist.rating} (${psychologist.reviewCount} ulasan)',
+                      style: TextStyle(
+                        fontSize: context.ui(12),
+                        fontWeight: FontWeight.w600,
+                        color: colors.body,
+                      ),
+                    ),
+                  ],
                 ),
-                SizedBox(width: context.ui(4)),
-                Text(
-                  '${psychologist.rating} (${psychologist.reviewCount} ulasan)',
-                  style: TextStyle(
-                    fontSize: context.ui(12),
-                    fontWeight: FontWeight.w600,
-                    color: colors.body,
-                  ),
-                ),
-                if (distanceText != null) ...[
-                  SizedBox(width: context.ui(AppSpacing.sm)),
+                if (distanceText != null)
                   Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: context.ui(8),
@@ -175,7 +182,6 @@ class PsychologistCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                ],
               ],
             ),
             SizedBox(height: context.ui(AppSpacing.xs)),
@@ -184,10 +190,13 @@ class PsychologistCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.location_on_outlined,
-                  size: context.ui(14),
-                  color: colors.body.withOpacity(0.7),
+                Padding(
+                  padding: EdgeInsets.only(top: context.ui(1)),
+                  child: Icon(
+                    Icons.location_on_outlined,
+                    size: context.ui(14),
+                    color: colors.body.withOpacity(0.7),
+                  ),
                 ),
                 SizedBox(width: context.ui(4)),
                 Expanded(
@@ -203,18 +212,24 @@ class PsychologistCard extends StatelessWidget {
             ),
             SizedBox(height: context.ui(3)),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.access_time_outlined,
-                  size: context.ui(14),
-                  color: colors.body.withOpacity(0.7),
+                Padding(
+                  padding: EdgeInsets.only(top: context.ui(1)),
+                  child: Icon(
+                    Icons.access_time_outlined,
+                    size: context.ui(14),
+                    color: colors.body.withOpacity(0.7),
+                  ),
                 ),
                 SizedBox(width: context.ui(4)),
-                Text(
-                  psychologist.openHours,
-                  style: TextStyle(
-                    fontSize: context.ui(11),
-                    color: colors.body.withOpacity(0.8),
+                Expanded(
+                  child: Text(
+                    psychologist.openHours,
+                    style: TextStyle(
+                      fontSize: context.ui(11),
+                      color: colors.body.withOpacity(0.8),
+                    ),
                   ),
                 ),
               ],
@@ -260,11 +275,16 @@ class PsychologistCard extends StatelessWidget {
                     label: Text(
                       'Peta',
                       style: TextStyle(fontSize: context.ui(12)),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: colors.primary,
                       side: BorderSide(color: colors.primary),
-                      padding: EdgeInsets.symmetric(vertical: context.ui(8)),
+                      padding: EdgeInsets.symmetric(
+                        vertical: context.ui(8),
+                        horizontal: context.ui(4),
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(context.ui(10)),
                       ),
@@ -284,12 +304,17 @@ class PsychologistCard extends StatelessWidget {
                           fontSize: context.ui(12),
                           fontWeight: FontWeight.w600,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF25D366),
                         foregroundColor: Colors.white,
                         elevation: 0,
-                        padding: EdgeInsets.symmetric(vertical: context.ui(8)),
+                        padding: EdgeInsets.symmetric(
+                          vertical: context.ui(8),
+                          horizontal: context.ui(4),
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(context.ui(10)),
                         ),

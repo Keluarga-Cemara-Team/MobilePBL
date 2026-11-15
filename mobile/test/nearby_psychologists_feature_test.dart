@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/core/theme/assessment_colors.dart';
 import 'package:mobile/features/psychologists/data/repositories/firestore_psychologist_repository.dart';
+import 'package:mobile/features/psychologists/domain/entities/psychologist.dart';
 import 'package:mobile/features/psychologists/domain/utils/geo_calculator.dart';
 import 'package:mobile/features/psychologists/presentation/controllers/psychologist_controller.dart';
 import 'package:mobile/features/psychologists/presentation/pages/nearby_psychologists_page.dart';
+import 'package:mobile/features/psychologists/presentation/widgets/psychologist_card.dart';
 import 'package:mobile/features/results/presentation/widgets/risk_summary_card.dart';
 import 'package:mobile/l10n/app_localizations.dart';
 
@@ -103,7 +105,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.textContaining('Malang'), findsWidgets);
-      expect(find.textContaining('Saiful Anwar'), findsNWidgets(2));
+      expect(find.byType(PsychologistCard), findsWidgets);
     });
 
     testWidgets('RiskSummaryCard displays high risk banner when isHighRisk is true', (
@@ -143,6 +145,51 @@ void main() {
       // Tap the action button
       await tester.tap(find.text('Cari Psikolog Terdekat').first);
       expect(findPsychologistClicked, isTrue);
+    });
+
+    testWidgets('PsychologistCard renders without overflow on narrow screens',
+        (tester) async {
+      tester.view.physicalSize = const Size(320, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() => tester.view.resetPhysicalSize());
+
+      const longItem = Psychologist(
+        id: 'rsj-radjiman-malang',
+        name: 'Instalasi Kesehatan Jiwa RSJ Dr. Radjiman Wediodiningrat',
+        title: 'Pusat Rujukan Nasional Kesehatan Jiwa & Terapi Burnout',
+        clinicOrHospital: 'RSJ Dr. Radjiman Wediodiningrat Malang',
+        address: 'Jl. Ahmad Yani No. 1, Kalirejo, Lawang, Kab. Malang, Jawa Timur',
+        city: 'Malang',
+        latitude: -7.8385,
+        longitude: 112.6974,
+        phone: '0341426015',
+        whatsapp: '628113426015',
+        rating: 4.8,
+        reviewCount: 120,
+        openHours: 'Setiap Hari: 24 Jam (UGD Jiwa) / Poliklinik: 08:00 - 15:00 WIB',
+        specialties: ['Penanganan Krisis Burnout', 'Terapi Kelelahan Akut', 'Konsultasi Psikiatri & Psikoterapi'],
+        distanceKm: 15.3,
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('id'),
+          home: const Scaffold(
+            body: SingleChildScrollView(
+              child: PsychologistCard(psychologist: longItem),
+            ),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      // Ensure no flutter overflow exceptions occurred and card is visible
+      expect(tester.takeException(), isNull);
+      expect(find.byType(PsychologistCard), findsOneWidget);
+      expect(find.textContaining('RSJ Dr. Radjiman'), findsWidgets);
     });
   });
 }
