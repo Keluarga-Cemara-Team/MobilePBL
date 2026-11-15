@@ -56,7 +56,10 @@ class AuthController extends Notifier<AuthState> {
     state = state.copyWith(isSubmitting: true, clearError: true);
     try {
       final user = await action();
-      state = AuthState.authenticated(user, justRegistered: justRegistered);
+      state = AuthState.authenticated(
+        user,
+        justRegistered: justRegistered || user.isNewUser,
+      );
       return true;
     } catch (error) {
       state = state.copyWith(
@@ -83,6 +86,36 @@ class AuthController extends Notifier<AuthState> {
   Future<void> logout() async {
     await _repository.logout();
     state = const AuthState.unauthenticated();
+  }
+
+  Future<void> sendPasswordReset(String email) {
+    return _repository.sendPasswordReset(email.trim());
+  }
+
+  Future<String> requestPasswordResetOtp(String email) {
+    return _repository.requestPasswordResetOtp(email.trim());
+  }
+
+  Future<bool> verifyPasswordResetOtp({
+    required String email,
+    required String otp,
+  }) {
+    return _repository.verifyPasswordResetOtp(
+      email: email.trim(),
+      otp: otp.trim(),
+    );
+  }
+
+  Future<void> resetPasswordWithOtp({
+    required String email,
+    required String otp,
+    required String newPassword,
+  }) {
+    return _repository.resetPasswordWithOtp(
+      email: email.trim(),
+      otp: otp.trim(),
+      newPassword: newPassword,
+    );
   }
 }
 

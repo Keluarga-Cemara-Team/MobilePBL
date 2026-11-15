@@ -4,18 +4,31 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile/app/app.dart';
 import 'package:mobile/app/router/app_router.dart';
 import 'package:mobile/app/router/route_paths.dart';
+import 'package:mobile/features/auth/data/repositories/fake_auth_repository.dart';
 import 'package:mobile/features/auth/di/auth_providers.dart';
 import 'package:mobile/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:mobile/features/auth/presentation/controllers/auth_state.dart';
 import 'package:mobile/features/auth/presentation/pages/login_page.dart';
 import 'package:mobile/features/auth/presentation/pages/register_page.dart';
 import 'package:mobile/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:mobile/features/profile/data/repositories/in_memory_profile_repository.dart';
+import 'package:mobile/features/profile/di/profile_providers.dart';
 import 'package:mobile/features/profile/presentation/controllers/personalization_controller.dart';
 import 'package:mobile/features/profile/presentation/pages/personalization_page.dart';
 import 'package:mobile/features/profile/presentation/pages/profile_page.dart';
 
-Future<ProviderContainer> _start(WidgetTester tester, String location) async {
-  final container = ProviderContainer();
+Future<ProviderContainer> _start(
+  WidgetTester tester,
+  String location, {
+  FakeAuthRepository? repository,
+}) async {
+  final fakeRepo = repository ?? FakeAuthRepository();
+  final container = ProviderContainer(
+    overrides: [
+      authRepositoryProvider.overrideWithValue(fakeRepo),
+      profileRepositoryProvider.overrideWithValue(InMemoryProfileRepository()),
+    ],
+  );
   addTearDown(container.dispose);
   container.read(appRouterProvider).go(location);
   await tester.pumpWidget(
@@ -181,4 +194,44 @@ void main() {
     expect(find.byType(PersonalizationPage), findsNothing);
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets(
+    'google login for new account opens personalization setup',
+    (tester) async {
+      final fakeRepo = FakeAuthRepository()..isGoogleNewUser = true;
+      final container = await _start(
+        tester,
+        RoutePaths.login,
+        repository: fakeRepo,
+      );
+
+      await _tap(tester, 'Masuk dengan Google');
+      final auth = container.read(authControllerProvider);
+      expect(auth.status, AuthStatus.authenticated);
+      expect(auth.justRegistered, isTrue);
+      expect(find.byType(PersonalizationPage), findsOneWidget);
+      expect(find.byType(DashboardPage), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+  );
+
+  testWidgets(
+    'google login for existing account opens dashboard directly',
+    (tester) async {
+      final fakeRepo = FakeAuthRepository()..isGoogleNewUser = false;
+      final container = await _start(
+        tester,
+        RoutePaths.login,
+        repository: fakeRepo,
+      );
+
+      await _tap(tester, 'Masuk dengan Google');
+      final auth = container.read(authControllerProvider);
+      expect(auth.status, AuthStatus.authenticated);
+      expect(auth.justRegistered, isFalse);
+      expect(find.byType(DashboardPage), findsOneWidget);
+      expect(find.byType(PersonalizationPage), findsNothing);
+      expect(tester.takeException(), isNull);
+    },
+  );
 }

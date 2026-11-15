@@ -65,7 +65,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     if (!mounted) return;
 
     if (ok) {
-      context.go(RoutePaths.home);
+      final auth = ref.read(authControllerProvider);
+      if (!auth.justRegistered) {
+        context.go(RoutePaths.home);
+      }
     }
   }
 
