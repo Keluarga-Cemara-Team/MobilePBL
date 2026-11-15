@@ -46,8 +46,10 @@ class RiskSummaryCard extends StatelessWidget {
     required this.factors,
     required this.answerSummary,
     this.isExample = false,
+    this.isHighRisk = false,
     this.onBackTap,
     this.onRecommendationTap,
+    this.onFindPsychologistTap,
   });
 
   final Key? scrollKey;
@@ -61,8 +63,10 @@ class RiskSummaryCard extends StatelessWidget {
   final List<FactorItemData> factors;
   final List<AnswerSummaryItemData> answerSummary;
   final bool isExample;
+  final bool isHighRisk;
   final VoidCallback? onBackTap;
   final VoidCallback? onRecommendationTap;
+  final VoidCallback? onFindPsychologistTap;
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +166,12 @@ class RiskSummaryCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                if (isHighRisk) ...[
+                  SizedBox(height: context.ui(AppSpacing.md)),
+                  _HighRiskPsychologistBanner(
+                    onFindPsychologistTap: onFindPsychologistTap,
+                  ),
+                ],
                 SizedBox(height: context.ui(AppSpacing.lg)),
                 Text(l10n.resultFactorsTitle, style: sectionStyle),
                 SizedBox(height: context.ui(AppSpacing.sm)),
@@ -267,6 +277,30 @@ class RiskSummaryCard extends StatelessWidget {
                   label: l10n.resultRecommendation,
                   onPressed: onRecommendationTap,
                 ),
+                if (isHighRisk) ...[
+                  SizedBox(height: context.ui(AppSpacing.sm)),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: onFindPsychologistTap,
+                      icon: Icon(Icons.near_me_outlined, size: context.ui(18)),
+                      label: const Text('Cari Psikolog Terdekat'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AssessmentColors.riskHigh,
+                        side: const BorderSide(
+                          color: AssessmentColors.riskHigh,
+                          width: 1.5,
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: context.ui(14)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            context.ui(AppSpacing.radius),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
@@ -464,6 +498,94 @@ class ResultHeader extends StatelessWidget {
       onBack: onBack ?? () => Navigator.of(context).maybePop(),
       tooltip: AppLocalizations.of(context)!.surveyBack,
       fontSize: 22,
+    );
+  }
+}
+
+class _HighRiskPsychologistBanner extends StatelessWidget {
+  const _HighRiskPsychologistBanner({this.onFindPsychologistTap});
+
+  final VoidCallback? onFindPsychologistTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(context.ui(AppSpacing.md)),
+      decoration: BoxDecoration(
+        color: AssessmentColors.riskHigh.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(context.ui(AppSpacing.radius)),
+        border: Border.all(
+          color: AssessmentColors.riskHigh.withOpacity(0.35),
+          width: 1.5,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(context.ui(6)),
+                decoration: BoxDecoration(
+                  color: AssessmentColors.riskHigh.withOpacity(0.2),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.health_and_safety_rounded,
+                  color: AssessmentColors.riskHigh,
+                  size: context.ui(22),
+                ),
+              ),
+              SizedBox(width: context.ui(AppSpacing.sm)),
+              Expanded(
+                child: Text(
+                  'Perlu Perhatian Profesional',
+                  style: TextStyle(
+                    fontSize: context.ui(15),
+                    fontWeight: FontWeight.bold,
+                    color: AssessmentColors.riskHigh,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: context.ui(AppSpacing.xs)),
+          Text(
+            'Tingkat burnout Anda tergolong tinggi. Anda sangat disarankan untuk berkonsultasi langsung dengan psikolog klinis atau profesional kesehatan jiwa.',
+            style: TextStyle(
+              fontSize: context.ui(12.5),
+              color: colors.body,
+              height: 1.45,
+            ),
+          ),
+          SizedBox(height: context.ui(AppSpacing.md)),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: onFindPsychologistTap,
+              icon: Icon(Icons.near_me_rounded, size: context.ui(16)),
+              label: Text(
+                'Cari Psikolog Terdekat',
+                style: TextStyle(
+                  fontSize: context.ui(13),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AssessmentColors.riskHigh,
+                foregroundColor: Colors.white,
+                elevation: 0,
+                padding: EdgeInsets.symmetric(vertical: context.ui(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(context.ui(12)),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

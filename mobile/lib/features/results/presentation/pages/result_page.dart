@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/router/route_paths.dart';
 import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
@@ -20,11 +21,13 @@ class ResultPage extends ConsumerWidget {
     required this.assessmentId,
     this.onBack,
     this.onRecommendationTap,
+    this.onFindPsychologistTap,
   });
 
   final String assessmentId;
   final VoidCallback? onBack;
   final VoidCallback? onRecommendationTap;
+  final VoidCallback? onFindPsychologistTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -138,8 +141,10 @@ class ResultPage extends ConsumerWidget {
                       value: localizeResultAnswerValue(l10n, answer),
                     ),
                 ],
+                isHighRisk: item.riskLevel == RiskLevel.tinggi,
                 onBackTap: goBack,
                 onRecommendationTap: onRecommendationTap,
+                onFindPsychologistTap: onFindPsychologistTap,
               );
             },
           ),
