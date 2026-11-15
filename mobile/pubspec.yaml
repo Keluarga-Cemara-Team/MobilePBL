@@ -26,6 +26,8 @@ dependencies:
   flutter_local_notifications: ^17.2.4
   timezone: ^0.9.4
   http: ^1.2.2
+  url_launcher: ^6.3.3
+  geolocator: ^14.1.2
 
 dev_dependencies:
   flutter_test:

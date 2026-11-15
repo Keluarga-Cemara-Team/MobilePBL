@@ -17,6 +17,7 @@ import '../../features/profile/presentation/pages/preferences_page.dart';
 import '../../features/profile/presentation/pages/help_page.dart';
 import '../../features/profile/presentation/pages/about_page.dart';
 import '../../features/profile/presentation/pages/personalization_page.dart';
+import '../../features/psychologists/presentation/pages/nearby_psychologists_page.dart';
 import '../../features/recommendations/presentation/pages/recommendation_page.dart';
 import '../../features/results/presentation/pages/result_page.dart';
 import '../../features/survey/presentation/pages/survey_intro_page.dart';
@@ -91,6 +92,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           onSendResetLink: (email) => ref
               .read(authControllerProvider.notifier)
               .sendPasswordReset(email),
+        ),
+      ),
+      GoRoute(
+        path: RoutePaths.nearbyPsychologists,
+        builder: (context, state) => NearbyPsychologistsPage(
+          onBack: () => context.pop(),
         ),
       ),
       StatefulShellRoute.indexedStack(
@@ -314,6 +321,8 @@ GoRoute _resultRoute({
       onRecommendationTap: () => context.push(
         state.uri.replace(path: '${state.uri.path}/recommendations').toString(),
       ),
+      onFindPsychologistTap: () =>
+          context.push(RoutePaths.nearbyPsychologists),
     );
     if (!fromSurvey) return page;
     return PopScope<Object?>(
