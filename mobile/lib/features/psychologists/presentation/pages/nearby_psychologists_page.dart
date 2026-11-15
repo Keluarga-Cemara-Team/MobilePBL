@@ -31,6 +31,7 @@ class _NearbyPsychologistsPageState
   static const _cities = [
     'Semua',
     'Batam',
+    'Malang',
     'Jakarta',
     'Bandung',
     'Surabaya',

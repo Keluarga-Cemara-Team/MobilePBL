@@ -47,6 +47,12 @@ void main() {
       expect(batamItems.every((item) => item.city == 'Batam'), isTrue);
       // Closest item should have distanceKm calculated
       expect(batamItems.first.distanceKm, isNotNull);
+
+      // Malang location
+      final malangItems = await repo.getPsychologists(city: 'Malang');
+      expect(malangItems, isNotEmpty);
+      expect(malangItems.every((item) => item.city == 'Malang'), isTrue);
+      expect(malangItems.any((item) => item.name.contains('Saiful Anwar')), isTrue);
     });
 
     test('Filters by text query', () async {
@@ -88,12 +94,16 @@ void main() {
       expect(find.text('Psikolog & Klinik Terdekat'), findsOneWidget);
       expect(find.text('Semua'), findsOneWidget);
       expect(find.text('Batam'), findsOneWidget);
+      expect(find.text('Malang'), findsOneWidget);
 
-      // Tap Batam chip filter
-      await tester.tap(find.text('Batam'));
+      // Tap Malang chip filter
+      final malangChip = find.widgetWithText(ChoiceChip, 'Malang');
+      await tester.ensureVisible(malangChip);
+      await tester.tap(malangChip);
       await tester.pumpAndSettle();
 
-      expect(find.textContaining('Batam'), findsWidgets);
+      expect(find.textContaining('Malang'), findsWidgets);
+      expect(find.textContaining('Saiful Anwar'), findsNWidgets(2));
     });
 
     testWidgets('RiskSummaryCard displays high risk banner when isHighRisk is true', (
