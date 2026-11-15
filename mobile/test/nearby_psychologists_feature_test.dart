@@ -67,6 +67,20 @@ void main() {
       expect(searchResults.length, 1);
       expect(searchResults.first.clinicOrHospital.contains('Embung Fatimah'), isTrue);
     });
+
+    test('Every supported city has at least 10 psychologists/clinics', () async {
+      final repo = FirestorePsychologistRepository();
+      final cities = ['Batam', 'Malang', 'Jakarta', 'Bandung', 'Surabaya', 'Medan'];
+
+      for (final city in cities) {
+        final list = await repo.getPsychologists(city: city);
+        expect(
+          list.length,
+          greaterThanOrEqualTo(10),
+          reason: 'City $city should have at least 10 items, but got ${list.length}',
+        );
+      }
+    });
   });
 
   group('UI Integration tests', () {
