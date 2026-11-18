@@ -186,31 +186,67 @@ class FirestoreAssessmentRepository implements AssessmentRepository {
 
     final now = DateTime.now();
 
-    // 7. Simpan dokumen ke Cloud Firestore koleksi 'assessments'
+    // 7. Simpan dokumen ke Cloud Firestore dengan proteksi Anti-Duplikasi
     String savedId = 'ASM-${now.millisecondsSinceEpoch}';
-    try {
-      await _ensureFirebase();
-      final docRef = await _firestore.collection('assessments').add({
-        'user_id': userId,
-        'person_id': 'PID-MOB-${now.millisecondsSinceEpoch}',
-        'full_name': userName,
-        'sleep_quality': mappedSleepQuality,
-        'sleep_hours': sleepHours,
-        'screen_time_hours': screenHours,
-        'coffee_cups_per_day': coffeeCups,
-        'stress_level': mappedStressLevel,
-        'meditation_minutes': meditationMinutes,
-        'mood_score': moodRating,
-        'burnout_score': burnoutScore,
-        'burnout_risk': burnoutRisk,
-        'mental_health_status': burnoutRisk == 'High' ? 'Critical' : (burnoutRisk == 'Low' ? 'Healthy' : 'Needs Attention'),
-        'ai_wellness_recommendation': recommendation,
-        'created_at': FieldValue.serverTimestamp(),
-      });
-      savedId = docRef.id;
-      debugPrint('FirestoreAssessmentRepository: Berhasil menyimpan asesmen ke Firestore (DocID: $savedId)');
-    } catch (e) {
-      debugPrint('FirestoreAssessmentRepository save error (fallback to local id): $e');
+
+    // JIKA WebPBL berhasil menyimpan, gunakan ID dari WebPBL (ANTI-DUPLIKASI: TIDAK DOUBLE-INSERT)
+    if (apiResponse != null &&
+        apiResponse['data'] != null &&
+        apiResponse['data']['id'] != null) {
+      savedId = apiResponse['data']['id'].toString();
+      debugPrint('FirestoreAssessmentRepository: Menggunakan dokumen dari WebPBL ($savedId) - Anti-Duplikasi Aktif.');
+    } else {
+      // JIKA WebPBL offline (Fallback Mode), baru Mobile yang menulis ke Firestore
+      try {
+        await _ensureFirebase();
+
+        // Safety check anti-duplikasi lokal sebelum insert:
+        bool isDuplicate = false;
+        final recentQuery = await _firestore
+            .collection('assessments')
+            .where('user_id', isEqualTo: userId)
+            .limit(5)
+            .get();
+
+        for (final doc in recentQuery.docs) {
+          final d = doc.data();
+          if (d['sleep_hours'] == sleepHours &&
+              d['screen_time_hours'] == screenHours &&
+              d['stress_level'] == mappedStressLevel &&
+              d['coffee_cups_per_day'] == coffeeCups &&
+              d['mood_score'] == moodRating) {
+            // Data identik ditemukan! Gunakan dokumen ini alih-alih membuat duplikat
+            savedId = doc.id;
+            isDuplicate = true;
+            debugPrint('FirestoreAssessmentRepository (Fallback): Data identik ditemukan ($savedId). Menghindari duplikasi.');
+            break;
+          }
+        }
+
+        if (!isDuplicate) {
+          final docRef = await _firestore.collection('assessments').add({
+            'user_id': userId,
+            'person_id': 'PID-MOB-${now.millisecondsSinceEpoch}',
+            'full_name': userName,
+            'sleep_quality': mappedSleepQuality,
+            'sleep_hours': sleepHours,
+            'screen_time_hours': screenHours,
+            'coffee_cups_per_day': coffeeCups,
+            'stress_level': mappedStressLevel,
+            'meditation_minutes': meditationMinutes,
+            'mood_score': moodRating,
+            'burnout_score': burnoutScore,
+            'burnout_risk': burnoutRisk,
+            'mental_health_status': burnoutRisk == 'High' ? 'Critical' : (burnoutRisk == 'Low' ? 'Healthy' : 'Needs Attention'),
+            'ai_wellness_recommendation': recommendation,
+            'created_at': FieldValue.serverTimestamp(),
+          });
+          savedId = docRef.id;
+          debugPrint('FirestoreAssessmentRepository (Fallback): Berhasil menyimpan asesmen ke Firestore ($savedId)');
+        }
+      } catch (e) {
+        debugPrint('FirestoreAssessmentRepository save error (fallback to local id): $e');
+      }
     }
 
     final assessment = Assessment(
