@@ -698,6 +698,42 @@ abstract class AppLocalizations {
   /// **'Sangat nyaman'**
   String get surveyVeryComfortable;
 
+  /// No description provided for @surveyMoodScoreExhausted.
+  ///
+  /// In id, this message translates to:
+  /// **'Sangat lelah'**
+  String get surveyMoodScoreExhausted;
+
+  /// No description provided for @surveyMoodScoreFatigued.
+  ///
+  /// In id, this message translates to:
+  /// **'Lelah'**
+  String get surveyMoodScoreFatigued;
+
+  /// No description provided for @surveyMoodScoreNeutral.
+  ///
+  /// In id, this message translates to:
+  /// **'Biasa saja'**
+  String get surveyMoodScoreNeutral;
+
+  /// No description provided for @surveyMoodScoreRefreshed.
+  ///
+  /// In id, this message translates to:
+  /// **'Cukup segar'**
+  String get surveyMoodScoreRefreshed;
+
+  /// No description provided for @surveyMoodScoreEnergetic.
+  ///
+  /// In id, this message translates to:
+  /// **'Berenergi'**
+  String get surveyMoodScoreEnergetic;
+
+  /// No description provided for @surveyMoodScoreOptimal.
+  ///
+  /// In id, this message translates to:
+  /// **'Sangat nyaman'**
+  String get surveyMoodScoreOptimal;
+
   /// No description provided for @surveyOwnDuration.
   ///
   /// In id, this message translates to:
