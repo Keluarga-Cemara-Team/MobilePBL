@@ -63,6 +63,56 @@ class AppLocalizationsEn extends AppLocalizations {
   String get riskStatisticsTitle => 'Risk Statistics';
 
   @override
+  String get mostUsedAppsTitle => 'Most Used Apps';
+
+  @override
+  String get usageLastSevenDays => 'Last 7 days';
+
+  @override
+  String get usageLastThirtyDays => 'Last 30 days';
+
+  @override
+  String get usageUnsupported =>
+      'App usage data is available on Android only. This device does not provide access to it.';
+
+  @override
+  String get usagePermissionExplanation =>
+      'Allow usage access to show screen time from this device. The data is read on this device only.';
+
+  @override
+  String get usageGrantAccess => 'Set up usage access';
+
+  @override
+  String get usageNoData => 'No usage data is available for this period yet.';
+
+  @override
+  String get usageMostUsed => 'Most used app';
+
+  @override
+  String get usageTotalTime => 'Total usage time';
+
+  @override
+  String get usageAppRanking => 'App ranking';
+
+  @override
+  String get usageDeviceDataNote => 'Source: this device\'s usage statistics';
+
+  @override
+  String usageHours(int hours) {
+    return '$hours hr';
+  }
+
+  @override
+  String usageHoursMinutes(int hours, int minutes) {
+    return '$hours hr $minutes min';
+  }
+
+  @override
+  String usageMinutes(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
   String get assessmentHistorySummary => 'Summary of all assessment history';
 
   @override
