@@ -10,6 +10,7 @@ import '../../../../shared/widgets/app_blob_background.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../domain/entities/survey_question.dart';
 import '../../../dashboard/data/app_usage_service.dart';
+import 'score_slider_input.dart';
 import '../survey_copy.dart';
 import '../controllers/survey_state.dart';
 
@@ -460,34 +461,13 @@ class _SurveyStepperState extends State<SurveyStepper> {
           ],
         );
       case SurveyInputKind.rating:
-        return Column(
-          children: [
-            Text(value.round().toString(), style: _numberStyle(context, 46)),
-            Text(l10n.surveyOutOf100, style: _subtitleStyle(context, 13)),
-            SizedBox(height: context.ui(18)),
-            _CleanSlider(
-              value: value,
-              maximum: question.maximum,
-              onChanged: (value) => _number(question, value),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    l10n.surveyVeryUncomfortable,
-                    style: _subtitleStyle(context, 10),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    l10n.surveyVeryComfortable,
-                    textAlign: TextAlign.end,
-                    style: _subtitleStyle(context, 10),
-                  ),
-                ),
-              ],
-            ),
-          ],
+        return ScoreSliderInput(
+          value: value,
+          maximum: question.maximum,
+          onChanged: (val) => _number(question, val),
+          minLabel: l10n.surveyVeryUncomfortable,
+          maxLabel: l10n.surveyVeryComfortable,
+          unitLabel: l10n.surveyOutOf100,
         );
       case SurveyInputKind.text:
         return _SurveyAnswerField(

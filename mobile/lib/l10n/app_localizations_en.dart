@@ -370,6 +370,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get surveyVeryComfortable => 'Very comfortable';
 
   @override
+  String get surveyMoodScoreExhausted => 'Exhausted';
+
+  @override
+  String get surveyMoodScoreFatigued => 'Fatigued';
+
+  @override
+  String get surveyMoodScoreNeutral => 'Neutral';
+
+  @override
+  String get surveyMoodScoreRefreshed => 'Refreshed';
+
+  @override
+  String get surveyMoodScoreEnergetic => 'Energetic';
+
+  @override
+  String get surveyMoodScoreOptimal => 'Very comfortable';
+
+  @override
   String get surveyOwnDuration => 'Or enter a duration';
 
   @override

@@ -372,6 +372,24 @@ class AppLocalizationsId extends AppLocalizations {
   String get surveyVeryComfortable => 'Sangat nyaman';
 
   @override
+  String get surveyMoodScoreExhausted => 'Sangat lelah';
+
+  @override
+  String get surveyMoodScoreFatigued => 'Lelah';
+
+  @override
+  String get surveyMoodScoreNeutral => 'Biasa saja';
+
+  @override
+  String get surveyMoodScoreRefreshed => 'Cukup segar';
+
+  @override
+  String get surveyMoodScoreEnergetic => 'Berenergi';
+
+  @override
+  String get surveyMoodScoreOptimal => 'Sangat nyaman';
+
+  @override
   String get surveyOwnDuration => 'Atau isi durasi sendiri';
 
   @override
