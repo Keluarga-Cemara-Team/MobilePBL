@@ -1,23 +1,19 @@
 import 'package:flutter/foundation.dart';
+import '../config/app_config.dart';
 import '../storage/secure_storage.dart';
+import 'api_exception.dart';
 import 'api_client_stub.dart'
     if (dart.library.html) 'api_client_web.dart'
     if (dart.library.io) 'api_client_io.dart';
+
+export 'api_exception.dart';
 
 class ApiClient {
   ApiClient._();
   static final ApiClient instance = ApiClient._();
 
-  // URL backend default:
-  // Untuk Android emulator: 10.0.2.2:5000
-  // Untuk iOS simulator / Desktop / Web: 127.0.0.1:5000
-  static String get baseUrl {
-    if (kIsWeb) return 'http://127.0.0.1:5000';
-    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
-      return 'http://10.0.2.2:5000';
-    }
-    return 'http://127.0.0.1:5000';
-  }
+  /// Mendapatkan Base URL API backend dinamis dari AppConfig
+  static String get baseUrl => AppConfig.apiBaseUrl;
 
   /// Mempersiapkan header HTTP lengkap dengan Access Token (Bearer) jika ada
   Future<Map<String, String>> _buildHeaders({Map<String, String>? customHeaders}) async {
@@ -35,6 +31,7 @@ class ApiClient {
   }
 
   /// Mengirim data survei ke API backend WebPBL untuk evaluasi ML
+  /// Dilengkapi penanganan 401 Unauthorized otomatis dengan refresh token & retry
   Future<Map<String, dynamic>?> predictBurnout(Map<String, dynamic> payload) async {
     final url = '$baseUrl/assessment/api/predict';
 
@@ -45,6 +42,25 @@ class ApiClient {
         debugPrint('ApiClient: Berhasil menerima respons dari API ML: $result');
       }
       return result;
+    } on ApiException catch (e) {
+      if (e.isUnauthorized) {
+        debugPrint('ApiClient: Sesi API 401 Unauthorized, mencoba refresh token...');
+        final refreshed = await refreshAccessToken();
+        if (refreshed) {
+          try {
+            final retryHeaders = await _buildHeaders();
+            final retryResult = await postJsonPlatform(url, payload, headers: retryHeaders);
+            if (retryResult != null) {
+              debugPrint('ApiClient: Sukses setelah refresh token!');
+              return retryResult;
+            }
+          } catch (retryErr) {
+            debugPrint('ApiClient: Retry setelah refresh gagal ($retryErr)');
+          }
+        }
+      }
+      debugPrint('ApiClient: ApiException status ${e.statusCode}: ${e.message}');
+      return null;
     } catch (e) {
       debugPrint('ApiClient: Backend API ($url) tidak terjangkau ($e). Menggunakan evaluasi lokal.');
       return null;
