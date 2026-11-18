@@ -114,6 +114,69 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
+  String get screenTimeStatsTitle => 'Statistik Waktu Layar';
+
+  @override
+  String get screenTimeStatsSubtitle =>
+      'Pantau durasi layar untuk mendeteksi potensi burnout';
+
+  @override
+  String get screenTimeTodayTab => 'Hari Ini';
+
+  @override
+  String get screenTimeSevenDaysTab => '7 Hari';
+
+  @override
+  String get screenTimeThirtyDaysTab => '30 Hari';
+
+  @override
+  String screenTimeDailyAverage(String hours) {
+    return 'Rata-rata $hours jam/hari';
+  }
+
+  @override
+  String screenTimeHealthyLimit(String hours) {
+    return 'Batas Sehat: $hours jam/hari';
+  }
+
+  @override
+  String get screenTimeFatigueLow => 'Beban Layar Rendah';
+
+  @override
+  String get screenTimeFatigueLowDesc =>
+      'Penggunaan layar terkendali, minim risiko kelelahan digital.';
+
+  @override
+  String get screenTimeFatigueMedium => 'Beban Layar Sedang';
+
+  @override
+  String get screenTimeFatigueMediumDesc =>
+      'Cukup intensif, disarankan luangkan jeda istirahat mata berkala.';
+
+  @override
+  String get screenTimeFatigueHigh => 'Beban Layar Tinggi';
+
+  @override
+  String get screenTimeFatigueHighDesc =>
+      'Berisiko memicu kelelahan mental & insomnia. Istirahatkan pikiran.';
+
+  @override
+  String get screenTimeTopAppsShare => 'Distribusi Pemakaian Layar';
+
+  @override
+  String get screenTimeOtherApps => 'Lainnya';
+
+  @override
+  String get screenTimeTipTitle => 'Tips Bebas Burnout Digital';
+
+  @override
+  String get screenTimeTip202020 =>
+      'Terapkan aturan 20-20-20: setiap 20 menit menatap layar, pandang objek berjarak 6 meter selama 20 detik.';
+
+  @override
+  String get screenTimeSyncSurvey => 'Gunakan di Survei Burnout';
+
+  @override
   String get assessmentHistorySummary => 'Ringkasan seluruh riwayat survei';
 
   @override

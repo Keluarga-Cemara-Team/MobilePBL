@@ -284,6 +284,114 @@ abstract class AppLocalizations {
   /// **'{minutes} mnt'**
   String usageMinutes(int minutes);
 
+  /// No description provided for @screenTimeStatsTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Statistik Waktu Layar'**
+  String get screenTimeStatsTitle;
+
+  /// No description provided for @screenTimeStatsSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Pantau durasi layar untuk mendeteksi potensi burnout'**
+  String get screenTimeStatsSubtitle;
+
+  /// No description provided for @screenTimeTodayTab.
+  ///
+  /// In id, this message translates to:
+  /// **'Hari Ini'**
+  String get screenTimeTodayTab;
+
+  /// No description provided for @screenTimeSevenDaysTab.
+  ///
+  /// In id, this message translates to:
+  /// **'7 Hari'**
+  String get screenTimeSevenDaysTab;
+
+  /// No description provided for @screenTimeThirtyDaysTab.
+  ///
+  /// In id, this message translates to:
+  /// **'30 Hari'**
+  String get screenTimeThirtyDaysTab;
+
+  /// No description provided for @screenTimeDailyAverage.
+  ///
+  /// In id, this message translates to:
+  /// **'Rata-rata {hours} jam/hari'**
+  String screenTimeDailyAverage(String hours);
+
+  /// No description provided for @screenTimeHealthyLimit.
+  ///
+  /// In id, this message translates to:
+  /// **'Batas Sehat: {hours} jam/hari'**
+  String screenTimeHealthyLimit(String hours);
+
+  /// No description provided for @screenTimeFatigueLow.
+  ///
+  /// In id, this message translates to:
+  /// **'Beban Layar Rendah'**
+  String get screenTimeFatigueLow;
+
+  /// No description provided for @screenTimeFatigueLowDesc.
+  ///
+  /// In id, this message translates to:
+  /// **'Penggunaan layar terkendali, minim risiko kelelahan digital.'**
+  String get screenTimeFatigueLowDesc;
+
+  /// No description provided for @screenTimeFatigueMedium.
+  ///
+  /// In id, this message translates to:
+  /// **'Beban Layar Sedang'**
+  String get screenTimeFatigueMedium;
+
+  /// No description provided for @screenTimeFatigueMediumDesc.
+  ///
+  /// In id, this message translates to:
+  /// **'Cukup intensif, disarankan luangkan jeda istirahat mata berkala.'**
+  String get screenTimeFatigueMediumDesc;
+
+  /// No description provided for @screenTimeFatigueHigh.
+  ///
+  /// In id, this message translates to:
+  /// **'Beban Layar Tinggi'**
+  String get screenTimeFatigueHigh;
+
+  /// No description provided for @screenTimeFatigueHighDesc.
+  ///
+  /// In id, this message translates to:
+  /// **'Berisiko memicu kelelahan mental & insomnia. Istirahatkan pikiran.'**
+  String get screenTimeFatigueHighDesc;
+
+  /// No description provided for @screenTimeTopAppsShare.
+  ///
+  /// In id, this message translates to:
+  /// **'Distribusi Pemakaian Layar'**
+  String get screenTimeTopAppsShare;
+
+  /// No description provided for @screenTimeOtherApps.
+  ///
+  /// In id, this message translates to:
+  /// **'Lainnya'**
+  String get screenTimeOtherApps;
+
+  /// No description provided for @screenTimeTipTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Tips Bebas Burnout Digital'**
+  String get screenTimeTipTitle;
+
+  /// No description provided for @screenTimeTip202020.
+  ///
+  /// In id, this message translates to:
+  /// **'Terapkan aturan 20-20-20: setiap 20 menit menatap layar, pandang objek berjarak 6 meter selama 20 detik.'**
+  String get screenTimeTip202020;
+
+  /// No description provided for @screenTimeSyncSurvey.
+  ///
+  /// In id, this message translates to:
+  /// **'Gunakan di Survei Burnout'**
+  String get screenTimeSyncSurvey;
+
   /// No description provided for @assessmentHistorySummary.
   ///
   /// In id, this message translates to:
