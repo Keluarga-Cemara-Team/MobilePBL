@@ -43,7 +43,72 @@ class FirestoreAuthRepository implements AuthRepository {
 
   @override
   Future<AuthUser?> getCurrentUser() async {
-    return _currentUser;
+    if (_currentUser != null) {
+      return _currentUser;
+    }
+
+    // 1. Cek cache identitas sesi pengguna di local persistent storage
+    try {
+      final cached = await SecureTokenStorage.instance.getCachedUser();
+      if (cached != null && cached['id'] != null) {
+        _currentUser = AuthUser(
+          id: cached['id'] as String,
+          email: cached['email'] as String? ?? '',
+          name: cached['name'] as String? ?? 'Pengguna',
+          photoUrl: cached['photo_url'] as String?,
+        );
+        debugPrint('FirestoreAuthRepository: Memulihkan sesi pengguna dari local storage (${_currentUser?.email})');
+        return _currentUser;
+      }
+    } catch (e) {
+      debugPrint('FirestoreAuthRepository cached user check warning: $e');
+    }
+
+    // 2. Cek FirebaseAuth currentUser (Google login / Firebase session)
+    try {
+      await _ensureFirebase();
+      final fbUser = FirebaseAuth.instance.currentUser;
+      if (fbUser != null && fbUser.email != null) {
+        final query = await _firestore
+            .collection('users')
+            .where('email', isEqualTo: fbUser.email!.toLowerCase())
+            .limit(1)
+            .get();
+
+        if (query.docs.isNotEmpty) {
+          final doc = query.docs.first;
+          final d = doc.data();
+          _currentUser = AuthUser(
+            id: doc.id,
+            email: d['email'] ?? fbUser.email!,
+            name: d['full_name'] ?? fbUser.displayName ?? 'Pengguna',
+            photoUrl: d['photo_url'] ?? fbUser.photoURL,
+          );
+        } else {
+          _currentUser = AuthUser(
+            id: fbUser.uid,
+            email: fbUser.email!,
+            name: fbUser.displayName ?? 'Pengguna',
+            photoUrl: fbUser.photoURL,
+          );
+        }
+
+        if (_currentUser != null) {
+          await SecureTokenStorage.instance.saveCachedUser({
+            'id': _currentUser!.id,
+            'email': _currentUser!.email,
+            'name': _currentUser!.name,
+            'photo_url': _currentUser!.photoUrl,
+          });
+          debugPrint('FirestoreAuthRepository: Memulihkan sesi dari FirebaseAuth (${_currentUser?.email})');
+          return _currentUser;
+        }
+      }
+    } catch (e) {
+      debugPrint('FirestoreAuthRepository FirebaseAuth session check warning: $e');
+    }
+
+    return null;
   }
 
   @override
@@ -113,6 +178,12 @@ class FirestoreAuthRepository implements AuthRepository {
         accessToken: 'jwt-access-${user.id}-${DateTime.now().millisecondsSinceEpoch}',
         refreshToken: 'jwt-refresh-${user.id}-${DateTime.now().millisecondsSinceEpoch}',
       );
+      await SecureTokenStorage.instance.saveCachedUser({
+        'id': user.id,
+        'email': user.email,
+        'name': user.name,
+        'photo_url': user.photoUrl,
+      });
       debugPrint('FirestoreAuthRepository: Berhasil login sebagai ${user.email} (${user.id})');
       return user;
     } catch (e) {
@@ -252,6 +323,12 @@ class FirestoreAuthRepository implements AuthRepository {
         accessToken: rawToken ?? 'jwt-google-${user.id}',
         refreshToken: 'refresh-google-${user.id}',
       );
+      await SecureTokenStorage.instance.saveCachedUser({
+        'id': user.id,
+        'email': user.email,
+        'name': user.name,
+        'photo_url': user.photoUrl,
+      });
 
       debugPrint('FirestoreAuthRepository: Sukses login dengan Google: ${user.email} (${user.id})');
       return user;
@@ -339,6 +416,15 @@ class FirestoreAuthRepository implements AuthRepository {
   Future<void> logout() async {
     _currentUser = null;
     await SecureTokenStorage.instance.clearTokens();
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (_) {}
+    try {
+      final googleSignIn = GoogleSignIn();
+      if (await googleSignIn.isSignedIn()) {
+        await googleSignIn.signOut();
+      }
+    } catch (_) {}
     debugPrint('FirestoreAuthRepository: Pengguna berhasil keluar (logout).');
   }
 

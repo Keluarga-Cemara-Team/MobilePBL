@@ -28,6 +28,8 @@ dependencies:
   http: ^1.2.2
   url_launcher: ^6.3.3
   geolocator: ^14.1.2
+  shared_preferences: ^2.3.2
+  app_usage: ^4.1.0
 
 dev_dependencies:
   flutter_test:
