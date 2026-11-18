@@ -38,6 +38,14 @@ class MainActivity : FlutterActivity() {
                             result.success(getMostUsedApps(days))
                         }
                     }
+                    "getTotalUsageTime" -> {
+                        if (!hasUsageAccess()) {
+                            result.error("permission_required", "Usage access is not enabled", null)
+                        } else {
+                            val days = (call.argument<Int>("days") ?: 1).coerceIn(1, 30)
+                            result.success(getTotalUsageTime(days))
+                        }
+                    }
                     else -> result.notImplemented()
                 }
             }
@@ -90,5 +98,17 @@ class MainActivity : FlutterActivity() {
             } catch (_: Exception) { null }
             mapOf("packageName" to pkg, "label" to label, "timeMs" to time, "icon" to iconBytes)
         }
+    }
+
+    private fun getTotalUsageTime(days: Int): Long {
+        val now = System.currentTimeMillis()
+        val start = now - days * 24L * 60L * 60L * 1000L
+        val manager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+        val stats = manager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, start, now)
+        return stats.asSequence()
+            .filter { it.packageName != packageName && it.totalTimeInForeground > 0L }
+            .groupBy { it.packageName }
+            .map { (_, entries) -> entries.sumOf { it.totalTimeInForeground } }
+            .sum()
     }
 }

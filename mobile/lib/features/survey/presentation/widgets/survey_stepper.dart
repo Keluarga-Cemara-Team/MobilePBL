@@ -9,6 +9,7 @@ import '../../../../shared/widgets/app_page_header.dart';
 import '../../../../shared/widgets/app_blob_background.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../domain/entities/survey_question.dart';
+import '../../../dashboard/data/app_usage_service.dart';
 import '../survey_copy.dart';
 import '../controllers/survey_state.dart';
 
@@ -352,6 +353,12 @@ class _SurveyStepperState extends State<SurveyStepper> {
                 ),
               ],
             ),
+            if (question.id == 'screen_hours') ...[
+              SizedBox(height: context.ui(12)),
+              _ScreenTimeAutoFillButton(
+                onApplied: (detectedHours) => _number(question, detectedHours),
+              ),
+            ],
           ],
         );
       case SurveyInputKind.counter:
@@ -884,4 +891,91 @@ class _TipCard extends StatelessWidget {
       ],
     ),
   );
+}
+
+class _ScreenTimeAutoFillButton extends StatefulWidget {
+  const _ScreenTimeAutoFillButton({required this.onApplied});
+  final void Function(double hours) onApplied;
+
+  @override
+  State<_ScreenTimeAutoFillButton> createState() => _ScreenTimeAutoFillButtonState();
+}
+
+class _ScreenTimeAutoFillButtonState extends State<_ScreenTimeAutoFillButton> {
+  final _service = AppUsageService();
+  bool _checking = true;
+  bool _hasAccess = false;
+  double? _detectedHours;
+
+  @override
+  void initState() {
+    super.initState();
+    _check();
+  }
+
+  Future<void> _check() async {
+    if (!_service.supported) {
+      if (mounted) setState(() => _checking = false);
+      return;
+    }
+    final access = await _service.hasAccess();
+    double? hours;
+    if (access) {
+      hours = await _service.getTodayScreenTimeHours();
+    }
+    if (mounted) {
+      setState(() {
+        _hasAccess = access;
+        _detectedHours = hours;
+        _checking = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_service.supported || _checking) return const SizedBox.shrink();
+
+    if (!_hasAccess) {
+      return Center(
+        child: TextButton.icon(
+          onPressed: () async {
+            await _service.openSettings();
+            await Future<void>.delayed(const Duration(seconds: 1));
+            _check();
+          },
+          icon: const Icon(Icons.security_outlined, size: 18),
+          label: const Text('Beri Izin Akses Penggunaan Layar HP'),
+          style: TextButton.styleFrom(
+            visualDensity: VisualDensity.compact,
+            foregroundColor: AppColors.of(context).primary,
+          ),
+        ),
+      );
+    }
+
+    if (_detectedHours != null && _detectedHours! > 0) {
+      return Center(
+        child: FilledButton.tonalIcon(
+          onPressed: () {
+            widget.onApplied(_detectedHours!);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Durasi layar otomatis diatur ke $_detectedHours jam'),
+                duration: const Duration(seconds: 2),
+              ),
+            );
+          },
+          icon: const Icon(Icons.auto_awesome, size: 18),
+          label: Text('Gunakan waktu layar HP hari ini ($_detectedHours jam)'),
+          style: FilledButton.styleFrom(
+            visualDensity: VisualDensity.compact,
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          ),
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
+  }
 }
