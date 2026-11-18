@@ -113,6 +113,69 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get screenTimeStatsTitle => 'Screen Time Statistics';
+
+  @override
+  String get screenTimeStatsSubtitle =>
+      'Monitor daily screen time to detect burnout risk';
+
+  @override
+  String get screenTimeTodayTab => 'Today';
+
+  @override
+  String get screenTimeSevenDaysTab => '7 Days';
+
+  @override
+  String get screenTimeThirtyDaysTab => '30 Days';
+
+  @override
+  String screenTimeDailyAverage(String hours) {
+    return 'Average $hours hrs/day';
+  }
+
+  @override
+  String screenTimeHealthyLimit(String hours) {
+    return 'Healthy Limit: $hours hrs/day';
+  }
+
+  @override
+  String get screenTimeFatigueLow => 'Low Screen Load';
+
+  @override
+  String get screenTimeFatigueLowDesc =>
+      'Screen use is well balanced, minimal risk of digital fatigue.';
+
+  @override
+  String get screenTimeFatigueMedium => 'Moderate Screen Load';
+
+  @override
+  String get screenTimeFatigueMediumDesc =>
+      'Moderately intensive, take regular breaks to rest your eyes.';
+
+  @override
+  String get screenTimeFatigueHigh => 'High Screen Load';
+
+  @override
+  String get screenTimeFatigueHighDesc =>
+      'High risk of mental exhaustion & sleep disruption. Give your mind a break.';
+
+  @override
+  String get screenTimeTopAppsShare => 'Screen Time Distribution';
+
+  @override
+  String get screenTimeOtherApps => 'Others';
+
+  @override
+  String get screenTimeTipTitle => 'Digital Well-being Tip';
+
+  @override
+  String get screenTimeTip202020 =>
+      'Follow the 20-20-20 rule: every 20 minutes looking at a screen, glance at a distant object for 20 seconds.';
+
+  @override
+  String get screenTimeSyncSurvey => 'Use in Burnout Survey';
+
+  @override
   String get assessmentHistorySummary => 'Summary of all assessment history';
 
   @override
