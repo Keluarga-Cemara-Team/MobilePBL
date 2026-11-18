@@ -200,6 +200,90 @@ abstract class AppLocalizations {
   /// **'Statistik Risiko'**
   String get riskStatisticsTitle;
 
+  /// No description provided for @mostUsedAppsTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Aplikasi Paling Sering Digunakan'**
+  String get mostUsedAppsTitle;
+
+  /// No description provided for @usageLastSevenDays.
+  ///
+  /// In id, this message translates to:
+  /// **'7 hari terakhir'**
+  String get usageLastSevenDays;
+
+  /// No description provided for @usageLastThirtyDays.
+  ///
+  /// In id, this message translates to:
+  /// **'30 hari terakhir'**
+  String get usageLastThirtyDays;
+
+  /// No description provided for @usageUnsupported.
+  ///
+  /// In id, this message translates to:
+  /// **'Data penggunaan aplikasi hanya dapat dibaca di Android. Perangkat ini tidak menyediakan akses tersebut.'**
+  String get usageUnsupported;
+
+  /// No description provided for @usagePermissionExplanation.
+  ///
+  /// In id, this message translates to:
+  /// **'Izinkan akses penggunaan agar aplikasi dapat menampilkan waktu pemakaian dari perangkat ini. Data hanya dibaca di perangkat.'**
+  String get usagePermissionExplanation;
+
+  /// No description provided for @usageGrantAccess.
+  ///
+  /// In id, this message translates to:
+  /// **'Atur akses penggunaan'**
+  String get usageGrantAccess;
+
+  /// No description provided for @usageNoData.
+  ///
+  /// In id, this message translates to:
+  /// **'Belum ada data penggunaan untuk periode ini.'**
+  String get usageNoData;
+
+  /// No description provided for @usageMostUsed.
+  ///
+  /// In id, this message translates to:
+  /// **'Aplikasi paling sering digunakan'**
+  String get usageMostUsed;
+
+  /// No description provided for @usageTotalTime.
+  ///
+  /// In id, this message translates to:
+  /// **'Total waktu penggunaan'**
+  String get usageTotalTime;
+
+  /// No description provided for @usageAppRanking.
+  ///
+  /// In id, this message translates to:
+  /// **'Peringkat aplikasi'**
+  String get usageAppRanking;
+
+  /// No description provided for @usageDeviceDataNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Sumber: statistik penggunaan perangkat ini'**
+  String get usageDeviceDataNote;
+
+  /// No description provided for @usageHours.
+  ///
+  /// In id, this message translates to:
+  /// **'{hours} jam'**
+  String usageHours(int hours);
+
+  /// No description provided for @usageHoursMinutes.
+  ///
+  /// In id, this message translates to:
+  /// **'{hours} jam {minutes} mnt'**
+  String usageHoursMinutes(int hours, int minutes);
+
+  /// No description provided for @usageMinutes.
+  ///
+  /// In id, this message translates to:
+  /// **'{minutes} mnt'**
+  String usageMinutes(int minutes);
+
   /// No description provided for @assessmentHistorySummary.
   ///
   /// In id, this message translates to:

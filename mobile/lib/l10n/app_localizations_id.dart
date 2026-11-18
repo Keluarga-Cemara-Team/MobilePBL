@@ -63,6 +63,57 @@ class AppLocalizationsId extends AppLocalizations {
   String get riskStatisticsTitle => 'Statistik Risiko';
 
   @override
+  String get mostUsedAppsTitle => 'Aplikasi Paling Sering Digunakan';
+
+  @override
+  String get usageLastSevenDays => '7 hari terakhir';
+
+  @override
+  String get usageLastThirtyDays => '30 hari terakhir';
+
+  @override
+  String get usageUnsupported =>
+      'Data penggunaan aplikasi hanya dapat dibaca di Android. Perangkat ini tidak menyediakan akses tersebut.';
+
+  @override
+  String get usagePermissionExplanation =>
+      'Izinkan akses penggunaan agar aplikasi dapat menampilkan waktu pemakaian dari perangkat ini. Data hanya dibaca di perangkat.';
+
+  @override
+  String get usageGrantAccess => 'Atur akses penggunaan';
+
+  @override
+  String get usageNoData => 'Belum ada data penggunaan untuk periode ini.';
+
+  @override
+  String get usageMostUsed => 'Aplikasi paling sering digunakan';
+
+  @override
+  String get usageTotalTime => 'Total waktu penggunaan';
+
+  @override
+  String get usageAppRanking => 'Peringkat aplikasi';
+
+  @override
+  String get usageDeviceDataNote =>
+      'Sumber: statistik penggunaan perangkat ini';
+
+  @override
+  String usageHours(int hours) {
+    return '$hours jam';
+  }
+
+  @override
+  String usageHoursMinutes(int hours, int minutes) {
+    return '$hours jam $minutes mnt';
+  }
+
+  @override
+  String usageMinutes(int minutes) {
+    return '$minutes mnt';
+  }
+
+  @override
   String get assessmentHistorySummary => 'Ringkasan seluruh riwayat survei';
 
   @override

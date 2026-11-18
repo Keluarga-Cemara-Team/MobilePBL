@@ -13,6 +13,7 @@ import '../widgets/dashboard_header.dart';
 import '../widgets/dashboard_shortcuts.dart';
 import '../widgets/latest_assessment_card.dart';
 import '../widgets/motivation_card.dart';
+import '../widgets/most_used_apps_card.dart';
 import '../widgets/risk_statistics_card.dart';
 
 class DashboardPage extends ConsumerWidget {
@@ -87,6 +88,8 @@ class DashboardPage extends ConsumerWidget {
                 RiskStatisticsCard(
                   assessments: ref.watch(dashboardAssessmentsProvider),
                 ),
+                SizedBox(height: context.ui(AppSpacing.lg)),
+                const MostUsedAppsCard(),
                 SizedBox(height: context.ui(AppSpacing.lg)),
 
                 // 4. Kartu Motivasi
