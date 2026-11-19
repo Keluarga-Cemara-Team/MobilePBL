@@ -90,6 +90,7 @@ class RecommendationPage extends ConsumerWidget {
                               )
                             : _GeneralRecommendations(
                                 isHighRisk: item.riskLevel == RiskLevel.tinggi,
+                                aiRecommendation: item.aiRecommendation,
                               ),
                       ),
                     ],
@@ -105,13 +106,19 @@ class RecommendationPage extends ConsumerWidget {
 }
 
 class _GeneralRecommendations extends StatelessWidget {
-  const _GeneralRecommendations({this.isHighRisk = false});
+  const _GeneralRecommendations({
+    this.isHighRisk = false,
+    this.aiRecommendation,
+  });
 
   final bool isHighRisk;
+  final String? aiRecommendation;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final hasAiRecommendation =
+        aiRecommendation != null && aiRecommendation!.trim().isNotEmpty;
     final items = [
       (
         icon: Icons.bed_outlined,
@@ -149,11 +156,17 @@ class _GeneralRecommendations extends StatelessWidget {
         ),
         SizedBox(height: context.ui(AppSpacing.sm)),
         Text(
-          l10n.recommendationGeneralNote,
+          hasAiRecommendation
+              ? l10n.recommendationPersonalizedNote
+              : l10n.recommendationGeneralNote,
           style: AppTextStyles.subtitle(context)
               .copyWith(fontSize: context.ui(12)),
         ),
         SizedBox(height: context.ui(AppSpacing.md)),
+        if (hasAiRecommendation)
+          _AiPersonalizedRecommendationCard(
+            recommendation: aiRecommendation!.trim(),
+          ),
         if (isHighRisk) ...[
           Container(
             padding: EdgeInsets.all(context.ui(AppSpacing.md)),
@@ -247,6 +260,94 @@ class _GeneralRecommendations extends StatelessWidget {
         ],
         const EncouragementCard(),
       ],
+    );
+  }
+}
+
+class _AiPersonalizedRecommendationCard extends StatelessWidget {
+  const _AiPersonalizedRecommendationCard({required this.recommendation});
+
+  final String recommendation;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = AppColors.of(context);
+    final l10n = AppLocalizations.of(context)!;
+
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(bottom: context.ui(AppSpacing.md)),
+      padding: EdgeInsets.all(context.ui(AppSpacing.md)),
+      decoration: BoxDecoration(
+        color: colors.primary.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(context.ui(16)),
+        border: Border.all(
+          color: colors.primary.withOpacity(0.35),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: colors.primary.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(context.ui(6)),
+                decoration: BoxDecoration(
+                  color: colors.primary.withOpacity(0.18),
+                  borderRadius: BorderRadius.circular(context.ui(10)),
+                ),
+                child: Icon(
+                  Icons.auto_awesome_rounded,
+                  color: colors.primary,
+                  size: context.ui(20),
+                ),
+              ),
+              SizedBox(width: context.ui(AppSpacing.sm)),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.aiRecommendationCardTitle,
+                      style: TextStyle(
+                        fontSize: context.ui(14.5),
+                        fontWeight: FontWeight.bold,
+                        color: colors.navy,
+                      ),
+                    ),
+                    Text(
+                      l10n.aiRecommendationBadge,
+                      style: TextStyle(
+                        fontSize: context.ui(11),
+                        fontWeight: FontWeight.w600,
+                        color: colors.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: context.ui(AppSpacing.sm)),
+          Text(
+            recommendation,
+            style: TextStyle(
+              fontSize: context.ui(13),
+              color: colors.body,
+              height: 1.5,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

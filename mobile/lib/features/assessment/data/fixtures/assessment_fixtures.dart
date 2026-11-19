@@ -22,6 +22,7 @@ Assessment createExampleAssessment({
   required String id,
   required RiskLevel riskLevel,
   required DateTime takenAt,
+  String? aiRecommendation,
 }) => Assessment(
   id: id,
   riskLevel: riskLevel,
@@ -29,4 +30,6 @@ Assessment createExampleAssessment({
   isExample: true,
   modelFactors: exampleAssessmentFactors,
   answerSummary: exampleAssessmentAnswerSummary,
+  aiRecommendation: aiRecommendation ??
+      'Jaga ritme kerja harian dan luangkan waktu jeda teratur untuk memulihkan energi fisik serta mental.',
 );
