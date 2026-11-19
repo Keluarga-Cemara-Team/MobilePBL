@@ -1429,4 +1429,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get encouragementMentalHealth => 'Prioritize your mental health.';
+
+  @override
+  String get aiRecommendationCardTitle => 'Personalized AI Recommendation';
+
+  @override
+  String get aiRecommendationBadge => 'Smart AntiBurnout Analysis';
+
+  @override
+  String get recommendationPersonalizedNote =>
+      'Personalized intelligently based on your assessment conditions.';
 }

@@ -2599,6 +2599,24 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Prioritaskan kesehatan mentalmu.'**
   String get encouragementMentalHealth;
+
+  /// No description provided for @aiRecommendationCardTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Rekomendasi Personal AI'**
+  String get aiRecommendationCardTitle;
+
+  /// No description provided for @aiRecommendationBadge.
+  ///
+  /// In id, this message translates to:
+  /// **'Analisis Cerdas AntiBurnout'**
+  String get aiRecommendationBadge;
+
+  /// No description provided for @recommendationPersonalizedNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Dipersonalisasi secara cerdas berdasarkan kondisi asesmen harianmu.'**
+  String get recommendationPersonalizedNote;
 }
 
 class _AppLocalizationsDelegate

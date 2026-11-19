@@ -8,61 +8,102 @@ import 'package:mobile/features/recommendations/presentation/pages/recommendatio
 import 'package:mobile/l10n/app_localizations.dart';
 
 void main() {
-  final dummyAssessment = Assessment(
-    id: 'test-assessment-id',
+  final dummyAssessmentWithAi = Assessment(
+    id: 'test-assessment-id-ai',
+    riskLevel: RiskLevel.tinggi,
+    takenAt: DateTime(2026, 11, 19),
+    aiRecommendation:
+        'Tingkat stres tinggi dan durasi tidur 5 jam. Disarankan mengambil jeda 10 menit setiap 2 jam.',
+  );
+
+  final dummyAssessmentWithoutAi = Assessment(
+    id: 'test-assessment-id-no-ai',
     riskLevel: RiskLevel.tinggi,
     takenAt: DateTime(2026, 11, 19),
   );
 
-  group('RecommendationPage i18n tests', () {
-    testWidgets('renders in Indonesian correctly', (tester) async {
+  group('RecommendationPage dynamic AI tests', () {
+    testWidgets('renders dynamic AI recommendation card in Indonesian', (tester) async {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            assessmentByIdProvider('test-assessment-id')
-                .overrideWith((ref) async => dummyAssessment),
+            assessmentByIdProvider('test-assessment-id-ai')
+                .overrideWith((ref) async => dummyAssessmentWithAi),
           ],
           child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: Locale('id'),
-            home: RecommendationPage(assessmentId: 'test-assessment-id'),
+            home: RecommendationPage(assessmentId: 'test-assessment-id-ai'),
           ),
         ),
       );
 
       await tester.pumpAndSettle();
 
-      expect(find.text('Rekomendasi untuk Kamu'), findsOneWidget);
-      expect(find.text('Konsultasi Psikolog Profesional'), findsOneWidget);
-      expect(find.text('Cari Psikolog Terdekat'), findsOneWidget);
-      expect(find.text('Perbaiki Pola Tidur'), findsOneWidget);
-      expect(find.text('Prioritaskan kesehatan mentalmu.'), findsOneWidget);
+      expect(find.text('Rekomendasi Personal AI'), findsOneWidget);
+      expect(find.text('Analisis Cerdas AntiBurnout'), findsOneWidget);
+      expect(
+        find.text(
+          'Tingkat stres tinggi dan durasi tidur 5 jam. Disarankan mengambil jeda 10 menit setiap 2 jam.',
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.text('Dipersonalisasi secara cerdas berdasarkan kondisi asesmen harianmu.'),
+        findsOneWidget,
+      );
     });
 
-    testWidgets('renders in English correctly', (tester) async {
+    testWidgets('renders dynamic AI recommendation card in English', (tester) async {
       await tester.pumpWidget(
         ProviderScope(
           overrides: [
-            assessmentByIdProvider('test-assessment-id')
-                .overrideWith((ref) async => dummyAssessment),
+            assessmentByIdProvider('test-assessment-id-ai')
+                .overrideWith((ref) async => dummyAssessmentWithAi),
           ],
           child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             locale: Locale('en'),
-            home: RecommendationPage(assessmentId: 'test-assessment-id'),
+            home: RecommendationPage(assessmentId: 'test-assessment-id-ai'),
           ),
         ),
       );
 
       await tester.pumpAndSettle();
 
-      expect(find.text('Recommendations for You'), findsOneWidget);
-      expect(find.text('Professional Psychologist Consultation'), findsOneWidget);
-      expect(find.text('Find Nearest Psychologists'), findsOneWidget);
-      expect(find.text('Improve Sleep Habits'), findsOneWidget);
-      expect(find.text('Prioritize your mental health.'), findsOneWidget);
+      expect(find.text('Personalized AI Recommendation'), findsOneWidget);
+      expect(find.text('Smart AntiBurnout Analysis'), findsOneWidget);
+      expect(
+        find.text('Personalized intelligently based on your assessment conditions.'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('falls back to general note when no AI recommendation', (tester) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            assessmentByIdProvider('test-assessment-id-no-ai')
+                .overrideWith((ref) async => dummyAssessmentWithoutAi),
+          ],
+          child: const MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: Locale('id'),
+            home: RecommendationPage(assessmentId: 'test-assessment-id-no-ai'),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('Rekomendasi Personal AI'), findsNothing);
+      expect(
+        find.text('Panduan umum, belum dipersonalisasi berdasarkan hasil asesmen.'),
+        findsOneWidget,
+      );
     });
   });
 }

@@ -508,5 +508,8 @@
   "recItemRelaxationBody": "Try breathing techniques, meditation, or mindfulness for 5–10 minutes daily.",
   "recItemSocialSupportTitle": "Seek Social Support",
   "recItemSocialSupportBody": "Do not hesitate to reach out to friends, family, or professionals if feeling overwhelmed.",
-  "encouragementMentalHealth": "Prioritize your mental health."
+  "encouragementMentalHealth": "Prioritize your mental health.",
+  "aiRecommendationCardTitle": "Personalized AI Recommendation",
+  "aiRecommendationBadge": "Smart AntiBurnout Analysis",
+  "recommendationPersonalizedNote": "Personalized intelligently based on your assessment conditions."
 }

@@ -256,6 +256,7 @@ class FirestoreAssessmentRepository implements AssessmentRepository {
       isExample: false,
       modelFactors: factors,
       answerSummary: answerSummary,
+      aiRecommendation: recommendation,
     );
 
     _memoryCache[savedId] = assessment;
@@ -282,6 +283,8 @@ class FirestoreAssessmentRepository implements AssessmentRepository {
     final screenHours = (data['screen_time_hours'] as num?)?.toDouble() ?? 6.0;
     final coffeeCups = (data['coffee_cups_per_day'] as num?)?.toInt() ?? 2;
     final stressLevel = data['stress_level']?.toString() ?? 'Moderate';
+    final aiRecommendation = data['ai_wellness_recommendation']?.toString() ??
+        data['recommendation']?.toString();
 
     final factors = <AssessmentFactor>[
       if (stressLevel == 'High') const AssessmentFactor(label: 'Tingkat stres tergolong tinggi'),
@@ -308,6 +311,7 @@ class FirestoreAssessmentRepository implements AssessmentRepository {
       isExample: false,
       modelFactors: factors,
       answerSummary: answerSummary,
+      aiRecommendation: aiRecommendation,
     );
   }
 }

@@ -135,5 +135,23 @@ void main() {
       expect(find.text('Statistik Waktu Layar'), findsOneWidget);
       expect(find.byKey(const ValueKey('screen-time-total-value')), findsOneWidget);
     });
+
+    testWidgets('renders without overflow on narrow 320px screens', (tester) async {
+      tester.view.physicalSize = const Size(320, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(() => tester.view.resetPhysicalSize());
+
+      await tester.pumpWidget(
+        buildTestWidget(),
+      );
+      await tester.pumpAndSettle();
+
+      // Switch to 7 days
+      await tester.tap(find.text('7 Hari'));
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.byKey(const ValueKey('screen-time-total-value')), findsOneWidget);
+    });
   });
 }

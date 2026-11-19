@@ -508,5 +508,8 @@
   "recItemRelaxationBody": "Coba teknik pernapasan, meditasi, atau mindfulness selama 5–10 menit setiap hari.",
   "recItemSocialSupportTitle": "Cari Dukungan Sosial",
   "recItemSocialSupportBody": "Jangan ragu untuk berbicara dengan teman, keluarga, atau profesional jika merasa terbebani.",
-  "encouragementMentalHealth": "Prioritaskan kesehatan mentalmu."
+  "encouragementMentalHealth": "Prioritaskan kesehatan mentalmu.",
+  "aiRecommendationCardTitle": "Rekomendasi Personal AI",
+  "aiRecommendationBadge": "Analisis Cerdas AntiBurnout",
+  "recommendationPersonalizedNote": "Dipersonalisasi secara cerdas berdasarkan kondisi asesmen harianmu."
 }

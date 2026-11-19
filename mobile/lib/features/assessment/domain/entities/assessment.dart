@@ -10,11 +10,15 @@ class Assessment {
     this.modelFactors = const [],
     this.answerSummary = const [],
     this.isExample = false,
+    this.aiRecommendation,
   });
 
   final String id;
   final RiskLevel riskLevel;
   final DateTime takenAt;
+
+  /// Rekomendasi personal yang dihasilkan oleh inferensi model AI / machine learning.
+  final String? aiRecommendation;
 
   /// Identifies static UI examples, never a successful service prediction.
   final bool isExample;

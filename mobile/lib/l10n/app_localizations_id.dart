@@ -1437,4 +1437,14 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get encouragementMentalHealth => 'Prioritaskan kesehatan mentalmu.';
+
+  @override
+  String get aiRecommendationCardTitle => 'Rekomendasi Personal AI';
+
+  @override
+  String get aiRecommendationBadge => 'Analisis Cerdas AntiBurnout';
+
+  @override
+  String get recommendationPersonalizedNote =>
+      'Dipersonalisasi secara cerdas berdasarkan kondisi asesmen harianmu.';
 }

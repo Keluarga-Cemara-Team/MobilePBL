@@ -36,6 +36,8 @@ class FakeAssessmentRepository implements AssessmentRepository {
         for (final entry in answers.entries)
           AssessmentAnswerSummary(label: entry.key, value: entry.value),
       ],
+      aiRecommendation:
+          'Jaga pola istirahat seimbang dan kurangi beban stres harian dengan mengambil jeda berkala.',
     );
 
     _assessments[newId] = assessment;
