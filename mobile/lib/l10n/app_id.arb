@@ -447,5 +447,66 @@
   "personalizationFamilyHistory": "Riwayat kondisi kesehatan mental",
   "personalizationFamilyHistoryDescription": "Apakah ada anggota keluarga yang pernah mengalami gangguan kesehatan mental?",
   "personalizationProfessionalSupport": "Dukungan profesional",
-  "personalizationProfessionalSupportDescription": "Apakah kamu mengikuti terapi atau konseling untuk kesehatan mental?"
+  "personalizationProfessionalSupportDescription": "Apakah kamu mengikuti terapi atau konseling untuk kesehatan mental?",
+  "nearbyPsychologistsTitle": "Psikolog & Klinik Terdekat",
+  "nearbyPsychologistsSubtitle": "Konsultasi profesional untuk pemulihan burnout",
+  "nearbyPsychologistsBackTooltip": "Kembali",
+  "nearbyLocationGpsActive": "Lokasimu (GPS Aktif)",
+  "nearbyLocationFallback": "Lokasi Acuan",
+  "nearbyRefreshGpsTooltip": "Perbarui Lokasi GPS",
+  "nearbySearchPlaceholder": "Cari nama psikolog, klinik, atau RS...",
+  "nearbyCityAll": "Semua",
+  "nearbyAvailableListTitle": "Psikolog & Klinik Tersedia",
+  "nearbyCountFound": "{count} ditemukan",
+  "@nearbyCountFound": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "nearbyEmptyTitle": "Tidak ada psikolog ditemukan",
+  "nearbyEmptySubtitle": "Coba ubah kata kunci pencarian atau ganti filter kota ke \"Semua\".",
+  "nearbyReviewCount": "({count} ulasan)",
+  "@nearbyReviewCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "nearbyDistanceAway": "{distance} dari lokasimu",
+  "@nearbyDistanceAway": {
+    "placeholders": {
+      "distance": { "type": "String" }
+    }
+  },
+  "nearbyButtonDirections": "Peta",
+  "nearbyButtonWhatsApp": "WhatsApp",
+  "nearbyWhatsAppMessage": "Halo {name}, saya ingin membuat janji konsultasi psikologi.",
+  "@nearbyWhatsAppMessage": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "emergencyHotlineTitle": "Butuh Bantuan Krisis Cepat?",
+  "emergencyHotlineDesc": "Layanan Sahabat Jiwa (SEJIWA) Kemenkes RI siap membantu melalui panggilan bebas pulsa 24 jam.",
+  "emergencyHotlineCallButton": "Hubungi Hotline 119 (Ext 8)",
+  "highRiskAttentionTitle": "Perlu Perhatian Profesional",
+  "highRiskAttentionDesc": "Tingkat burnout Anda tergolong tinggi. Anda sangat disarankan untuk berkonsultasi langsung dengan psikolog klinis atau profesional kesehatan jiwa.",
+  "findNearestPsychologistsAction": "Cari Psikolog Terdekat",
+  "highRiskConsultationTitle": "Konsultasi Psikolog Profesional",
+  "highRiskConsultationDesc": "Tingkat burnout berat memerlukan penanganan dan evaluasi dari ahli. Temukan psikolog atau faskes terdekat untuk langkah pemulihan terbaik.",
+  "recommendationsForYouTitle": "Rekomendasi untuk Kamu",
+  "recommendationsBackTooltip": "Kembali ke hasil",
+  "recommendationErrorLoading": "Asesmen belum dapat dimuat.",
+  "recommendationTryAgain": "Coba lagi",
+  "recommendationNotFound": "Hasil asesmen tidak ditemukan. Buka rekomendasi dari hasil asesmen yang tersedia.",
+  "recommendationIntroSteps": "Berikut beberapa langkah yang bisa kamu lakukan untuk membantu menjaga kesehatan mental.",
+  "recommendationGeneralNote": "Panduan umum, belum dipersonalisasi berdasarkan hasil asesmen.",
+  "recItemSleepTitle": "Perbaiki Pola Tidur",
+  "recItemSleepBody": "Usahakan tidur 7–8 jam per hari dengan jadwal yang konsisten.",
+  "recItemActivityTitle": "Kelola Aktivitas",
+  "recItemActivityBody": "Buat prioritas dan atur waktu istirahat di sela pekerjaan.",
+  "recItemRelaxationTitle": "Latih Relaksasi",
+  "recItemRelaxationBody": "Coba teknik pernapasan, meditasi, atau mindfulness selama 5–10 menit setiap hari.",
+  "recItemSocialSupportTitle": "Cari Dukungan Sosial",
+  "recItemSocialSupportBody": "Jangan ragu untuk berbicara dengan teman, keluarga, atau profesional jika merasa terbebani.",
+  "encouragementMentalHealth": "Prioritaskan kesehatan mentalmu."
 }

@@ -284,7 +284,7 @@ class RiskSummaryCard extends StatelessWidget {
                     child: OutlinedButton.icon(
                       onPressed: onFindPsychologistTap,
                       icon: Icon(Icons.near_me_outlined, size: context.ui(18)),
-                      label: const Text('Cari Psikolog Terdekat'),
+                      label: Text(l10n.findNearestPsychologistsAction),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AssessmentColors.riskHigh,
                         side: const BorderSide(
@@ -510,6 +510,7 @@ class _HighRiskPsychologistBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(context.ui(AppSpacing.md)),
@@ -541,7 +542,7 @@ class _HighRiskPsychologistBanner extends StatelessWidget {
               SizedBox(width: context.ui(AppSpacing.sm)),
               Expanded(
                 child: Text(
-                  'Perlu Perhatian Profesional',
+                  l10n.highRiskAttentionTitle,
                   style: TextStyle(
                     fontSize: context.ui(15),
                     fontWeight: FontWeight.bold,
@@ -553,7 +554,7 @@ class _HighRiskPsychologistBanner extends StatelessWidget {
           ),
           SizedBox(height: context.ui(AppSpacing.xs)),
           Text(
-            'Tingkat burnout Anda tergolong tinggi. Anda sangat disarankan untuk berkonsultasi langsung dengan psikolog klinis atau profesional kesehatan jiwa.',
+            l10n.highRiskAttentionDesc,
             style: TextStyle(
               fontSize: context.ui(12.5),
               color: colors.body,
@@ -567,7 +568,7 @@ class _HighRiskPsychologistBanner extends StatelessWidget {
               onPressed: onFindPsychologistTap,
               icon: Icon(Icons.near_me_rounded, size: context.ui(16)),
               label: Text(
-                'Cari Psikolog Terdekat',
+                l10n.findNearestPsychologistsAction,
                 style: TextStyle(
                   fontSize: context.ui(13),
                   fontWeight: FontWeight.bold,

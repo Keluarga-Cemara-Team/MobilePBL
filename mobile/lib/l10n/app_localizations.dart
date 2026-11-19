@@ -2353,6 +2353,252 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Apakah kamu mengikuti terapi atau konseling untuk kesehatan mental?'**
   String get personalizationProfessionalSupportDescription;
+
+  /// No description provided for @nearbyPsychologistsTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Psikolog & Klinik Terdekat'**
+  String get nearbyPsychologistsTitle;
+
+  /// No description provided for @nearbyPsychologistsSubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Konsultasi profesional untuk pemulihan burnout'**
+  String get nearbyPsychologistsSubtitle;
+
+  /// No description provided for @nearbyPsychologistsBackTooltip.
+  ///
+  /// In id, this message translates to:
+  /// **'Kembali'**
+  String get nearbyPsychologistsBackTooltip;
+
+  /// No description provided for @nearbyLocationGpsActive.
+  ///
+  /// In id, this message translates to:
+  /// **'Lokasimu (GPS Aktif)'**
+  String get nearbyLocationGpsActive;
+
+  /// No description provided for @nearbyLocationFallback.
+  ///
+  /// In id, this message translates to:
+  /// **'Lokasi Acuan'**
+  String get nearbyLocationFallback;
+
+  /// No description provided for @nearbyRefreshGpsTooltip.
+  ///
+  /// In id, this message translates to:
+  /// **'Perbarui Lokasi GPS'**
+  String get nearbyRefreshGpsTooltip;
+
+  /// No description provided for @nearbySearchPlaceholder.
+  ///
+  /// In id, this message translates to:
+  /// **'Cari nama psikolog, klinik, atau RS...'**
+  String get nearbySearchPlaceholder;
+
+  /// No description provided for @nearbyCityAll.
+  ///
+  /// In id, this message translates to:
+  /// **'Semua'**
+  String get nearbyCityAll;
+
+  /// No description provided for @nearbyAvailableListTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Psikolog & Klinik Tersedia'**
+  String get nearbyAvailableListTitle;
+
+  /// No description provided for @nearbyCountFound.
+  ///
+  /// In id, this message translates to:
+  /// **'{count} ditemukan'**
+  String nearbyCountFound(int count);
+
+  /// No description provided for @nearbyEmptyTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Tidak ada psikolog ditemukan'**
+  String get nearbyEmptyTitle;
+
+  /// No description provided for @nearbyEmptySubtitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Coba ubah kata kunci pencarian atau ganti filter kota ke \"Semua\".'**
+  String get nearbyEmptySubtitle;
+
+  /// No description provided for @nearbyReviewCount.
+  ///
+  /// In id, this message translates to:
+  /// **'({count} ulasan)'**
+  String nearbyReviewCount(int count);
+
+  /// No description provided for @nearbyDistanceAway.
+  ///
+  /// In id, this message translates to:
+  /// **'{distance} dari lokasimu'**
+  String nearbyDistanceAway(String distance);
+
+  /// No description provided for @nearbyButtonDirections.
+  ///
+  /// In id, this message translates to:
+  /// **'Peta'**
+  String get nearbyButtonDirections;
+
+  /// No description provided for @nearbyButtonWhatsApp.
+  ///
+  /// In id, this message translates to:
+  /// **'WhatsApp'**
+  String get nearbyButtonWhatsApp;
+
+  /// No description provided for @nearbyWhatsAppMessage.
+  ///
+  /// In id, this message translates to:
+  /// **'Halo {name}, saya ingin membuat janji konsultasi psikologi.'**
+  String nearbyWhatsAppMessage(String name);
+
+  /// No description provided for @emergencyHotlineTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Butuh Bantuan Krisis Cepat?'**
+  String get emergencyHotlineTitle;
+
+  /// No description provided for @emergencyHotlineDesc.
+  ///
+  /// In id, this message translates to:
+  /// **'Layanan Sahabat Jiwa (SEJIWA) Kemenkes RI siap membantu melalui panggilan bebas pulsa 24 jam.'**
+  String get emergencyHotlineDesc;
+
+  /// No description provided for @emergencyHotlineCallButton.
+  ///
+  /// In id, this message translates to:
+  /// **'Hubungi Hotline 119 (Ext 8)'**
+  String get emergencyHotlineCallButton;
+
+  /// No description provided for @highRiskAttentionTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Perlu Perhatian Profesional'**
+  String get highRiskAttentionTitle;
+
+  /// No description provided for @highRiskAttentionDesc.
+  ///
+  /// In id, this message translates to:
+  /// **'Tingkat burnout Anda tergolong tinggi. Anda sangat disarankan untuk berkonsultasi langsung dengan psikolog klinis atau profesional kesehatan jiwa.'**
+  String get highRiskAttentionDesc;
+
+  /// No description provided for @findNearestPsychologistsAction.
+  ///
+  /// In id, this message translates to:
+  /// **'Cari Psikolog Terdekat'**
+  String get findNearestPsychologistsAction;
+
+  /// No description provided for @highRiskConsultationTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Konsultasi Psikolog Profesional'**
+  String get highRiskConsultationTitle;
+
+  /// No description provided for @highRiskConsultationDesc.
+  ///
+  /// In id, this message translates to:
+  /// **'Tingkat burnout berat memerlukan penanganan dan evaluasi dari ahli. Temukan psikolog atau faskes terdekat untuk langkah pemulihan terbaik.'**
+  String get highRiskConsultationDesc;
+
+  /// No description provided for @recommendationsForYouTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Rekomendasi untuk Kamu'**
+  String get recommendationsForYouTitle;
+
+  /// No description provided for @recommendationsBackTooltip.
+  ///
+  /// In id, this message translates to:
+  /// **'Kembali ke hasil'**
+  String get recommendationsBackTooltip;
+
+  /// No description provided for @recommendationErrorLoading.
+  ///
+  /// In id, this message translates to:
+  /// **'Asesmen belum dapat dimuat.'**
+  String get recommendationErrorLoading;
+
+  /// No description provided for @recommendationTryAgain.
+  ///
+  /// In id, this message translates to:
+  /// **'Coba lagi'**
+  String get recommendationTryAgain;
+
+  /// No description provided for @recommendationNotFound.
+  ///
+  /// In id, this message translates to:
+  /// **'Hasil asesmen tidak ditemukan. Buka rekomendasi dari hasil asesmen yang tersedia.'**
+  String get recommendationNotFound;
+
+  /// No description provided for @recommendationIntroSteps.
+  ///
+  /// In id, this message translates to:
+  /// **'Berikut beberapa langkah yang bisa kamu lakukan untuk membantu menjaga kesehatan mental.'**
+  String get recommendationIntroSteps;
+
+  /// No description provided for @recommendationGeneralNote.
+  ///
+  /// In id, this message translates to:
+  /// **'Panduan umum, belum dipersonalisasi berdasarkan hasil asesmen.'**
+  String get recommendationGeneralNote;
+
+  /// No description provided for @recItemSleepTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Perbaiki Pola Tidur'**
+  String get recItemSleepTitle;
+
+  /// No description provided for @recItemSleepBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Usahakan tidur 7–8 jam per hari dengan jadwal yang konsisten.'**
+  String get recItemSleepBody;
+
+  /// No description provided for @recItemActivityTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Kelola Aktivitas'**
+  String get recItemActivityTitle;
+
+  /// No description provided for @recItemActivityBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Buat prioritas dan atur waktu istirahat di sela pekerjaan.'**
+  String get recItemActivityBody;
+
+  /// No description provided for @recItemRelaxationTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Latih Relaksasi'**
+  String get recItemRelaxationTitle;
+
+  /// No description provided for @recItemRelaxationBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Coba teknik pernapasan, meditasi, atau mindfulness selama 5–10 menit setiap hari.'**
+  String get recItemRelaxationBody;
+
+  /// No description provided for @recItemSocialSupportTitle.
+  ///
+  /// In id, this message translates to:
+  /// **'Cari Dukungan Sosial'**
+  String get recItemSocialSupportTitle;
+
+  /// No description provided for @recItemSocialSupportBody.
+  ///
+  /// In id, this message translates to:
+  /// **'Jangan ragu untuk berbicara dengan teman, keluarga, atau profesional jika merasa terbebani.'**
+  String get recItemSocialSupportBody;
+
+  /// No description provided for @encouragementMentalHealth.
+  ///
+  /// In id, this message translates to:
+  /// **'Prioritaskan kesehatan mentalmu.'**
+  String get encouragementMentalHealth;
 }
 
 class _AppLocalizationsDelegate

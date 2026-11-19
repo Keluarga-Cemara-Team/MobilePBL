@@ -9,6 +9,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/theme/assessment_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_blob_background.dart';
 import '../../../assessment/di/assessment_providers.dart';
 import '../../../assessment/domain/entities/risk_level.dart';
@@ -29,6 +30,7 @@ class RecommendationPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final assessment = ref.watch(assessmentByIdProvider(assessmentId));
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: AppColors.of(context).background,
       body: AppBlobBackground(
@@ -64,9 +66,9 @@ class RecommendationPage extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Asesmen belum dapat dimuat.',
+                              l10n.recommendationErrorLoading,
                               style: AppTextStyles.subtitle(context)
-                                  .copyWith(fontSize: context.ui(14)),
+                                   .copyWith(fontSize: context.ui(14)),
                             ),
                             TextButton(
                               onPressed: () => ref.invalidate(
@@ -76,14 +78,13 @@ class RecommendationPage extends ConsumerWidget {
                                 textStyle: TextStyle(fontSize: context.ui(14)),
                                 padding: EdgeInsets.all(context.ui(12)),
                               ),
-                              child: const Text('Coba lagi'),
+                              child: Text(l10n.recommendationTryAgain),
                             ),
                           ],
                         ),
                         data: (item) => item == null
                             ? Text(
-                                'Hasil asesmen tidak ditemukan. Buka rekomendasi dari '
-                                'hasil asesmen yang tersedia.',
+                                l10n.recommendationNotFound,
                                 style: AppTextStyles.subtitle(context)
                                     .copyWith(fontSize: context.ui(14)),
                               )
@@ -108,51 +109,47 @@ class _GeneralRecommendations extends StatelessWidget {
 
   final bool isHighRisk;
 
-  static const _items = [
-    (
-      icon: Icons.bed_outlined,
-      background: AssessmentColors.sleepTint,
-      title: 'Perbaiki Pola Tidur',
-      body: 'Usahakan tidur 7–8 jam per hari dengan jadwal yang konsisten.',
-    ),
-    (
-      icon: Icons.monitor_heart_outlined,
-      background: AssessmentColors.activityTint,
-      title: 'Kelola Aktivitas',
-      body: 'Buat prioritas dan atur waktu istirahat di sela pekerjaan.',
-    ),
-    (
-      icon: Icons.self_improvement_outlined,
-      background: AssessmentColors.relaxationTint,
-      title: 'Latih Relaksasi',
-      body:
-          'Coba teknik pernapasan, meditasi, atau mindfulness selama '
-          '5–10 menit setiap hari.',
-    ),
-    (
-      icon: Icons.diversity_1_outlined,
-      background: AssessmentColors.socialTint,
-      title: 'Cari Dukungan Sosial',
-      body:
-          'Jangan ragu untuk berbicara dengan teman, keluarga, atau '
-          'profesional jika merasa terbebani.',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final items = [
+      (
+        icon: Icons.bed_outlined,
+        background: AssessmentColors.sleepTint,
+        title: l10n.recItemSleepTitle,
+        body: l10n.recItemSleepBody,
+      ),
+      (
+        icon: Icons.monitor_heart_outlined,
+        background: AssessmentColors.activityTint,
+        title: l10n.recItemActivityTitle,
+        body: l10n.recItemActivityBody,
+      ),
+      (
+        icon: Icons.self_improvement_outlined,
+        background: AssessmentColors.relaxationTint,
+        title: l10n.recItemRelaxationTitle,
+        body: l10n.recItemRelaxationBody,
+      ),
+      (
+        icon: Icons.diversity_1_outlined,
+        background: AssessmentColors.socialTint,
+        title: l10n.recItemSocialSupportTitle,
+        body: l10n.recItemSocialSupportBody,
+      ),
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Berikut beberapa langkah yang bisa kamu lakukan untuk '
-          'membantu menjaga kesehatan mental.',
+          l10n.recommendationIntroSteps,
           style: AppTextStyles.subtitle(context)
               .copyWith(fontSize: context.ui(14)),
         ),
         SizedBox(height: context.ui(AppSpacing.sm)),
         Text(
-          'Panduan umum, belum dipersonalisasi berdasarkan hasil asesmen.',
+          l10n.recommendationGeneralNote,
           style: AppTextStyles.subtitle(context)
               .copyWith(fontSize: context.ui(12)),
         ),
@@ -188,7 +185,7 @@ class _GeneralRecommendations extends StatelessWidget {
                     SizedBox(width: context.ui(AppSpacing.sm)),
                     Expanded(
                       child: Text(
-                        'Konsultasi Psikolog Profesional',
+                        l10n.highRiskConsultationTitle,
                         style: TextStyle(
                           fontSize: context.ui(14.5),
                           fontWeight: FontWeight.bold,
@@ -200,7 +197,7 @@ class _GeneralRecommendations extends StatelessWidget {
                 ),
                 SizedBox(height: context.ui(AppSpacing.xs)),
                 Text(
-                  'Tingkat burnout berat memerlukan penanganan dan evaluasi dari ahli. Temukan psikolog atau faskes terdekat untuk langkah pemulihan terbaik.',
+                  l10n.highRiskConsultationDesc,
                   style: TextStyle(
                     fontSize: context.ui(12.5),
                     color: AppColors.of(context).body,
@@ -215,7 +212,7 @@ class _GeneralRecommendations extends StatelessWidget {
                         context.push(RoutePaths.nearbyPsychologists),
                     icon: Icon(Icons.near_me_rounded, size: context.ui(16)),
                     label: Text(
-                      'Cari Psikolog Terdekat',
+                      l10n.findNearestPsychologistsAction,
                       style: TextStyle(
                         fontSize: context.ui(13),
                         fontWeight: FontWeight.bold,
@@ -239,7 +236,7 @@ class _GeneralRecommendations extends StatelessWidget {
           ),
           SizedBox(height: context.ui(AppSpacing.md)),
         ],
-        for (final item in _items) ...[
+        for (final item in items) ...[
           RecommendationCard(
             icon: item.icon,
             backgroundColor: item.background,

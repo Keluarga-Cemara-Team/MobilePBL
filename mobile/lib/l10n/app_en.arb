@@ -447,5 +447,66 @@
   "personalizationFamilyHistory": "Mental health history",
   "personalizationFamilyHistoryDescription": "Has anyone in your family experienced a mental health condition?",
   "personalizationProfessionalSupport": "Professional support",
-  "personalizationProfessionalSupportDescription": "Are you receiving therapy or counseling for your mental health?"
+  "personalizationProfessionalSupportDescription": "Are you receiving therapy or counseling for your mental health?",
+  "nearbyPsychologistsTitle": "Nearby Psychologists & Clinics",
+  "nearbyPsychologistsSubtitle": "Professional consultation for burnout recovery",
+  "nearbyPsychologistsBackTooltip": "Back",
+  "nearbyLocationGpsActive": "Your Location (GPS Active)",
+  "nearbyLocationFallback": "Reference Location",
+  "nearbyRefreshGpsTooltip": "Refresh GPS Location",
+  "nearbySearchPlaceholder": "Search psychologist, clinic, or hospital...",
+  "nearbyCityAll": "All",
+  "nearbyAvailableListTitle": "Available Psychologists & Clinics",
+  "nearbyCountFound": "{count} found",
+  "@nearbyCountFound": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "nearbyEmptyTitle": "No psychologists found",
+  "nearbyEmptySubtitle": "Try changing your search keywords or switch city filter to \"All\".",
+  "nearbyReviewCount": "({count} reviews)",
+  "@nearbyReviewCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "nearbyDistanceAway": "{distance} from your location",
+  "@nearbyDistanceAway": {
+    "placeholders": {
+      "distance": { "type": "String" }
+    }
+  },
+  "nearbyButtonDirections": "Map",
+  "nearbyButtonWhatsApp": "WhatsApp",
+  "nearbyWhatsAppMessage": "Hello {name}, I would like to book a psychological consultation appointment.",
+  "@nearbyWhatsAppMessage": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "emergencyHotlineTitle": "Need Immediate Crisis Support?",
+  "emergencyHotlineDesc": "The Ministry of Health's Sahabat Jiwa (SEJIWA) service is ready to help via 24/7 toll-free calls.",
+  "emergencyHotlineCallButton": "Call Hotline 119 (Ext 8)",
+  "highRiskAttentionTitle": "Professional Attention Needed",
+  "highRiskAttentionDesc": "Your burnout level is high. You are strongly advised to consult directly with a clinical psychologist or mental health professional.",
+  "findNearestPsychologistsAction": "Find Nearest Psychologists",
+  "highRiskConsultationTitle": "Professional Psychologist Consultation",
+  "highRiskConsultationDesc": "Severe burnout requires treatment and evaluation by experts. Find the nearest psychologist or clinic for the best recovery steps.",
+  "recommendationsForYouTitle": "Recommendations for You",
+  "recommendationsBackTooltip": "Back to results",
+  "recommendationErrorLoading": "Assessment could not be loaded.",
+  "recommendationTryAgain": "Try again",
+  "recommendationNotFound": "Assessment result not found. Open recommendations from available assessment results.",
+  "recommendationIntroSteps": "Here are some steps you can take to help maintain your mental health.",
+  "recommendationGeneralNote": "General guide, not yet personalized based on assessment results.",
+  "recItemSleepTitle": "Improve Sleep Habits",
+  "recItemSleepBody": "Aim for 7–8 hours of sleep per day with a consistent schedule.",
+  "recItemActivityTitle": "Manage Activities",
+  "recItemActivityBody": "Set priorities and take regular breaks between work tasks.",
+  "recItemRelaxationTitle": "Practice Relaxation",
+  "recItemRelaxationBody": "Try breathing techniques, meditation, or mindfulness for 5–10 minutes daily.",
+  "recItemSocialSupportTitle": "Seek Social Support",
+  "recItemSocialSupportBody": "Do not hesitate to reach out to friends, family, or professionals if feeling overwhelmed.",
+  "encouragementMentalHealth": "Prioritize your mental health."
 }

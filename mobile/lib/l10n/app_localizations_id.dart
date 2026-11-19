@@ -1293,4 +1293,148 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get personalizationProfessionalSupportDescription =>
       'Apakah kamu mengikuti terapi atau konseling untuk kesehatan mental?';
+
+  @override
+  String get nearbyPsychologistsTitle => 'Psikolog & Klinik Terdekat';
+
+  @override
+  String get nearbyPsychologistsSubtitle =>
+      'Konsultasi profesional untuk pemulihan burnout';
+
+  @override
+  String get nearbyPsychologistsBackTooltip => 'Kembali';
+
+  @override
+  String get nearbyLocationGpsActive => 'Lokasimu (GPS Aktif)';
+
+  @override
+  String get nearbyLocationFallback => 'Lokasi Acuan';
+
+  @override
+  String get nearbyRefreshGpsTooltip => 'Perbarui Lokasi GPS';
+
+  @override
+  String get nearbySearchPlaceholder =>
+      'Cari nama psikolog, klinik, atau RS...';
+
+  @override
+  String get nearbyCityAll => 'Semua';
+
+  @override
+  String get nearbyAvailableListTitle => 'Psikolog & Klinik Tersedia';
+
+  @override
+  String nearbyCountFound(int count) {
+    return '$count ditemukan';
+  }
+
+  @override
+  String get nearbyEmptyTitle => 'Tidak ada psikolog ditemukan';
+
+  @override
+  String get nearbyEmptySubtitle =>
+      'Coba ubah kata kunci pencarian atau ganti filter kota ke \"Semua\".';
+
+  @override
+  String nearbyReviewCount(int count) {
+    return '($count ulasan)';
+  }
+
+  @override
+  String nearbyDistanceAway(String distance) {
+    return '$distance dari lokasimu';
+  }
+
+  @override
+  String get nearbyButtonDirections => 'Peta';
+
+  @override
+  String get nearbyButtonWhatsApp => 'WhatsApp';
+
+  @override
+  String nearbyWhatsAppMessage(String name) {
+    return 'Halo $name, saya ingin membuat janji konsultasi psikologi.';
+  }
+
+  @override
+  String get emergencyHotlineTitle => 'Butuh Bantuan Krisis Cepat?';
+
+  @override
+  String get emergencyHotlineDesc =>
+      'Layanan Sahabat Jiwa (SEJIWA) Kemenkes RI siap membantu melalui panggilan bebas pulsa 24 jam.';
+
+  @override
+  String get emergencyHotlineCallButton => 'Hubungi Hotline 119 (Ext 8)';
+
+  @override
+  String get highRiskAttentionTitle => 'Perlu Perhatian Profesional';
+
+  @override
+  String get highRiskAttentionDesc =>
+      'Tingkat burnout Anda tergolong tinggi. Anda sangat disarankan untuk berkonsultasi langsung dengan psikolog klinis atau profesional kesehatan jiwa.';
+
+  @override
+  String get findNearestPsychologistsAction => 'Cari Psikolog Terdekat';
+
+  @override
+  String get highRiskConsultationTitle => 'Konsultasi Psikolog Profesional';
+
+  @override
+  String get highRiskConsultationDesc =>
+      'Tingkat burnout berat memerlukan penanganan dan evaluasi dari ahli. Temukan psikolog atau faskes terdekat untuk langkah pemulihan terbaik.';
+
+  @override
+  String get recommendationsForYouTitle => 'Rekomendasi untuk Kamu';
+
+  @override
+  String get recommendationsBackTooltip => 'Kembali ke hasil';
+
+  @override
+  String get recommendationErrorLoading => 'Asesmen belum dapat dimuat.';
+
+  @override
+  String get recommendationTryAgain => 'Coba lagi';
+
+  @override
+  String get recommendationNotFound =>
+      'Hasil asesmen tidak ditemukan. Buka rekomendasi dari hasil asesmen yang tersedia.';
+
+  @override
+  String get recommendationIntroSteps =>
+      'Berikut beberapa langkah yang bisa kamu lakukan untuk membantu menjaga kesehatan mental.';
+
+  @override
+  String get recommendationGeneralNote =>
+      'Panduan umum, belum dipersonalisasi berdasarkan hasil asesmen.';
+
+  @override
+  String get recItemSleepTitle => 'Perbaiki Pola Tidur';
+
+  @override
+  String get recItemSleepBody =>
+      'Usahakan tidur 7–8 jam per hari dengan jadwal yang konsisten.';
+
+  @override
+  String get recItemActivityTitle => 'Kelola Aktivitas';
+
+  @override
+  String get recItemActivityBody =>
+      'Buat prioritas dan atur waktu istirahat di sela pekerjaan.';
+
+  @override
+  String get recItemRelaxationTitle => 'Latih Relaksasi';
+
+  @override
+  String get recItemRelaxationBody =>
+      'Coba teknik pernapasan, meditasi, atau mindfulness selama 5–10 menit setiap hari.';
+
+  @override
+  String get recItemSocialSupportTitle => 'Cari Dukungan Sosial';
+
+  @override
+  String get recItemSocialSupportBody =>
+      'Jangan ragu untuk berbicara dengan teman, keluarga, atau profesional jika merasa terbebani.';
+
+  @override
+  String get encouragementMentalHealth => 'Prioritaskan kesehatan mentalmu.';
 }

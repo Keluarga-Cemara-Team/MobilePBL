@@ -5,6 +5,7 @@ import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/assessment_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class EmergencyHotlineCard extends StatelessWidget {
   const EmergencyHotlineCard({super.key});
@@ -18,6 +19,7 @@ class EmergencyHotlineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.all(context.ui(AppSpacing.md)),
       decoration: BoxDecoration(
@@ -48,7 +50,7 @@ class EmergencyHotlineCard extends StatelessWidget {
               SizedBox(width: context.ui(AppSpacing.sm)),
               Expanded(
                 child: Text(
-                  'Butuh Bantuan Krisis Cepat?',
+                  l10n.emergencyHotlineTitle,
                   style: TextStyle(
                     fontSize: context.ui(14),
                     fontWeight: FontWeight.bold,
@@ -60,7 +62,7 @@ class EmergencyHotlineCard extends StatelessWidget {
           ),
           SizedBox(height: context.ui(AppSpacing.xs)),
           Text(
-            'Layanan Sahabat Jiwa (SEJIWA) Kemenkes RI siap membantu melalui panggilan bebas pulsa 24 jam.',
+            l10n.emergencyHotlineDesc,
             style: TextStyle(
               fontSize: context.ui(12),
               color: AppColors.of(context).body,
@@ -74,7 +76,7 @@ class EmergencyHotlineCard extends StatelessWidget {
               onPressed: _callHotline,
               icon: Icon(Icons.phone_in_talk, size: context.ui(16)),
               label: Text(
-                'Hubungi Hotline 119 (Ext 8)',
+                l10n.emergencyHotlineCallButton,
                 style: TextStyle(
                   fontSize: context.ui(13),
                   fontWeight: FontWeight.w600,

@@ -5,6 +5,7 @@ import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/assessment_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/psychologist.dart';
 import '../../domain/utils/geo_calculator.dart';
 
@@ -26,11 +27,10 @@ class PsychologistCard extends StatelessWidget {
     }
   }
 
-  Future<void> _openWhatsApp() async {
+  Future<void> _openWhatsApp(AppLocalizations l10n) async {
     if (psychologist.whatsapp.isEmpty) return;
-    final text = Uri.encodeComponent(
-      'Halo ${psychologist.name}, saya ingin membuat janji konsultasi psikologi.',
-    );
+    final message = l10n.nearbyWhatsAppMessage(psychologist.name);
+    final text = Uri.encodeComponent(message);
     final url = 'https://wa.me/${psychologist.whatsapp}?text=$text';
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
@@ -49,6 +49,7 @@ class PsychologistCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = AppColors.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final distanceText = psychologist.distanceKm != null
         ? GeoCalculator.formatDistance(psychologist.distanceKm!)
         : null;
@@ -143,7 +144,7 @@ class PsychologistCard extends StatelessWidget {
                     ),
                     SizedBox(width: context.ui(4)),
                     Text(
-                      '${psychologist.rating} (${psychologist.reviewCount} ulasan)',
+                      '${psychologist.rating} ${l10n.nearbyReviewCount(psychologist.reviewCount)}',
                       style: TextStyle(
                         fontSize: context.ui(12),
                         fontWeight: FontWeight.w600,
@@ -172,7 +173,7 @@ class PsychologistCard extends StatelessWidget {
                         ),
                         SizedBox(width: context.ui(3)),
                         Text(
-                          '$distanceText dari lokasimu',
+                          l10n.nearbyDistanceAway(distanceText),
                           style: TextStyle(
                             fontSize: context.ui(11),
                             fontWeight: FontWeight.w600,
@@ -273,7 +274,7 @@ class PsychologistCard extends StatelessWidget {
                     onPressed: _openGoogleMaps,
                     icon: Icon(Icons.directions, size: context.ui(15)),
                     label: Text(
-                      'Peta',
+                      l10n.nearbyButtonDirections,
                       style: TextStyle(fontSize: context.ui(12)),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -296,10 +297,10 @@ class PsychologistCard extends StatelessWidget {
                   Expanded(
                     flex: 4,
                     child: ElevatedButton.icon(
-                      onPressed: _openWhatsApp,
+                      onPressed: () => _openWhatsApp(l10n),
                       icon: Icon(Icons.chat, size: context.ui(15)),
                       label: Text(
-                        'WhatsApp',
+                        l10n.nearbyButtonWhatsApp,
                         style: TextStyle(
                           fontSize: context.ui(12),
                           fontWeight: FontWeight.w600,
