@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_page_header.dart';
 
 class RecommendationHeader extends StatelessWidget {
@@ -9,10 +10,11 @@ class RecommendationHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AppPageHeader(
-      title: 'Rekomendasi untuk Kamu',
+      title: l10n.recommendationsForYouTitle,
       onBack: onBack,
-      tooltip: 'Kembali ke hasil',
+      tooltip: l10n.recommendationsBackTooltip,
       fontSize: 20,
     );
   }

@@ -4,12 +4,14 @@ import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/theme/assessment_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class EncouragementCard extends StatelessWidget {
   const EncouragementCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(context.ui(AppSpacing.md)),
@@ -35,7 +37,7 @@ class EncouragementCard extends StatelessWidget {
           SizedBox(width: context.ui(AppSpacing.md)),
           Expanded(
             child: Text(
-              'Prioritaskan kesehatan mentalmu.',
+              l10n.encouragementMentalHealth,
               style: AppTextStyles.subtitle(context)
                   .copyWith(fontSize: context.ui(13)),
             ),

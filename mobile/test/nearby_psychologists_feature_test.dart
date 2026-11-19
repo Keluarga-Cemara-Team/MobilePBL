@@ -84,7 +84,7 @@ void main() {
   });
 
   group('UI Integration tests', () {
-    testWidgets('NearbyPsychologistsPage renders emergency card and psychologist list', (
+    testWidgets('NearbyPsychologistsPage renders emergency card and psychologist list in Indonesian', (
       tester,
     ) async {
       await tester.pumpWidget(
@@ -95,6 +95,7 @@ void main() {
           child: const MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
+            locale: Locale('id'),
             home: NearbyPsychologistsPage(),
           ),
         ),
@@ -122,6 +123,34 @@ void main() {
       expect(find.byType(PsychologistCard), findsWidgets);
     });
 
+    testWidgets('NearbyPsychologistsPage renders properly in English', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [
+            positionResolverProvider.overrideWithValue(() async => null),
+          ],
+          child: const MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: Locale('en'),
+            home: NearbyPsychologistsPage(),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      // Check emergency hotline banner in English
+      expect(find.text('Need Immediate Crisis Support?'), findsOneWidget);
+      expect(find.text('Call Hotline 119 (Ext 8)'), findsOneWidget);
+
+      // Check title and English 'All' chip
+      expect(find.text('Nearby Psychologists & Clinics'), findsOneWidget);
+      expect(find.text('All'), findsOneWidget);
+    });
+
     testWidgets('RiskSummaryCard displays high risk banner when isHighRisk is true', (
       tester,
     ) async {
@@ -131,6 +160,7 @@ void main() {
         MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('id'),
           home: Scaffold(
             body: RiskSummaryCard(
               title: 'Hasil Asesmen',

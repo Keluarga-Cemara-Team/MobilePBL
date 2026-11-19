@@ -1284,4 +1284,149 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get personalizationProfessionalSupportDescription =>
       'Are you receiving therapy or counseling for your mental health?';
+
+  @override
+  String get nearbyPsychologistsTitle => 'Nearby Psychologists & Clinics';
+
+  @override
+  String get nearbyPsychologistsSubtitle =>
+      'Professional consultation for burnout recovery';
+
+  @override
+  String get nearbyPsychologistsBackTooltip => 'Back';
+
+  @override
+  String get nearbyLocationGpsActive => 'Your Location (GPS Active)';
+
+  @override
+  String get nearbyLocationFallback => 'Reference Location';
+
+  @override
+  String get nearbyRefreshGpsTooltip => 'Refresh GPS Location';
+
+  @override
+  String get nearbySearchPlaceholder =>
+      'Search psychologist, clinic, or hospital...';
+
+  @override
+  String get nearbyCityAll => 'All';
+
+  @override
+  String get nearbyAvailableListTitle => 'Available Psychologists & Clinics';
+
+  @override
+  String nearbyCountFound(int count) {
+    return '$count found';
+  }
+
+  @override
+  String get nearbyEmptyTitle => 'No psychologists found';
+
+  @override
+  String get nearbyEmptySubtitle =>
+      'Try changing your search keywords or switch city filter to \"All\".';
+
+  @override
+  String nearbyReviewCount(int count) {
+    return '($count reviews)';
+  }
+
+  @override
+  String nearbyDistanceAway(String distance) {
+    return '$distance from your location';
+  }
+
+  @override
+  String get nearbyButtonDirections => 'Map';
+
+  @override
+  String get nearbyButtonWhatsApp => 'WhatsApp';
+
+  @override
+  String nearbyWhatsAppMessage(String name) {
+    return 'Hello $name, I would like to book a psychological consultation appointment.';
+  }
+
+  @override
+  String get emergencyHotlineTitle => 'Need Immediate Crisis Support?';
+
+  @override
+  String get emergencyHotlineDesc =>
+      'The Ministry of Health\'s Sahabat Jiwa (SEJIWA) service is ready to help via 24/7 toll-free calls.';
+
+  @override
+  String get emergencyHotlineCallButton => 'Call Hotline 119 (Ext 8)';
+
+  @override
+  String get highRiskAttentionTitle => 'Professional Attention Needed';
+
+  @override
+  String get highRiskAttentionDesc =>
+      'Your burnout level is high. You are strongly advised to consult directly with a clinical psychologist or mental health professional.';
+
+  @override
+  String get findNearestPsychologistsAction => 'Find Nearest Psychologists';
+
+  @override
+  String get highRiskConsultationTitle =>
+      'Professional Psychologist Consultation';
+
+  @override
+  String get highRiskConsultationDesc =>
+      'Severe burnout requires treatment and evaluation by experts. Find the nearest psychologist or clinic for the best recovery steps.';
+
+  @override
+  String get recommendationsForYouTitle => 'Recommendations for You';
+
+  @override
+  String get recommendationsBackTooltip => 'Back to results';
+
+  @override
+  String get recommendationErrorLoading => 'Assessment could not be loaded.';
+
+  @override
+  String get recommendationTryAgain => 'Try again';
+
+  @override
+  String get recommendationNotFound =>
+      'Assessment result not found. Open recommendations from available assessment results.';
+
+  @override
+  String get recommendationIntroSteps =>
+      'Here are some steps you can take to help maintain your mental health.';
+
+  @override
+  String get recommendationGeneralNote =>
+      'General guide, not yet personalized based on assessment results.';
+
+  @override
+  String get recItemSleepTitle => 'Improve Sleep Habits';
+
+  @override
+  String get recItemSleepBody =>
+      'Aim for 7–8 hours of sleep per day with a consistent schedule.';
+
+  @override
+  String get recItemActivityTitle => 'Manage Activities';
+
+  @override
+  String get recItemActivityBody =>
+      'Set priorities and take regular breaks between work tasks.';
+
+  @override
+  String get recItemRelaxationTitle => 'Practice Relaxation';
+
+  @override
+  String get recItemRelaxationBody =>
+      'Try breathing techniques, meditation, or mindfulness for 5–10 minutes daily.';
+
+  @override
+  String get recItemSocialSupportTitle => 'Seek Social Support';
+
+  @override
+  String get recItemSocialSupportBody =>
+      'Do not hesitate to reach out to friends, family, or professionals if feeling overwhelmed.';
+
+  @override
+  String get encouragementMentalHealth => 'Prioritize your mental health.';
 }

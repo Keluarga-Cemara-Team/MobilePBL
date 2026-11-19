@@ -5,6 +5,7 @@ import '../../../../core/responsive/app_scale.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../shared/widgets/app_blob_background.dart';
 import '../controllers/psychologist_controller.dart';
 import '../controllers/psychologist_state.dart';
@@ -49,6 +50,7 @@ class _NearbyPsychologistsPageState
     final state = ref.watch(psychologistControllerProvider);
     final notifier = ref.read(psychologistControllerProvider.notifier);
     final colors = AppColors.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final goBack = widget.onBack ?? () => Navigator.of(context).maybePop();
 
     return Scaffold(
@@ -60,7 +62,7 @@ class _NearbyPsychologistsPageState
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Top Bar
-              _buildTopBar(context, goBack),
+              _buildTopBar(context, l10n, goBack),
 
               // Scrollable Content
               Expanded(
@@ -77,15 +79,15 @@ class _NearbyPsychologistsPageState
                       SizedBox(height: context.ui(AppSpacing.md)),
 
                       // Kartu Deteksi Lokasi
-                      _buildLocationCard(context, state, notifier),
+                      _buildLocationCard(context, l10n, state, notifier),
                       SizedBox(height: context.ui(AppSpacing.md)),
 
                       // Search Bar
-                      _buildSearchBar(context, notifier),
+                      _buildSearchBar(context, l10n, notifier),
                       SizedBox(height: context.ui(AppSpacing.sm)),
 
                       // Filter Kota Chips
-                      _buildCityChips(context, state, notifier),
+                      _buildCityChips(context, l10n, state, notifier),
                       SizedBox(height: context.ui(AppSpacing.md)),
 
                       // Judul List & Total Hasil
@@ -94,7 +96,7 @@ class _NearbyPsychologistsPageState
                         children: [
                           Expanded(
                             child: Text(
-                              'Psikolog & Klinik Tersedia',
+                              l10n.nearbyAvailableListTitle,
                               style: AppTextStyles.title(context).copyWith(
                                 fontSize: context.ui(16),
                                 fontWeight: FontWeight.bold,
@@ -103,7 +105,7 @@ class _NearbyPsychologistsPageState
                           ),
                           SizedBox(width: context.ui(8)),
                           Text(
-                            '${state.psychologists.length} ditemukan',
+                            l10n.nearbyCountFound(state.psychologists.length),
                             style: TextStyle(
                               fontSize: context.ui(12),
                               color: colors.body,
@@ -120,7 +122,7 @@ class _NearbyPsychologistsPageState
                           child: const Center(child: CircularProgressIndicator()),
                         )
                       else if (state.psychologists.isEmpty)
-                        _buildEmptyView(context)
+                        _buildEmptyView(context, l10n)
                       else
                         ...state.psychologists.map(
                           (psy) => PsychologistCard(
@@ -140,7 +142,11 @@ class _NearbyPsychologistsPageState
     );
   }
 
-  Widget _buildTopBar(BuildContext context, VoidCallback goBack) {
+  Widget _buildTopBar(
+    BuildContext context,
+    AppLocalizations l10n,
+    VoidCallback goBack,
+  ) {
     final colors = AppColors.of(context);
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -153,7 +159,7 @@ class _NearbyPsychologistsPageState
         children: [
           IconButton(
             onPressed: goBack,
-            tooltip: 'Kembali',
+            tooltip: l10n.nearbyPsychologistsBackTooltip,
             icon: Icon(
               Icons.arrow_back_ios_new_rounded,
               color: colors.navy,
@@ -166,7 +172,7 @@ class _NearbyPsychologistsPageState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Psikolog & Klinik Terdekat',
+                  l10n.nearbyPsychologistsTitle,
                   style: TextStyle(
                     fontSize: context.ui(18),
                     fontWeight: FontWeight.bold,
@@ -174,7 +180,7 @@ class _NearbyPsychologistsPageState
                   ),
                 ),
                 Text(
-                  'Konsultasi profesional untuk pemulihan burnout',
+                  l10n.nearbyPsychologistsSubtitle,
                   style: TextStyle(
                     fontSize: context.ui(12),
                     color: colors.body,
@@ -190,6 +196,7 @@ class _NearbyPsychologistsPageState
 
   Widget _buildLocationCard(
     BuildContext context,
+    AppLocalizations l10n,
     PsychologistState state,
     PsychologistController notifier,
   ) {
@@ -216,7 +223,9 @@ class _NearbyPsychologistsPageState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  state.hasGpsLocation ? 'Lokasimu (GPS Aktif)' : 'Lokasi Acuan',
+                  state.hasGpsLocation
+                      ? l10n.nearbyLocationGpsActive
+                      : l10n.nearbyLocationFallback,
                   style: TextStyle(
                     fontSize: context.ui(11),
                     color: colors.body,
@@ -245,7 +254,7 @@ class _NearbyPsychologistsPageState
           else
             IconButton(
               icon: Icon(Icons.refresh_rounded, size: context.ui(20)),
-              tooltip: 'Perbarui Lokasi GPS',
+              tooltip: l10n.nearbyRefreshGpsTooltip,
               onPressed: notifier.initLocationAndData,
               color: colors.primary,
             ),
@@ -256,6 +265,7 @@ class _NearbyPsychologistsPageState
 
   Widget _buildSearchBar(
     BuildContext context,
+    AppLocalizations l10n,
     PsychologistController notifier,
   ) {
     final colors = AppColors.of(context);
@@ -269,7 +279,7 @@ class _NearbyPsychologistsPageState
         controller: _searchController,
         onChanged: notifier.setSearchQuery,
         decoration: InputDecoration(
-          hintText: 'Cari nama psikolog, klinik, atau RS...',
+          hintText: l10n.nearbySearchPlaceholder,
           hintStyle: TextStyle(
             fontSize: context.ui(13),
             color: colors.body.withOpacity(0.6),
@@ -297,6 +307,7 @@ class _NearbyPsychologistsPageState
 
   Widget _buildCityChips(
     BuildContext context,
+    AppLocalizations l10n,
     PsychologistState state,
     PsychologistController notifier,
   ) {
@@ -310,10 +321,11 @@ class _NearbyPsychologistsPageState
         itemBuilder: (context, index) {
           final city = _cities[index];
           final isSelected = state.selectedCity.toLowerCase() == city.toLowerCase();
+          final displayCity = city == 'Semua' ? l10n.nearbyCityAll : city;
 
           return ChoiceChip(
             label: Text(
-              city,
+              displayCity,
               style: TextStyle(
                 fontSize: context.ui(12),
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
@@ -336,7 +348,7 @@ class _NearbyPsychologistsPageState
     );
   }
 
-  Widget _buildEmptyView(BuildContext context) {
+  Widget _buildEmptyView(BuildContext context, AppLocalizations l10n) {
     final colors = AppColors.of(context);
     return Container(
       padding: EdgeInsets.all(context.ui(AppSpacing.xl)),
@@ -350,7 +362,7 @@ class _NearbyPsychologistsPageState
           ),
           SizedBox(height: context.ui(AppSpacing.sm)),
           Text(
-            'Tidak ada psikolog ditemukan',
+            l10n.nearbyEmptyTitle,
             style: TextStyle(
               fontSize: context.ui(14),
               fontWeight: FontWeight.bold,
@@ -359,7 +371,7 @@ class _NearbyPsychologistsPageState
           ),
           SizedBox(height: context.ui(AppSpacing.xs)),
           Text(
-            'Coba ubah kata kunci pencarian atau ganti filter kota ke "Semua".',
+            l10n.nearbyEmptySubtitle,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: context.ui(12),
