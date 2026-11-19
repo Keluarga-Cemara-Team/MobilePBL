@@ -404,17 +404,23 @@ class _ScreenTimeStatsCardState extends State<ScreenTimeStatsCard>
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                _days == 1
-                    ? 'Total Waktu Layar Hari Ini'
-                    : 'Total Waktu Layar ($_days Hari)',
-                style: TextStyle(
-                  fontSize: context.ui(12),
-                  fontWeight: FontWeight.w600,
-                  color: colors.body,
+              Expanded(
+                child: Text(
+                  _days == 1
+                      ? 'Total Waktu Layar Hari Ini'
+                      : 'Total Waktu Layar ($_days Hari)',
+                  style: TextStyle(
+                    fontSize: context.ui(12),
+                    fontWeight: FontWeight.w600,
+                    color: colors.body,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
+              SizedBox(width: context.ui(8)),
               Text(
                 l10n.screenTimeHealthyLimit(healthyTargetHours.toStringAsFixed(0)),
                 style: TextStyle(
@@ -426,30 +432,39 @@ class _ScreenTimeStatsCardState extends State<ScreenTimeStatsCard>
             ],
           ),
           SizedBox(height: context.ui(6)),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: context.ui(8),
+            runSpacing: context.ui(4),
             children: [
               Text(
                 _formatDuration(l10n, _totalTimeMs),
                 key: const ValueKey('screen-time-total-value'),
                 style: TextStyle(
-                  fontSize: context.ui(28),
+                  fontSize: context.ui(26),
                   fontWeight: FontWeight.w800,
                   color: colors.navy,
                 ),
               ),
-              if (_days > 1) ...[
-                SizedBox(width: context.ui(8)),
-                Text(
-                  '(${l10n.screenTimeDailyAverage(dailyHours.toStringAsFixed(1))})',
-                  style: TextStyle(
-                    fontSize: context.ui(13),
-                    fontWeight: FontWeight.w600,
-                    color: colors.primary,
+              if (_days > 1)
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: context.ui(8),
+                    vertical: context.ui(2),
+                  ),
+                  decoration: BoxDecoration(
+                    color: colors.primary.withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(context.ui(20)),
+                  ),
+                  child: Text(
+                    l10n.screenTimeDailyAverage(dailyHours.toStringAsFixed(1)),
+                    style: TextStyle(
+                      fontSize: context.ui(11.5),
+                      fontWeight: FontWeight.w600,
+                      color: colors.primary,
+                    ),
                   ),
                 ),
-              ],
             ],
           ),
           SizedBox(height: context.ui(10)),
