@@ -889,7 +889,7 @@ class _ScreenTimeAutoFillButtonState extends State<_ScreenTimeAutoFillButton>
   final _service = AppUsageService();
   bool _checking = true;
   bool _hasAccess = false;
-  double? _detectedHours;
+  int? _detectedMs;
 
   @override
   void initState() {
@@ -912,16 +912,17 @@ class _ScreenTimeAutoFillButtonState extends State<_ScreenTimeAutoFillButton>
 
   Future<void> _check() async {
     final access = await _service.hasAccess();
-    final hours = access ? await _service.getTodayScreenTimeHours() : null;
+    final ms = access ? await _service.getTotalUsageTime(days: 1) : 0;
     if (!mounted) return;
     setState(() {
       _hasAccess = access;
-      _detectedHours = hours;
+      _detectedMs = ms > 0 ? ms : null;
       _checking = false;
     });
   }
 
-  void _apply(double hours) {
+  void _apply(int ms) {
+    final hours = double.parse((ms / 3600000.0).toStringAsFixed(1));
     widget.onApplied(hours);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -938,6 +939,7 @@ class _ScreenTimeAutoFillButtonState extends State<_ScreenTimeAutoFillButton>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final colors = AppColors.of(context);
     if (!_service.supported) {
       return Center(
         child: Text(
@@ -957,14 +959,14 @@ class _ScreenTimeAutoFillButtonState extends State<_ScreenTimeAutoFillButton>
           label: Text(l10n.usageGrantAccess),
           style: TextButton.styleFrom(
             visualDensity: VisualDensity.compact,
-            foregroundColor: AppColors.of(context).primary,
+            foregroundColor: colors.primary,
           ),
         ),
       );
     }
 
-    final hours = _detectedHours;
-    if (hours == null || hours <= 0) {
+    final ms = _detectedMs;
+    if (ms == null) {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -980,7 +982,7 @@ class _ScreenTimeAutoFillButtonState extends State<_ScreenTimeAutoFillButton>
               label: Text(l10n.surveyRetry),
               style: TextButton.styleFrom(
                 visualDensity: VisualDensity.compact,
-                foregroundColor: AppColors.of(context).primary,
+                foregroundColor: colors.primary,
               ),
             ),
           ],
@@ -988,14 +990,64 @@ class _ScreenTimeAutoFillButtonState extends State<_ScreenTimeAutoFillButton>
       );
     }
 
+    final radius = BorderRadius.circular(context.ui(999));
     return Center(
-      child: FilledButton.tonalIcon(
-        onPressed: () => _apply(hours),
-        icon: const Icon(Icons.auto_awesome, size: 18),
-        label: Text(l10n.surveyScreenTimeAutofill(hours.toStringAsFixed(1))),
-        style: FilledButton.styleFrom(
-          visualDensity: VisualDensity.compact,
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [colors.primaryDark, colors.primary],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: radius,
+          boxShadow: [
+            BoxShadow(
+              color: colors.primary.withValues(alpha: .35),
+              blurRadius: 14,
+              offset: Offset(0, context.ui(6)),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: radius,
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: () => _apply(ms),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: context.ui(16),
+                vertical: context.ui(10),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(context.ui(5)),
+                    decoration: BoxDecoration(
+                      color: colors.onPrimary.withValues(alpha: .18),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.auto_awesome_rounded,
+                      size: context.ui(15),
+                      color: colors.onPrimary,
+                    ),
+                  ),
+                  SizedBox(width: context.ui(10)),
+                  Flexible(
+                    child: Text(
+                      l10n.surveyScreenTimeAutofill,
+                      style: _subtitleStyle(context, 13).copyWith(
+                        color: colors.onPrimary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

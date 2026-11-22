@@ -90,19 +90,6 @@ class AppUsageService {
     }
   }
 
-  /// Mengambil total durasi penggunaan layar hari ini dalam satuan jam desimal
-  /// (Contoh: 5.5 jam) untuk sinkronisasi kuesioner pertanyaan screen_hours
-  Future<double?> getTodayScreenTimeHours() async {
-    if (!supported || !await hasAccess()) return null;
-    try {
-      final totalMs = await getTotalUsageTime(days: 1);
-      if (totalMs <= 0) return null;
-      return double.parse((totalMs / 3600000.0).toStringAsFixed(1));
-    } catch (_) {
-      return null;
-    }
-  }
-
   /// Helper untuk memformat durasi milidetik menjadi teks yang mudah dibaca (e.g. "3j 15m")
   String formatDuration(int timeMs) {
     final totalMinutes = (timeMs / 60000).round();
