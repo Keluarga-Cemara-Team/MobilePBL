@@ -424,6 +424,24 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String surveyScreenTimeAutofill(String hours) {
+    return 'Use today\'s phone screen time ($hours hrs)';
+  }
+
+  @override
+  String surveyScreenTimeAutofillApplied(String hours) {
+    return 'Screen time auto-filled to $hours hrs';
+  }
+
+  @override
+  String get surveyScreenTimeNoData =>
+      'Today\'s screen time data is not available yet.';
+
+  @override
+  String get surveyScreenTimeUnsupported =>
+      'Screen time auto-fill is available on Android only.';
+
+  @override
   String get surveyOutOf100 => 'out of 100';
 
   @override

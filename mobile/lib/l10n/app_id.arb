@@ -157,6 +157,26 @@
   "surveyActivityDifficult": "Beban terasa sulit dihadapi",
   "surveyZeroHours": "0 jam",
   "surveyMaximumHours": "{hours} jam",
+  "surveyScreenTimeAutofill": "Gunakan waktu layar HP hari ini ({hours} jam)",
+  "@surveyScreenTimeAutofill": {
+    "description": "Button label to auto-fill screen time answer from device usage",
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "surveyScreenTimeAutofillApplied": "Durasi layar otomatis diatur ke {hours} jam",
+  "@surveyScreenTimeAutofillApplied": {
+    "description": "Snackbar shown after screen time answer is auto-filled",
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "surveyScreenTimeNoData": "Data waktu layar hari ini belum tersedia.",
+  "surveyScreenTimeUnsupported": "Isi otomatis waktu layar hanya tersedia di Android.",
   "surveyOutOf100": "dari 100",
   "surveyVeryUncomfortable": "Sangat tidak nyaman",
   "surveyVeryComfortable": "Sangat nyaman",

@@ -788,6 +788,30 @@ abstract class AppLocalizations {
   /// **'{hours} jam'**
   String surveyMaximumHours(int hours);
 
+  /// Button label to auto-fill screen time answer from device usage
+  ///
+  /// In id, this message translates to:
+  /// **'Gunakan waktu layar HP hari ini ({hours} jam)'**
+  String surveyScreenTimeAutofill(String hours);
+
+  /// Snackbar shown after screen time answer is auto-filled
+  ///
+  /// In id, this message translates to:
+  /// **'Durasi layar otomatis diatur ke {hours} jam'**
+  String surveyScreenTimeAutofillApplied(String hours);
+
+  /// No description provided for @surveyScreenTimeNoData.
+  ///
+  /// In id, this message translates to:
+  /// **'Data waktu layar hari ini belum tersedia.'**
+  String get surveyScreenTimeNoData;
+
+  /// No description provided for @surveyScreenTimeUnsupported.
+  ///
+  /// In id, this message translates to:
+  /// **'Isi otomatis waktu layar hanya tersedia di Android.'**
+  String get surveyScreenTimeUnsupported;
+
   /// No description provided for @surveyOutOf100.
   ///
   /// In id, this message translates to:

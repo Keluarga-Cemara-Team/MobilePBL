@@ -426,6 +426,24 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
+  String surveyScreenTimeAutofill(String hours) {
+    return 'Gunakan waktu layar HP hari ini ($hours jam)';
+  }
+
+  @override
+  String surveyScreenTimeAutofillApplied(String hours) {
+    return 'Durasi layar otomatis diatur ke $hours jam';
+  }
+
+  @override
+  String get surveyScreenTimeNoData =>
+      'Data waktu layar hari ini belum tersedia.';
+
+  @override
+  String get surveyScreenTimeUnsupported =>
+      'Isi otomatis waktu layar hanya tersedia di Android.';
+
+  @override
   String get surveyOutOf100 => 'dari 100';
 
   @override
