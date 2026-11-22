@@ -248,23 +248,17 @@ abstract class AppLocalizations {
   /// **'Aplikasi paling sering digunakan'**
   String get usageMostUsed;
 
-  /// No description provided for @usageTotalTime.
-  ///
-  /// In id, this message translates to:
-  /// **'Total waktu penggunaan'**
-  String get usageTotalTime;
-
   /// No description provided for @usageAppRanking.
   ///
   /// In id, this message translates to:
   /// **'Peringkat aplikasi'**
   String get usageAppRanking;
 
-  /// No description provided for @usageDeviceDataNote.
+  /// Share of a single app compared to total screen time
   ///
   /// In id, this message translates to:
-  /// **'Sumber: statistik penggunaan perangkat ini'**
-  String get usageDeviceDataNote;
+  /// **'{percent}% dari total waktu layar'**
+  String usageShareOfTotal(int percent);
 
   /// No description provided for @usageHours.
   ///
@@ -289,12 +283,6 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Statistik Waktu Layar'**
   String get screenTimeStatsTitle;
-
-  /// No description provided for @screenTimeStatsSubtitle.
-  ///
-  /// In id, this message translates to:
-  /// **'Pantau durasi layar untuk mendeteksi potensi burnout'**
-  String get screenTimeStatsSubtitle;
 
   /// No description provided for @screenTimeTodayTab.
   ///
@@ -332,35 +320,17 @@ abstract class AppLocalizations {
   /// **'Beban Layar Rendah'**
   String get screenTimeFatigueLow;
 
-  /// No description provided for @screenTimeFatigueLowDesc.
-  ///
-  /// In id, this message translates to:
-  /// **'Penggunaan layar terkendali, minim risiko kelelahan digital.'**
-  String get screenTimeFatigueLowDesc;
-
   /// No description provided for @screenTimeFatigueMedium.
   ///
   /// In id, this message translates to:
   /// **'Beban Layar Sedang'**
   String get screenTimeFatigueMedium;
 
-  /// No description provided for @screenTimeFatigueMediumDesc.
-  ///
-  /// In id, this message translates to:
-  /// **'Cukup intensif, disarankan luangkan jeda istirahat mata berkala.'**
-  String get screenTimeFatigueMediumDesc;
-
   /// No description provided for @screenTimeFatigueHigh.
   ///
   /// In id, this message translates to:
   /// **'Beban Layar Tinggi'**
   String get screenTimeFatigueHigh;
-
-  /// No description provided for @screenTimeFatigueHighDesc.
-  ///
-  /// In id, this message translates to:
-  /// **'Berisiko memicu kelelahan mental & insomnia. Istirahatkan pikiran.'**
-  String get screenTimeFatigueHighDesc;
 
   /// No description provided for @screenTimeTopAppsShare.
   ///
@@ -385,12 +355,6 @@ abstract class AppLocalizations {
   /// In id, this message translates to:
   /// **'Terapkan aturan 20-20-20: setiap 20 menit menatap layar, pandang objek berjarak 6 meter selama 20 detik.'**
   String get screenTimeTip202020;
-
-  /// No description provided for @screenTimeSyncSurvey.
-  ///
-  /// In id, this message translates to:
-  /// **'Gunakan di Survei Burnout'**
-  String get screenTimeSyncSurvey;
 
   /// No description provided for @assessmentHistorySummary.
   ///
@@ -788,11 +752,11 @@ abstract class AppLocalizations {
   /// **'{hours} jam'**
   String surveyMaximumHours(int hours);
 
-  /// Button label to auto-fill screen time answer from device usage
+  /// No description provided for @surveyScreenTimeAutofill.
   ///
   /// In id, this message translates to:
-  /// **'Gunakan waktu layar HP hari ini ({hours} jam)'**
-  String surveyScreenTimeAutofill(String hours);
+  /// **'Gunakan waktu layar HP hari ini'**
+  String get surveyScreenTimeAutofill;
 
   /// Snackbar shown after screen time answer is auto-filled
   ///
