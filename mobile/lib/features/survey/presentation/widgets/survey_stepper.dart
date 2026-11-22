@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mobile/l10n/app_localizations.dart';
 
@@ -878,84 +880,176 @@ class _ScreenTimeAutoFillButton extends StatefulWidget {
   final void Function(double hours) onApplied;
 
   @override
-  State<_ScreenTimeAutoFillButton> createState() => _ScreenTimeAutoFillButtonState();
+  State<_ScreenTimeAutoFillButton> createState() =>
+      _ScreenTimeAutoFillButtonState();
 }
 
-class _ScreenTimeAutoFillButtonState extends State<_ScreenTimeAutoFillButton> {
+class _ScreenTimeAutoFillButtonState extends State<_ScreenTimeAutoFillButton>
+    with WidgetsBindingObserver {
   final _service = AppUsageService();
   bool _checking = true;
   bool _hasAccess = false;
-  double? _detectedHours;
+  int? _detectedMs;
 
   @override
   void initState() {
     super.initState();
-    _check();
+    WidgetsBinding.instance.addObserver(this);
+    unawaited(_check());
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Re-check after the user returns from the Android usage-access settings.
+    if (state == AppLifecycleState.resumed) unawaited(_check());
   }
 
   Future<void> _check() async {
-    if (!_service.supported) {
-      if (mounted) setState(() => _checking = false);
-      return;
-    }
     final access = await _service.hasAccess();
-    double? hours;
-    if (access) {
-      hours = await _service.getTodayScreenTimeHours();
-    }
-    if (mounted) {
-      setState(() {
-        _hasAccess = access;
-        _detectedHours = hours;
-        _checking = false;
-      });
-    }
+    final ms = access ? await _service.getTotalUsageTime(days: 1) : 0;
+    if (!mounted) return;
+    setState(() {
+      _hasAccess = access;
+      _detectedMs = ms > 0 ? ms : null;
+      _checking = false;
+    });
+  }
+
+  void _apply(int ms) {
+    final hours = double.parse((ms / 3600000.0).toStringAsFixed(1));
+    widget.onApplied(hours);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(
+            context,
+          )!.surveyScreenTimeAutofillApplied(hours.toStringAsFixed(1)),
+        ),
+        duration: const Duration(seconds: 2),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_service.supported || _checking) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context)!;
+    final colors = AppColors.of(context);
+    if (!_service.supported) {
+      return Center(
+        child: Text(
+          l10n.surveyScreenTimeUnsupported,
+          textAlign: TextAlign.center,
+          style: _subtitleStyle(context, 12),
+        ),
+      );
+    }
+    if (_checking) return const SizedBox.shrink();
 
     if (!_hasAccess) {
       return Center(
         child: TextButton.icon(
-          onPressed: () async {
-            await _service.openSettings();
-            await Future<void>.delayed(const Duration(seconds: 1));
-            _check();
-          },
+          onPressed: _service.openSettings,
           icon: const Icon(Icons.security_outlined, size: 18),
-          label: const Text('Beri Izin Akses Penggunaan Layar HP'),
+          label: Text(l10n.usageGrantAccess),
           style: TextButton.styleFrom(
             visualDensity: VisualDensity.compact,
-            foregroundColor: AppColors.of(context).primary,
+            foregroundColor: colors.primary,
           ),
         ),
       );
     }
 
-    if (_detectedHours != null && _detectedHours! > 0) {
+    final ms = _detectedMs;
+    if (ms == null) {
       return Center(
-        child: FilledButton.tonalIcon(
-          onPressed: () {
-            widget.onApplied(_detectedHours!);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Durasi layar otomatis diatur ke $_detectedHours jam'),
-                duration: const Duration(seconds: 2),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              l10n.surveyScreenTimeNoData,
+              textAlign: TextAlign.center,
+              style: _subtitleStyle(context, 12),
+            ),
+            TextButton.icon(
+              onPressed: () => unawaited(_check()),
+              icon: const Icon(Icons.refresh_rounded, size: 16),
+              label: Text(l10n.surveyRetry),
+              style: TextButton.styleFrom(
+                visualDensity: VisualDensity.compact,
+                foregroundColor: colors.primary,
               ),
-            );
-          },
-          icon: const Icon(Icons.auto_awesome, size: 18),
-          label: Text('Gunakan waktu layar HP hari ini ($_detectedHours jam)'),
-          style: FilledButton.styleFrom(
-            visualDensity: VisualDensity.compact,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          ),
+            ),
+          ],
         ),
       );
     }
 
-    return const SizedBox.shrink();
+    final radius = BorderRadius.circular(context.ui(999));
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [colors.primaryDark, colors.primary],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: radius,
+          boxShadow: [
+            BoxShadow(
+              color: colors.primary.withValues(alpha: .35),
+              blurRadius: 14,
+              offset: Offset(0, context.ui(6)),
+            ),
+          ],
+        ),
+        child: Material(
+          color: Colors.transparent,
+          borderRadius: radius,
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: () => _apply(ms),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: context.ui(16),
+                vertical: context.ui(10),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(context.ui(5)),
+                    decoration: BoxDecoration(
+                      color: colors.onPrimary.withValues(alpha: .18),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.auto_awesome_rounded,
+                      size: context.ui(15),
+                      color: colors.onPrimary,
+                    ),
+                  ),
+                  SizedBox(width: context.ui(10)),
+                  Flexible(
+                    child: Text(
+                      l10n.surveyScreenTimeAutofill,
+                      style: _subtitleStyle(context, 13).copyWith(
+                        color: colors.onPrimary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -89,13 +89,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get usageMostUsed => 'Most used app';
 
   @override
-  String get usageTotalTime => 'Total usage time';
-
-  @override
   String get usageAppRanking => 'App ranking';
 
   @override
-  String get usageDeviceDataNote => 'Source: this device\'s usage statistics';
+  String usageShareOfTotal(int percent) {
+    return '$percent% of total screen time';
+  }
 
   @override
   String usageHours(int hours) {
@@ -114,10 +113,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get screenTimeStatsTitle => 'Screen Time Statistics';
-
-  @override
-  String get screenTimeStatsSubtitle =>
-      'Monitor daily screen time to detect burnout risk';
 
   @override
   String get screenTimeTodayTab => 'Today';
@@ -142,22 +137,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get screenTimeFatigueLow => 'Low Screen Load';
 
   @override
-  String get screenTimeFatigueLowDesc =>
-      'Screen use is well balanced, minimal risk of digital fatigue.';
-
-  @override
   String get screenTimeFatigueMedium => 'Moderate Screen Load';
 
   @override
-  String get screenTimeFatigueMediumDesc =>
-      'Moderately intensive, take regular breaks to rest your eyes.';
-
-  @override
   String get screenTimeFatigueHigh => 'High Screen Load';
-
-  @override
-  String get screenTimeFatigueHighDesc =>
-      'High risk of mental exhaustion & sleep disruption. Give your mind a break.';
 
   @override
   String get screenTimeTopAppsShare => 'Screen Time Distribution';
@@ -171,9 +154,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get screenTimeTip202020 =>
       'Follow the 20-20-20 rule: every 20 minutes looking at a screen, glance at a distant object for 20 seconds.';
-
-  @override
-  String get screenTimeSyncSurvey => 'Use in Burnout Survey';
 
   @override
   String get assessmentHistorySummary => 'Summary of all assessment history';
@@ -422,6 +402,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String surveyMaximumHours(int hours) {
     return '$hours hours';
   }
+
+  @override
+  String get surveyScreenTimeAutofill => 'Use today\'s phone screen time';
+
+  @override
+  String surveyScreenTimeAutofillApplied(String hours) {
+    return 'Screen time auto-filled to $hours hrs';
+  }
+
+  @override
+  String get surveyScreenTimeNoData =>
+      'Today\'s screen time data is not available yet.';
+
+  @override
+  String get surveyScreenTimeUnsupported =>
+      'Screen time auto-fill is available on Android only.';
 
   @override
   String get surveyOutOf100 => 'out of 100';

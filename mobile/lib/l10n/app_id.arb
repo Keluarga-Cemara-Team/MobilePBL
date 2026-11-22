@@ -25,9 +25,16 @@
   "usageGrantAccess": "Atur akses penggunaan",
   "usageNoData": "Belum ada data penggunaan untuk periode ini.",
   "usageMostUsed": "Aplikasi paling sering digunakan",
-  "usageTotalTime": "Total waktu penggunaan",
   "usageAppRanking": "Peringkat aplikasi",
-  "usageDeviceDataNote": "Sumber: statistik penggunaan perangkat ini",
+  "usageShareOfTotal": "{percent}% dari total waktu layar",
+  "@usageShareOfTotal": {
+    "description": "Share of a single app compared to total screen time",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "usageHours": "{hours} jam",
   "@usageHours": { "placeholders": { "hours": { "type": "int" } } },
   "usageHoursMinutes": "{hours} jam {minutes} mnt",
@@ -35,7 +42,6 @@
   "usageMinutes": "{minutes} mnt",
   "@usageMinutes": { "placeholders": { "minutes": { "type": "int" } } },
   "screenTimeStatsTitle": "Statistik Waktu Layar",
-  "screenTimeStatsSubtitle": "Pantau durasi layar untuk mendeteksi potensi burnout",
   "screenTimeTodayTab": "Hari Ini",
   "screenTimeSevenDaysTab": "7 Hari",
   "screenTimeThirtyDaysTab": "30 Hari",
@@ -44,16 +50,12 @@
   "screenTimeHealthyLimit": "Batas Sehat: {hours} jam/hari",
   "@screenTimeHealthyLimit": { "placeholders": { "hours": { "type": "String" } } },
   "screenTimeFatigueLow": "Beban Layar Rendah",
-  "screenTimeFatigueLowDesc": "Penggunaan layar terkendali, minim risiko kelelahan digital.",
   "screenTimeFatigueMedium": "Beban Layar Sedang",
-  "screenTimeFatigueMediumDesc": "Cukup intensif, disarankan luangkan jeda istirahat mata berkala.",
   "screenTimeFatigueHigh": "Beban Layar Tinggi",
-  "screenTimeFatigueHighDesc": "Berisiko memicu kelelahan mental & insomnia. Istirahatkan pikiran.",
   "screenTimeTopAppsShare": "Distribusi Pemakaian Layar",
   "screenTimeOtherApps": "Lainnya",
   "screenTimeTipTitle": "Tips Bebas Burnout Digital",
   "screenTimeTip202020": "Terapkan aturan 20-20-20: setiap 20 menit menatap layar, pandang objek berjarak 6 meter selama 20 detik.",
-  "screenTimeSyncSurvey": "Gunakan di Survei Burnout",
   "assessmentHistorySummary": "Ringkasan seluruh riwayat survei",
   "samplePreview": "Pratinjau dengan data contoh",
   "includesSampleData": "Termasuk data contoh",
@@ -157,6 +159,18 @@
   "surveyActivityDifficult": "Beban terasa sulit dihadapi",
   "surveyZeroHours": "0 jam",
   "surveyMaximumHours": "{hours} jam",
+  "surveyScreenTimeAutofill": "Gunakan waktu layar HP hari ini",
+  "surveyScreenTimeAutofillApplied": "Durasi layar otomatis diatur ke {hours} jam",
+  "@surveyScreenTimeAutofillApplied": {
+    "description": "Snackbar shown after screen time answer is auto-filled",
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "surveyScreenTimeNoData": "Data waktu layar hari ini belum tersedia.",
+  "surveyScreenTimeUnsupported": "Isi otomatis waktu layar hanya tersedia di Android.",
   "surveyOutOf100": "dari 100",
   "surveyVeryUncomfortable": "Sangat tidak nyaman",
   "surveyVeryComfortable": "Sangat nyaman",

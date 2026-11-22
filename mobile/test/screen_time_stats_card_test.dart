@@ -6,7 +6,6 @@ import 'package:mobile/l10n/app_localizations.dart';
 
 void main() {
   Widget buildTestWidget({
-    VoidCallback? onStartSurvey,
     int initialDays = 1,
     Locale locale = const Locale('id'),
     ThemeData? theme,
@@ -18,10 +17,7 @@ void main() {
       supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: SingleChildScrollView(
-          child: ScreenTimeStatsCard(
-            onStartSurvey: onStartSurvey,
-            initialDays: initialDays,
-          ),
+          child: ScreenTimeStatsCard(initialDays: initialDays),
         ),
       ),
     );
@@ -34,12 +30,8 @@ void main() {
       await tester.pumpWidget(buildTestWidget());
       await tester.pumpAndSettle();
 
-      // Title & Subtitle
+      // Title
       expect(find.text('Statistik Waktu Layar'), findsOneWidget);
-      expect(
-        find.text('Pantau durasi layar untuk mendeteksi potensi burnout'),
-        findsOneWidget,
-      );
 
       // Period Filter Tabs
       expect(find.text('Hari Ini'), findsOneWidget);
@@ -89,26 +81,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Total Waktu Layar (30 Hari)'), findsOneWidget);
-    });
-
-    testWidgets('triggers onStartSurvey callback when button tapped', (
-      tester,
-    ) async {
-      var surveyStarted = false;
-      await tester.pumpWidget(
-        buildTestWidget(
-          onStartSurvey: () => surveyStarted = true,
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      final surveyButton = find.text('Gunakan di Survei Burnout');
-      expect(surveyButton, findsOneWidget);
-
-      await tester.tap(surveyButton);
-      await tester.pumpAndSettle();
-
-      expect(surveyStarted, isTrue);
     });
 
     testWidgets('supports English localization properly', (tester) async {

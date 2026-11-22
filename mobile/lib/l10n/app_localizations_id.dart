@@ -89,14 +89,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get usageMostUsed => 'Aplikasi paling sering digunakan';
 
   @override
-  String get usageTotalTime => 'Total waktu penggunaan';
-
-  @override
   String get usageAppRanking => 'Peringkat aplikasi';
 
   @override
-  String get usageDeviceDataNote =>
-      'Sumber: statistik penggunaan perangkat ini';
+  String usageShareOfTotal(int percent) {
+    return '$percent% dari total waktu layar';
+  }
 
   @override
   String usageHours(int hours) {
@@ -115,10 +113,6 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get screenTimeStatsTitle => 'Statistik Waktu Layar';
-
-  @override
-  String get screenTimeStatsSubtitle =>
-      'Pantau durasi layar untuk mendeteksi potensi burnout';
 
   @override
   String get screenTimeTodayTab => 'Hari Ini';
@@ -143,22 +137,10 @@ class AppLocalizationsId extends AppLocalizations {
   String get screenTimeFatigueLow => 'Beban Layar Rendah';
 
   @override
-  String get screenTimeFatigueLowDesc =>
-      'Penggunaan layar terkendali, minim risiko kelelahan digital.';
-
-  @override
   String get screenTimeFatigueMedium => 'Beban Layar Sedang';
 
   @override
-  String get screenTimeFatigueMediumDesc =>
-      'Cukup intensif, disarankan luangkan jeda istirahat mata berkala.';
-
-  @override
   String get screenTimeFatigueHigh => 'Beban Layar Tinggi';
-
-  @override
-  String get screenTimeFatigueHighDesc =>
-      'Berisiko memicu kelelahan mental & insomnia. Istirahatkan pikiran.';
 
   @override
   String get screenTimeTopAppsShare => 'Distribusi Pemakaian Layar';
@@ -172,9 +154,6 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get screenTimeTip202020 =>
       'Terapkan aturan 20-20-20: setiap 20 menit menatap layar, pandang objek berjarak 6 meter selama 20 detik.';
-
-  @override
-  String get screenTimeSyncSurvey => 'Gunakan di Survei Burnout';
 
   @override
   String get assessmentHistorySummary => 'Ringkasan seluruh riwayat survei';
@@ -424,6 +403,22 @@ class AppLocalizationsId extends AppLocalizations {
   String surveyMaximumHours(int hours) {
     return '$hours jam';
   }
+
+  @override
+  String get surveyScreenTimeAutofill => 'Gunakan waktu layar HP hari ini';
+
+  @override
+  String surveyScreenTimeAutofillApplied(String hours) {
+    return 'Durasi layar otomatis diatur ke $hours jam';
+  }
+
+  @override
+  String get surveyScreenTimeNoData =>
+      'Data waktu layar hari ini belum tersedia.';
+
+  @override
+  String get surveyScreenTimeUnsupported =>
+      'Isi otomatis waktu layar hanya tersedia di Android.';
 
   @override
   String get surveyOutOf100 => 'dari 100';
