@@ -90,9 +90,7 @@ class DashboardPage extends ConsumerWidget {
                   assessments: ref.watch(dashboardAssessmentsProvider),
                 ),
                 SizedBox(height: context.ui(AppSpacing.lg)),
-                ScreenTimeStatsCard(
-                  onStartSurvey: onStartSurvey,
-                ),
+                ScreenTimeStatsCard(),
                 SizedBox(height: context.ui(AppSpacing.lg)),
                 const MostUsedAppsCard(),
                 SizedBox(height: context.ui(AppSpacing.lg)),

@@ -14,11 +14,9 @@ import '../../data/app_usage_service.dart';
 class ScreenTimeStatsCard extends StatefulWidget {
   const ScreenTimeStatsCard({
     super.key,
-    this.onStartSurvey,
     this.initialDays = 1,
   });
 
-  final VoidCallback? onStartSurvey;
   final int initialDays;
 
   @override
@@ -135,22 +133,19 @@ class _ScreenTimeStatsCardState extends State<ScreenTimeStatsCard>
     final dailyHours = _totalTimeMs / (_days * 3600000.0);
 
     // Kategori risiko kelelahan berdasarkan waktu layar
-    final (fatigueTitle, fatigueDesc, fatigueColor, fatigueIcon) = switch (dailyHours) {
+    final (fatigueTitle, fatigueColor, fatigueIcon) = switch (dailyHours) {
       >= 7.0 => (
           l10n.screenTimeFatigueHigh,
-          l10n.screenTimeFatigueHighDesc,
           const Color(0xFFEF4444),
           Icons.warning_amber_rounded,
         ),
       >= 4.0 => (
           l10n.screenTimeFatigueMedium,
-          l10n.screenTimeFatigueMediumDesc,
           const Color(0xFFF59E0B),
           Icons.schedule_rounded,
         ),
       _ => (
           l10n.screenTimeFatigueLow,
-          l10n.screenTimeFatigueLowDesc,
           const Color(0xFF10B981),
           Icons.check_circle_outline_rounded,
         ),
@@ -202,14 +197,6 @@ class _ScreenTimeStatsCardState extends State<ScreenTimeStatsCard>
                         color: colors.navy,
                       ),
                     ),
-                    SizedBox(height: context.ui(2)),
-                    Text(
-                      l10n.screenTimeStatsSubtitle,
-                      style: TextStyle(
-                        fontSize: context.ui(12),
-                        color: colors.body,
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -231,38 +218,7 @@ class _ScreenTimeStatsCardState extends State<ScreenTimeStatsCard>
           _buildPeriodTabs(context, l10n, colors),
           SizedBox(height: context.ui(16)),
 
-          // 3. Banner Pratinjau Web (jika di browser / desktop)
-          if (!_isSupported)
-            Container(
-              margin: EdgeInsets.only(bottom: context.ui(14)),
-              padding: EdgeInsets.symmetric(
-                horizontal: context.ui(12),
-                vertical: context.ui(8),
-              ),
-              decoration: BoxDecoration(
-                color: colors.primary.withValues(alpha: 0.08),
-                borderRadius: BorderRadius.circular(context.ui(10)),
-                border: Border.all(color: colors.primary.withValues(alpha: 0.2)),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.info_outline_rounded, size: 16, color: colors.primary),
-                  SizedBox(width: context.ui(8)),
-                  Expanded(
-                    child: Text(
-                      'Mode Pratinjau Web (Akses data otomatis aktif di HP Android)',
-                      style: TextStyle(
-                        fontSize: context.ui(11),
-                        color: colors.primary,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-          // 4. Content State
+          // 3. Content State
           if (_loading)
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 36),
@@ -271,46 +227,22 @@ class _ScreenTimeStatsCardState extends State<ScreenTimeStatsCard>
           else if (!_hasAccess && _isSupported)
             _buildPermissionPrompt(context, l10n, colors)
           else ...[
-            // 5. Hero Metric: Total Screen Time & Indikator Rata-Rata
+            // 4. Hero Metric: Total Screen Time & Indikator Rata-Rata
             _buildHeroScreenTime(context, l10n, colors, dailyHours),
             SizedBox(height: context.ui(14)),
 
-            // 6. Indikator Risiko Kelelahan Layar
-            _buildFatigueIndicator(
-              context,
-              fatigueTitle,
-              fatigueDesc,
-              fatigueColor,
-              fatigueIcon,
-            ),
+            // 5. Indikator Risiko Kelelahan Layar
+            _buildFatigueIndicator(context, fatigueTitle, fatigueColor, fatigueIcon),
             SizedBox(height: context.ui(16)),
 
-            // 7. Visualisasi Distribusi Aplikasi Terbanyak
+            // 6. Visualisasi Distribusi Aplikasi Terbanyak
             if (_apps.isNotEmpty) ...[
               _buildAppDistribution(context, l10n, colors),
               SizedBox(height: context.ui(16)),
             ],
 
-            // 8. Kartu Tips Kesehatan Digital / Anti-Burnout
+            // 7. Kartu Tips Kesehatan Digital / Anti-Burnout
             _buildTipBox(context, l10n, colors),
-
-            // 9. Tombol Sinkronisasi ke Survei Harian
-            if (widget.onStartSurvey != null) ...[
-              SizedBox(height: context.ui(14)),
-              FilledButton.icon(
-                onPressed: widget.onStartSurvey,
-                icon: const Icon(Icons.assignment_turned_in_outlined, size: 18),
-                label: Text(l10n.screenTimeSyncSurvey),
-                style: FilledButton.styleFrom(
-                  backgroundColor: colors.primary,
-                  foregroundColor: colors.onPrimary,
-                  padding: EdgeInsets.symmetric(vertical: context.ui(12)),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(context.ui(12)),
-                  ),
-                ),
-              ),
-            ],
           ],
         ],
       ),
@@ -493,7 +425,6 @@ class _ScreenTimeStatsCardState extends State<ScreenTimeStatsCard>
   Widget _buildFatigueIndicator(
     BuildContext context,
     String title,
-    String desc,
     Color color,
     IconData icon,
   ) {
@@ -512,26 +443,13 @@ class _ScreenTimeStatsCardState extends State<ScreenTimeStatsCard>
           Icon(icon, size: context.ui(22), color: color),
           SizedBox(width: context.ui(10)),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: context.ui(13),
-                    fontWeight: FontWeight.w700,
-                    color: color,
-                  ),
-                ),
-                SizedBox(height: context.ui(2)),
-                Text(
-                  desc,
-                  style: TextStyle(
-                    fontSize: context.ui(11),
-                    color: color.withValues(alpha: 0.9),
-                  ),
-                ),
-              ],
+            child: Text(
+              title,
+              style: TextStyle(
+                fontSize: context.ui(13),
+                fontWeight: FontWeight.w700,
+                color: color,
+              ),
             ),
           ),
         ],
