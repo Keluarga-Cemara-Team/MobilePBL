@@ -1,0 +1,65 @@
+name: MobilePBL PMPL Test Cases
+
+on:
+  push:
+    branches: [ main, master, develop, "feat/**", "fix/**" ]
+    paths:
+      - "mobile/**"
+      - ".github/workflows/pmpl-tests.yml"
+  pull_request:
+    branches: [ main, master, develop ]
+    paths:
+      - "mobile/**"
+      - ".github/workflows/pmpl-tests.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: mobile-pmpl-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pmpl-suite:
+    name: "PMPL: ${{ matrix.feature }}"
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: mobile
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - feature: "Fitur 1 - Registrasi (TS-REG)"
+            pattern: "PMPL Fitur 1 - Registrasi"
+          - feature: "Fitur 2 - Login (TS-LOGIN)"
+            pattern: "PMPL Fitur 2 - Login"
+          - feature: "Fitur 3 - Dashboard (TS-DASH)"
+            pattern: "PMPL Fitur 3 - Dashboard"
+          - feature: "Fitur 4 - Survei Interaktif (TS-SURV)"
+            pattern: "PMPL Fitur 4 - Survei Interaktif"
+          - feature: "Fitur 5 & 6 - Hasil & Rekomendasi (TS-HAS & TS-REK)"
+            pattern: "PMPL Fitur 5 & 6 - Hasil Prediksi"
+          - feature: "Fitur 7 - Riwayat & Tren Grafik (TS-RIW)"
+            pattern: "PMPL Fitur 7 - Riwayat Hasil"
+          - feature: "Fitur 8 - Profil Pengguna (TS-PROF)"
+            pattern: "PMPL Fitur 8 - Profil Pengguna"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
+      - name: Generate localization files
+        run: flutter gen-l10n
+
+      - name: Run ${{ matrix.feature }}
+        run: flutter test test/pmpl_test_cases_test.dart --name "${{ matrix.pattern }}" --reporter expanded

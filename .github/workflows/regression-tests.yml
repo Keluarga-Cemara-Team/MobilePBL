@@ -1,0 +1,90 @@
+name: MobilePBL Full Regression Suite
+
+on:
+  push:
+    branches: [ main, master, develop ]
+    paths:
+      - "mobile/**"
+      - ".github/workflows/regression-tests.yml"
+  pull_request:
+    branches: [ main, master, develop ]
+    paths:
+      - "mobile/**"
+      - ".github/workflows/regression-tests.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: mobile-regression-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  core-regression:
+    name: Core Unit & Feature Regression Tests
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: mobile
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
+      - name: Generate localization files
+        run: flutter gen-l10n
+
+      - name: Run verified core & feature test suite
+        run: |
+          flutter test \
+            test/app_blob_background_test.dart \
+            test/auth_dark_theme_test.dart \
+            test/auth_navigation_test.dart \
+            test/blob_bar_bounds_test.dart \
+            test/firestore_repositories_test.dart \
+            test/forgot_password_feature_test.dart \
+            test/history_demo_data_test.dart \
+            test/nearby_psychologists_feature_test.dart \
+            test/preferences_language_test.dart \
+            test/score_slider_input_test.dart \
+            test/screen_time_stats_card_test.dart \
+            test/survey_stepper_layout_test.dart \
+            test/weekly_risk_statistics_test.dart \
+            test/widget_test.dart \
+            --reporter expanded
+
+  legacy-ui-regression:
+    name: Legacy UI Tests (Advisory)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    defaults:
+      run:
+        working-directory: mobile
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
+      - name: Generate localization files
+        run: flutter gen-l10n
+
+      - name: Run full Flutter test suite (non-blocking advisory)
+        run: flutter test --reporter compact

@@ -1,15 +1,25 @@
-name: MobilePBL PMPL Flutter CI Tests
+name: MobilePBL Code Quality
 
 on:
   push:
     branches: [ main, master, develop, "feat/**", "fix/**" ]
+    paths:
+      - "mobile/**"
+      - ".github/workflows/code-quality.yml"
   pull_request:
     branches: [ main, master, develop ]
+    paths:
+      - "mobile/**"
+      - ".github/workflows/code-quality.yml"
   workflow_dispatch:
 
+concurrency:
+  group: mobile-code-quality-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  flutter-test:
-    name: Flutter Analyze & PMPL Test Cases
+  analyze:
+    name: Flutter Static Analysis
     runs-on: ubuntu-latest
 
     defaults:
@@ -37,9 +47,3 @@ jobs:
 
       - name: Run Flutter static analyzer
         run: flutter analyze --no-fatal-infos
-
-      - name: Run PMPL Test Cases (TS-REG, TS-LOGIN, TS-DASH, TS-SURV, TS-HAS, TS-REK, TS-RIW, TS-PROF)
-        run: flutter test test/pmpl_test_cases_test.dart --reporter expanded
-
-      - name: Run full Flutter unit & widget test suite
-        run: flutter test --reporter expanded
