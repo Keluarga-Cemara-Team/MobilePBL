@@ -1,0 +1,45 @@
+name: MobilePBL PMPL Flutter CI Tests
+
+on:
+  push:
+    branches: [ main, master, develop, "feat/**", "fix/**" ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+jobs:
+  flutter-test:
+    name: Flutter Analyze & PMPL Test Cases
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: mobile
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Verify Flutter & Dart versions
+        run: flutter --version
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+
+      - name: Generate localization files
+        run: flutter gen-l10n
+
+      - name: Run Flutter static analyzer
+        run: flutter analyze --no-fatal-infos
+
+      - name: Run PMPL Test Cases (TS-REG, TS-LOGIN, TS-DASH, TS-SURV, TS-HAS, TS-REK, TS-RIW, TS-PROF)
+        run: flutter test test/pmpl_test_cases_test.dart --reporter expanded
+
+      - name: Run full Flutter unit & widget test suite
+        run: flutter test --reporter expanded
